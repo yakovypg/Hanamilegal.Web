@@ -1,0 +1,21 @@
+name: aqualegal-web
+
+services:
+  frontend:
+    container_name: Aqualegal.Web.Frontend
+    image: aqualegal-web-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    restart: on-failure
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 512M
+    volumes:
+      - ./certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - ./certs/privkey.pem:/etc/ssl/private/privkey.pem:ro

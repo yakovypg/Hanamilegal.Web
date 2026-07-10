@@ -1,0 +1,32 @@
+.hero-corner-circle {
+  top: -200px;
+  right: -200px;
+  width: 400px;
+  height: 400px;
+  border-radius: 100%;
+  background: var(--color-highlight);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20);
+  z-index: 9999;
+  position: fixed;
+  pointer-events: none;
+}
+
+
+@media (max-width: 720px) {
+  .hero-corner-circle {
+    top: -90px;
+    right: -90px;
+    width: 180px;
+    height: 180px;
+  }
+}
+
+
+@media (min-width: 720px) and (max-width: 1080px) {
+  .hero-corner-circle {
+    top: -150px;
+    right: -150px;
+    width: 300px;
+    height: 300px;
+  }
+}

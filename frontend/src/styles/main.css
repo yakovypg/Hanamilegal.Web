@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "Cambria";
+  src: url("/fonts/cambria-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cambria";
+  src: url("/fonts/cambria-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cambria";
+  src: url("/fonts/cambria-italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+html, body, #root {
+  --color-background: #b5d7e1;
+  --color-primary: #031e65;
+  --color-secondary: gray;
+  --color-highlight: #fd4835;
+
+  font-family: "Cambria", monospace, sans-serif;
+  background-color: var(--color-background);
+}
+
+.color-primary {
+  color: var(--color-primary) !important;
+}
+
+.color-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.color-highlight {
+  color: var(--color-highlight) !important;
+}

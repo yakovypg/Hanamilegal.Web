@@ -1,0 +1,43 @@
+.page-center-container {
+  width: 100%;
+  min-height: 90dvh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-center-left-subcontainer {
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.page-nav-link-container:hover {
+  text-shadow: 0 0 0.5px #494949;
+}
+
+.page-title {
+  font-size: 72px;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.page-big-text {
+  font-size: 20px;
+}
+
+.page-normal-text {
+  font-size: 18px;
+}
+
+.page-small-text {
+  font-size: 16px;
+}

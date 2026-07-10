@@ -1,0 +1,8 @@
+.home-link {
+  color: black;
+  text-decoration: underline;
+}
+
+.home-nav-link:hover {
+  font-weight: 600;
+}

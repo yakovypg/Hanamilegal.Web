@@ -1,0 +1,20 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "paths": {
+      "*": ["./src/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "errors/*": ["./src/errors/*"],
+      "layout/*": ["./src/layout/*"],
+      "modals/*": ["./src/modals/*"],
+      "pages/*": ["./src/pages/*"],
+      "styles/*": ["./src/styles/*"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"],
+      "@config/*": ["./config/*"]
+    }
+  },
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+}

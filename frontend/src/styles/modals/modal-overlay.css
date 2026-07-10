@@ -1,0 +1,28 @@
+.modal-dialog {
+  inset: 0;
+  z-index: 9999;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.blurred-container {
+  inset: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.content-container {
+  z-index: 1;
+  max-height: 80%;
+  max-width: 90%;
+  border-radius: 8px;
+  overflow: auto;
+  position: relative;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}

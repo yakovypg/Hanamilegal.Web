@@ -1,0 +1,40 @@
+.contacts-container {
+  row-gap: 5px;
+  column-gap: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.contacts-item {
+  margin: 0;
+  padding: 0;
+  flex: 1 1 100%;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.contacts-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  opacity: 0.6;
+  background: var(--color-highlight);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.contacts-item:hover::after {
+  transform: scaleX(1);
+}
+
+@media (min-width: 720px) {
+  .contacts-container .contacts-item {
+    flex: 0 1 auto;
+  }
+}

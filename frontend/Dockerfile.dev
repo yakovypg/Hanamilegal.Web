@@ -1,0 +1,22 @@
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Configure arguments
+ARG VITE_PORT=5173
+
+# Configure environment
+ENV VITE_PORT=${VITE_PORT}
+
+# Copy build configuration
+COPY package.json yarn.lock ./
+
+# Install build dependencies
+RUN yarn install --frozen-lockfile
+
+# Copy all files
+COPY . ./
+
+EXPOSE ${VITE_PORT}
+
+CMD ["yarn", "start:dev"]

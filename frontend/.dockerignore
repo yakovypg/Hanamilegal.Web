@@ -1,0 +1,21 @@
+# Node modules and build output
+node_modules
+dist
+
+# dotenv files
+.env
+.env.*
+
+# Editor
+.vscode
+.vs
+.idea
+
+# TypeScript build / cache
+*.tsbuildinfo
+.cache
+.vite
+
+# Misc
+*.log
+tmp

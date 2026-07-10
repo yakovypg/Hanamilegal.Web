@@ -1,0 +1,8 @@
+.locale-label:hover {
+  cursor: pointer;
+}
+
+.active-locale-label {
+  font-weight: 600;
+  text-decoration: underline;
+}

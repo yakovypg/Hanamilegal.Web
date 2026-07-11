@@ -28,6 +28,12 @@ html, body, #root {
   --color-secondary: gray;
   --color-highlight: #fd4835;
 
+  --font-size-small: 16px;
+  --font-size-normal: 18px;
+  --font-size-big: 20px;
+  --font-size-subtitle: 28px;
+  --font-size-title: 72px;
+
   font-family: "Cambria", monospace, sans-serif;
   background-color: var(--color-background);
 }
@@ -42,4 +48,34 @@ html, body, #root {
 
 .color-highlight {
   color: var(--color-highlight) !important;
+}
+
+.small-text {
+  font-size: var(--font-size-small) !important;
+}
+
+.normal-text {
+  font-size: var(--font-size-normal) !important;
+}
+
+.big-text {
+  font-size: var(--font-size-big) !important;
+}
+
+.subtitle-text {
+  font-size: var(--font-size-subtitle) !important;
+}
+
+.title-text {
+  font-size: var(--font-size-title) !important;
+}
+
+@media (max-width: 720px) {
+  html, body, #root {
+    --font-size-small: 16px;
+    --font-size-normal: 18px;
+    --font-size-big: 20px;
+    --font-size-subtitle: 24px;
+    --font-size-title: 38px;
+  }
 }

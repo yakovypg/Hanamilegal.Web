@@ -17,7 +17,7 @@ export const DevelopingPage: React.FC = () => {
 
         <Navbar className="my-0 py-0">
           <div className="d-flex justify-content-center align-items-center">
-            <Nav className="align-items-center page-big-text">
+            <Nav className="align-items-center big-text">
               <LinkContainer
                 className="mx-0 px-0 page-nav-link-container"
                 to={getRoutePath(VIEW_PANELS.home)}>
@@ -35,7 +35,7 @@ export const DevelopingPage: React.FC = () => {
         <hr className="my-2 mb-3 w-100" />
         <h3 className="page-subtitle">{t("title.developing")}</h3>
 
-        <ul className="service-list page-normal-text">
+        <ul className="service-list normal-text">
           <li>{t("developing.service1")}</li>
           <li>{t("developing.service2")}</li>
           <li>{t("developing.service3")}</li>

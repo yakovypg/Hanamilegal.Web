@@ -20,24 +20,18 @@
 }
 
 .page-title {
-  font-size: 72px;
+  font-size: var(--font-size-title);
   font-weight: 600;
 }
 
 .page-subtitle {
-  font-size: 28px;
+  font-size: var(--font-size-subtitle);
   font-weight: 500;
   margin-bottom: 15px;
 }
 
-.page-big-text {
-  font-size: 20px;
-}
-
-.page-normal-text {
-  font-size: 18px;
-}
-
-.page-small-text {
-  font-size: 16px;
+@media (max-width: 720px) {
+  .page-center-left-subcontainer {
+    max-width: 90%;
+  }
 }

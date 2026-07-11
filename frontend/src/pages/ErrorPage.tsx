@@ -19,8 +19,8 @@ export const ErrorPage: React.FC = () => {
       <div className="page-center-left-subcontainer">
         <div className="text-center">
           <h3>{t("title.error")}</h3>
-          <p className="page-normal-text">{message}</p>
-          <a className="page-big-text home-link" href={getRoutePath(VIEW_PANELS.home)}>
+          <p className="normal-text">{message}</p>
+          <a className="big-text home-link" href={getRoutePath(VIEW_PANELS.home)}>
             {t("action.backHome")}
           </a>
         </div>

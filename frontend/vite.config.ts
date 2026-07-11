@@ -1,11 +1,12 @@
 import basicSsl from "@vitejs/plugin-basic-ssl";
 import react from "@vitejs/plugin-react";
 import { type ConfigEnv, defineConfig, loadEnv, type PluginOption } from "vite";
+import packageVersion from "vite-plugin-package-version";
 
 export default defineConfig(({ mode }: ConfigEnv) => {
   const env: Record<string, string> = loadEnv(mode, process.cwd(), "VITE_");
 
-  const plugins: PluginOption[] = [react()];
+  const plugins: PluginOption[] = [react(), packageVersion()];
   const serverPort: number = env.VITE_PORT ? Number(env.VITE_PORT) : 5173;
 
   if (mode !== "production") {

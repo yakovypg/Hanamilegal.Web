@@ -9,7 +9,7 @@
 }
 
 .page-center-left-subcontainer {
-  max-width: 60%;
+  max-width: 80%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -21,7 +21,25 @@
 
 .page-title {
   font-size: var(--font-size-title);
-  font-weight: 600;
+  font-weight: 900;
+}
+
+.page-title.two-lines-title {
+  display: inline-block;
+}
+
+.page-title.two-lines-title .word1,
+.page-title.two-lines-title .word2 {
+  display: block;
+}
+
+.page-title.two-lines-title .word2 {
+  text-align: right;
+}
+
+.page-title.uppercase-title {
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
 }
 
 .page-subtitle {
@@ -30,8 +48,19 @@
   margin-bottom: 15px;
 }
 
+.vertical-line {
+  width: 2px;
+  height: 100%;
+  align-self: stretch;
+  background: var(--color-secondary);
+}
+
 @media (max-width: 720px) {
   .page-center-left-subcontainer {
     max-width: 90%;
+  }
+
+  .vertical-line {
+    display: none;
   }
 }

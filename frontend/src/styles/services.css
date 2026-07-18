@@ -3,3 +3,8 @@
   display: flex;
   flex-direction: column;
 }
+
+.service-list.full-width-list {
+  height: 100%;
+  justify-content: space-between;
+}

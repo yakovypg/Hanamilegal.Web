@@ -32,14 +32,18 @@
     "aboutUs": "About us"
   },
   "jurisprudence": {
-    "service1": "Provide comprehensive legal support at all stages of relationships with counterparties, starting with counterparty verification (due diligence) and continuing through full performance of contractual obligations",
-    "service2": "Offer comprehensive support services for the company's operations, including drafting and handling document flow, interacting with counterparties and government agencies, and handling pre-litigation and contractual work",
-    "service3": "Provide court representation services to ensure proper protection of your rights. We accompany the dispute through all instances until the case is fully concluded, including at the stage of executing court orders when interacting with bailiffs"
+    "services": [
+      "Provide comprehensive legal support at all stages of relationships with counterparties, starting with counterparty verification (due diligence) and continuing through full performance of contractual obligations",
+      "Offer comprehensive support services for the company's operations, including drafting and handling document flow, interacting with counterparties and government agencies, and handling pre-litigation and contractual work",
+      "Provide court representation services to ensure proper protection of your rights. We accompany the dispute through all instances until the case is fully concluded, including at the stage of executing court orders when interacting with bailiffs"
+    ]
   },
   "developing": {
-    "service1": "Develop Desktop/Web/CLI applications, APIs, and automation scripts",
-    "service2": "Create and configure databases",
-    "service3": "Deploy applications in Docker",
-    "service4": "Set up the server, repository, domain, and a secure connection"
+    "services": [
+      "Develop Desktop/Web/CLI applications, APIs, and automation scripts",
+      "Create and configure databases",
+      "Deploy applications in Docker",
+      "Set up the server, repository, domain, and a secure connection"
+    ]
   }
 }

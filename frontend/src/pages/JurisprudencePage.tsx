@@ -11,6 +11,9 @@ import { getRoutePath } from "utils";
 export const JurisprudencePage: React.FC = () => {
   const { t } = useTranslation();
 
+  const servicesRaw: unknown = t("jurisprudence.services", { returnObjects: true });
+  const services: string[] = Array.isArray(servicesRaw) ? servicesRaw as string[] : [];
+
   return (
     <div className="page-center-container">
       <div className="page-center-left-subcontainer">
@@ -37,9 +40,11 @@ export const JurisprudencePage: React.FC = () => {
         <h3 className="page-subtitle">{t("title.jurisprudence")}</h3>
 
         <ul className="service-list normal-text">
-          <li>{t("jurisprudence.service1")}</li>
-          <li>{t("jurisprudence.service2")}</li>
-          <li>{t("jurisprudence.service3")}</li>
+          {
+            services.map((service: string) => (
+              <li key={service}>{service}</li>
+            ))
+          }
         </ul>
       </div>
     </div>

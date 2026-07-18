@@ -1,9 +1,9 @@
-name: aqualegal-web
+name: hanamilegal-web
 
 services:
   frontend:
-    container_name: Aqualegal.Web.Frontend
-    image: aqualegal-web-frontend-dev:latest
+    container_name: Hanamilegal.Web.Frontend
+    image: hanamilegal-web-frontend-dev:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev

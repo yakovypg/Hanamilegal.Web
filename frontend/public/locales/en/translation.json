@@ -2,17 +2,32 @@
   "name": "English",
   "shortName": "EN",
   "organization": {
-    "name": "Hanami Legal",
-    "fullName": "LLC Hanami Legal",
+    "name": "Hanamilegal",
+    "splitName": "Hanami Legal",
+    "fullName": "LLC Hanamilegal",
     "activity": "Internet solutions development",
     "activityNote": "Consulting, turnkey development and support",
     "address": "191014, St. Petersburg, Paradnaya St., building 7, letter A, office 6-N, room 22",
     "workingHoursStart": "9:00 AM",
     "workingHoursEnd": "9:00 PM",
-    "slogan": "A good slogan will be placed here",
+    "slogan": "Your success is in full bloom",
     "about": {
-      "p1": "A legal firm that brings together individuals with many years of practical experience in managing complex legal projects related to launching and legally supporting businesses of any size.",
-      "p2": "We have experience drafting commercial and corporate agreements, as well as extensive expertise in preparing legal memos and legal opinions on a wide range of legal issues."
+      "prolog": "«Hanamilegal» offers comprehensive legal solutions aimed at sustainable growth, reducing operational risks, and improving the efficiency of your business. Our expertise covers the full spectrum of legal support for entrepreneurial activities:",
+      "epilog": "In addition, we develop commercial and corporate agreements “from scratch” for the client's unique needs, prepare legal opinions and strategic memoranda that serve as a reliable foundation for management decision-making.",
+      "sections": [
+        {
+          "name": "1. Contractual and pre-contract work",
+          "description": "We conduct comprehensive due diligence of counterparties, structure contractual models, and support transactions at every stage—from negotiating an offer to the full performance of obligations and the closing of reconciliation acts. We eliminate legal gaps that can lead to financial losses."
+        },
+        {
+          "name": "2. Ongoing legal business support (Legal compliance)",
+          "description": "We provide continuous support for day-to-day operations: we set up an efficient document workflow, organize interactions with regulatory authorities (the Federal Tax Service, Rospotrebnadzor, the antimonopoly service), and handle claims work with counterparties."
+        },
+        {
+          "name": "3. Litigation and dispute resolution",
+          "description": "We represent clients in arbitration courts and courts of general jurisdiction at all stages of the process—from filing a claim to the full enforcement of the court decision, including interaction with the bailiff service. We achieve not just rulings, but the actual restoration of violated rights."
+        }
+      ]
     }
   },
   "title": {

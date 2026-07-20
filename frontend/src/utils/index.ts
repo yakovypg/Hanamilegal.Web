@@ -11,4 +11,4 @@ export {
   switchLanguage
 } from "./locale";
 export { getRoutePath, getRoutePathWithSlug, getServiceRoutePath } from "./routing";
-export { DESKTOP_SCREEN_MIN_WIDTH } from "./screen";
+export { MOBILE_SCREEN_MAX_WIDTH, TWO_LINES_ORGANIZATION_TITLE_MAX_WIDTH } from "./screen";

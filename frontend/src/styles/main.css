@@ -22,11 +22,14 @@
   font-display: swap;
 }
 
-html, body, #root {
-  --color-background: #b5d7e1;
-  --color-primary: #031e65;
+html,
+body,
+#root {
+  --color-background: #2a2724;
+  --color-common: #f0ede9;
+  --color-primary: #adc4ff;
   --color-secondary: gray;
-  --color-highlight: #fd4835;
+  --color-highlight: #fd3005;
 
   --font-size-small: 16px;
   --font-size-normal: 18px;
@@ -35,7 +38,12 @@ html, body, #root {
   --font-size-title: 72px;
 
   font-family: "Cambria", monospace, sans-serif;
+  color: var(--color-common);
   background-color: var(--color-background);
+}
+
+.color-common {
+  color: var(--color-common) !important;
 }
 
 .color-primary {
@@ -71,7 +79,9 @@ html, body, #root {
 }
 
 @media (max-width: 720px) {
-  html, body, #root {
+  html,
+  body,
+  #root {
     --font-size-small: 16px;
     --font-size-normal: 18px;
     --font-size-big: 20px;

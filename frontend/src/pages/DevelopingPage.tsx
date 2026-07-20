@@ -11,7 +11,7 @@ export const DevelopingPage: React.FC = () => {
   const { t } = useTranslation();
 
   const servicesRaw: unknown = t("developing.services", { returnObjects: true });
-  const services: string[] = Array.isArray(servicesRaw) ? servicesRaw as string[] : [];
+  const services: string[] = Array.isArray(servicesRaw) ? (servicesRaw as string[]) : [];
 
   return (
     <div className="page-center-container">
@@ -39,11 +39,9 @@ export const DevelopingPage: React.FC = () => {
         <h3 className="page-subtitle">{t("title.developing")}</h3>
 
         <ul className="service-list normal-text">
-          {
-            services.map((service: string) => (
-              <li key={service}>{service}</li>
-            ))
-          }
+          {services.map((service: string) => (
+            <li key={service}>{service}</li>
+          ))}
         </ul>
       </div>
     </div>

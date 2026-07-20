@@ -1,4 +1,4 @@
-import "styles/link.css"
+import "styles/link.css";
 
 import { LocaleToggle } from "components";
 import { Nav } from "react-bootstrap";

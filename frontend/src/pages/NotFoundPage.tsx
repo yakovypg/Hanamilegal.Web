@@ -14,7 +14,7 @@ export const NotFoundPage: React.FC = () => {
       <div className="page-center-left-subcontainer">
         <div className="text-center">
           <h3>{t("title.pageNotFound")}</h3>
-          <a className="big-text home-link" href={getRoutePath(VIEW_PANELS.home)}>
+          <a className="big-text color-common home-link" href={getRoutePath(VIEW_PANELS.home)}>
             {t("action.backHome")}
           </a>
         </div>

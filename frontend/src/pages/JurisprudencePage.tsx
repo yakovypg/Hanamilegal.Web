@@ -12,7 +12,7 @@ export const JurisprudencePage: React.FC = () => {
   const { t } = useTranslation();
 
   const servicesRaw: unknown = t("jurisprudence.services", { returnObjects: true });
-  const services: string[] = Array.isArray(servicesRaw) ? servicesRaw as string[] : [];
+  const services: string[] = Array.isArray(servicesRaw) ? (servicesRaw as string[]) : [];
 
   return (
     <div className="page-center-container">
@@ -40,11 +40,9 @@ export const JurisprudencePage: React.FC = () => {
         <h3 className="page-subtitle">{t("title.jurisprudence")}</h3>
 
         <ul className="service-list normal-text">
-          {
-            services.map((service: string) => (
-              <li key={service}>{service}</li>
-            ))
-          }
+          {services.map((service: string) => (
+            <li key={service}>{service}</li>
+          ))}
         </ul>
       </div>
     </div>

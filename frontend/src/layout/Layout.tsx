@@ -1,4 +1,4 @@
-import "styles/layout/layout.css"
+import "styles/layout/layout.css";
 
 import { Body, Header } from "layout";
 import React from "react";

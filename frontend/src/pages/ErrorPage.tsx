@@ -20,7 +20,7 @@ export const ErrorPage: React.FC = () => {
         <div className="text-center">
           <h3>{t("title.error")}</h3>
           <p className="normal-text">{message}</p>
-          <a className="big-text home-link" href={getRoutePath(VIEW_PANELS.home)}>
+          <a className="big-text color-common home-link" href={getRoutePath(VIEW_PANELS.home)}>
             {t("action.backHome")}
           </a>
         </div>

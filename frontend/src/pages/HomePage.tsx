@@ -65,12 +65,12 @@ export const HomePage: React.FC = () => {
         <div className="contacts-wrapper">
           <div className="mt-4 contacts-container">
             <a
-              className="contacts-item big-text color-primary"
+              className="contacts-item big-text color-highlight"
               href={`mailto:${contactsConfig.email}`}>
               {contactsConfig.email}
             </a>
             <a
-              className="contacts-item big-text color-primary"
+              className="contacts-item big-text color-highlight"
               href={`tel:${contactsConfig.phone}`}>
               {formatPhone(contactsConfig.phone)}
             </a>

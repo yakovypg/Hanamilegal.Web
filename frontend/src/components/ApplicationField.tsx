@@ -1,4 +1,4 @@
-import "styles/components/contact-us-element.css";
+import "styles/components/application-element.css";
 
 import { useTranslation } from "react-i18next";
 import { createValidityHandler, type ValidityMessages } from "utils";
@@ -12,7 +12,7 @@ interface Props {
   readonly placeholder?: string;
 }
 
-export const ContactUsField: React.FC<Props> = ({
+export const ApplicationField: React.FC<Props> = ({
   className,
   name,
   required,
@@ -30,7 +30,7 @@ export const ContactUsField: React.FC<Props> = ({
   };
 
   return (
-    <div className={`contact-us-element ${className}`}>
+    <div className={`application-element ${className}`}>
       <input
         title=""
         name={name}

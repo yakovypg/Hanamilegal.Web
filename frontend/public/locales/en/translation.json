@@ -87,8 +87,10 @@
       "Set up the server, repository, domain, and a secure connection"
     ]
   },
-  "contactUsApplication": {
-    "types": ["Legal assistance", "Software development"]
+  "application": {
+    "contactUs": {
+      "types": ["Legal assistance", "Software development"]
+    }
   },
   "sentense": {
     "applicationSent": "Application has been successfully sent",

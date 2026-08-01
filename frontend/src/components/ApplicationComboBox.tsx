@@ -1,4 +1,4 @@
-import "styles/components/contact-us-element.css";
+import "styles/components/application-element.css";
 
 import { useTranslation } from "react-i18next";
 import { createValidityHandler, type ValidityMessages } from "utils";
@@ -8,13 +8,15 @@ interface Props {
   readonly name: string;
   readonly required?: boolean;
   readonly placeholder?: string;
+  readonly options: string[];
 }
 
-export const ContactUsTextArea: React.FC<Props> = ({
+export const ApplicationComboBox: React.FC<Props> = ({
   className,
   name,
   required,
-  placeholder
+  placeholder,
+  options
 }: Props) => {
   const { t } = useTranslation();
 
@@ -26,15 +28,24 @@ export const ContactUsTextArea: React.FC<Props> = ({
   };
 
   return (
-    <div className={`contact-us-element ${className}`}>
-      <textarea
+    <div className={`application-element ${className}`}>
+      <select
         title=""
+        defaultValue=""
         name={name}
         required={required}
         onInvalid={createValidityHandler(validityMessages, required)}
-        onInput={createValidityHandler(validityMessages, required)}
-        placeholder={placeholder}
-      />
+        onInput={createValidityHandler(validityMessages, required)}>
+        <option value="" disabled hidden>
+          {placeholder}
+        </option>
+
+        {options.map((option: string) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

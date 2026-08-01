@@ -1,11 +1,11 @@
-import "styles/components/contact-us-form.css";
+import "styles/components/application-form.css";
 
 import { APPLICATIONS_ENDPOINT } from "api";
 import {
-  ContactUsCheckBox,
-  ContactUsComboBox,
-  ContactUsField,
-  ContactUsTextArea,
+  ApplicationCheckBox,
+  ApplicationComboBox,
+  ApplicationField,
+  ApplicationTextArea,
   NoticeMessage
 } from "components";
 import { useState } from "react";
@@ -24,7 +24,7 @@ interface Props {
   readonly className?: string;
 }
 
-export const ContactUsForm: React.FC<Props> = ({ className }: Props) => {
+export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
   const { t } = useTranslation();
 
   const [hasConsentWithProcessingPersonalData, setHasConsentWithProcessingPersonalData] =
@@ -33,12 +33,12 @@ export const ContactUsForm: React.FC<Props> = ({ className }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [notice, setNotice] = useState<Notice | null>(null);
 
-  const contactUsApplicationTypesRaw: unknown = t("contactUsApplication.types", {
+  const applicationTypesRaw: unknown = t("application.contactUs.types", {
     returnObjects: true
   });
 
-  const contactUsApplicationTypes: string[] = Array.isArray(contactUsApplicationTypesRaw)
-    ? (contactUsApplicationTypesRaw as string[])
+  const applicationTypes: string[] = Array.isArray(applicationTypesRaw)
+    ? (applicationTypesRaw as string[])
     : [];
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -107,40 +107,40 @@ export const ContactUsForm: React.FC<Props> = ({ className }: Props) => {
 
   return (
     <form className={className ?? ""} onSubmit={handleSubmit}>
-      <div className="contact-us-elements-container">
-        <ContactUsField
+      <div className="application-elements-container">
+        <ApplicationField
           required
           name="name"
           type="text"
           autoComplete="name"
           placeholder={t("placeholder.name")}
         />
-        <ContactUsField
+        <ApplicationField
           required
           name="email"
           type="email"
           autoComplete="email"
           placeholder={t("placeholder.email")}
         />
-        <ContactUsField
+        <ApplicationField
           required
           name="organization"
           type="text"
           autoComplete="organization"
           placeholder={t("placeholder.organization")}
         />
-        <ContactUsComboBox
+        <ApplicationComboBox
           required
           name="applicationType"
-          options={contactUsApplicationTypes}
+          options={applicationTypes}
           placeholder={t("placeholder.applicationType")}
         />
-        <ContactUsTextArea
+        <ApplicationTextArea
           required
           name="applicationDescription"
           placeholder={t("placeholder.applicationDescription")}
         />
-        <ContactUsCheckBox
+        <ApplicationCheckBox
           required
           name="consentWithProcessingPersonalData"
           label={processPersonalDataLabel}

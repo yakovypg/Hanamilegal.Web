@@ -3,7 +3,7 @@ import "styles/pages/page.css";
 import "styles/services.css";
 
 import contactsConfig from "@config/contacts.json";
-import { ContactUsForm, OrganizationTitle } from "components";
+import { ApplicationForm, OrganizationTitle } from "components";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { formatPhone } from "utils";
@@ -45,7 +45,7 @@ export const HomePage: React.FC = () => {
               ))}
             </ul>
 
-            <ContactUsForm className="mt-4" />
+            <ApplicationForm className="mt-4" />
           </div>
 
           <div className="vertical-line info-item" />

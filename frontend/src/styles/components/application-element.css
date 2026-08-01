@@ -1,10 +1,10 @@
-.contact-us-element {
+.application-element {
   position: relative;
 }
 
-.contact-us-element input,
-.contact-us-element select,
-.contact-us-element textarea {
+.application-element input,
+.application-element select,
+.application-element textarea {
   width: 100%;
   padding: 14px 12px 12px 10px;
   border-radius: 12px;
@@ -17,21 +17,21 @@
   box-sizing: border-box;
 }
 
-.contact-us-element input:hover,
-.contact-us-element select:hover,
-.contact-us-element textarea:hover {
+.application-element input:hover,
+.application-element select:hover,
+.application-element textarea:hover {
   border-color: var(--color-highlight-primary);
   box-shadow: 0 4px 16px var(--color-shadow-highlight-primary);
 }
 
-.contact-us-element input:focus,
-.contact-us-element select:focus,
-.contact-us-element textarea:focus {
+.application-element input:focus,
+.application-element select:focus,
+.application-element textarea:focus {
   border-color: var(--color-highlight-secondary);
   box-shadow: 0 4px 16px var(--color-shadow-highlight-secondary);
 }
 
-.contact-us-checkbox {
+.application-checkbox {
   gap: 10px;
   display: flex;
   align-items: flex-start;
@@ -40,11 +40,11 @@
   font-size: var(--font-size-normal);
 }
 
-.contact-us-checkbox label {
+.application-checkbox label {
   cursor: pointer;
 }
 
-.contact-us-checkbox input[type="checkbox"] {
+.application-checkbox input[type="checkbox"] {
   width: 20px;
   height: 20px;
   min-width: 20px;

@@ -1,4 +1,4 @@
-import "styles/components/contact-us-element.css";
+import "styles/components/application-element.css";
 
 import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ interface Props {
   readonly onChange?: (checked: boolean) => void;
 }
 
-export const ContactUsCheckBox: React.FC<Props> = ({
+export const ApplicationCheckBox: React.FC<Props> = ({
   className,
   name,
   required,
@@ -37,7 +37,7 @@ export const ContactUsCheckBox: React.FC<Props> = ({
   };
 
   return (
-    <div className={`contact-us-element contact-us-checkbox ${className}`}>
+    <div className={`application-element application-checkbox ${className}`}>
       <div className="d-flex align-items-center gap-2 w-100">
         <input
           type="checkbox"

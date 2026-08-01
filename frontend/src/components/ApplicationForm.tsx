@@ -137,24 +137,26 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
         />
         <ApplicationTextArea
           required
+          className="span2"
           name="applicationDescription"
           placeholder={t("placeholder.applicationDescription")}
         />
         <ApplicationCheckBox
           required
+          className="span2"
           name="consentWithProcessingPersonalData"
           label={processPersonalDataLabel}
           onChange={(checked: boolean) => setHasConsentWithProcessingPersonalData(checked)}
         />
 
         <button
+          className="mt-2 send-request-button span2"
           type="submit"
-          className="mt-2 send-request-button"
           disabled={isSubmitting || !hasConsentWithProcessingPersonalData}>
           {isSubmitting ? "..." : t("phrase.sendRequest")}
         </button>
 
-        <NoticeMessage notice={notice} />
+        <NoticeMessage className="span2" notice={notice} />
       </div>
     </form>
   );

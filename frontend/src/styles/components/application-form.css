@@ -1,9 +1,13 @@
 .application-elements-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  max-width: 540px;
   gap: 5px;
-  width: 440px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.application-elements-container .span2 {
+  grid-column: span 2;
 }
 
 .send-request-button {
@@ -25,4 +29,15 @@
 .send-request-button:disabled {
   cursor: not-allowed;
   border-color: var(--color-muted);
+}
+
+@media (max-width: 1200px) {
+  .application-elements-container {
+    max-width: 350px;
+    grid-template-columns: 1fr;
+  }
+
+  .application-elements-container .span2 {
+    grid-column: auto;
+  }
 }

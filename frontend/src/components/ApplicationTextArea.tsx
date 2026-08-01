@@ -28,6 +28,7 @@ export const ApplicationTextArea: React.FC<Props> = ({
   return (
     <div className={`application-element ${className}`}>
       <textarea
+        className="application-text-area"
         title=""
         name={name}
         required={required}

@@ -31,6 +31,10 @@
   box-shadow: 0 4px 16px var(--color-shadow-highlight-secondary);
 }
 
+.application-text-area {
+  min-height: 52px;
+}
+
 .application-checkbox {
   gap: 10px;
   display: flex;

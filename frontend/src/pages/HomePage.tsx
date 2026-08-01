@@ -1,6 +1,7 @@
 import "styles/pages/home-page.css";
 import "styles/pages/page.css";
 import "styles/services.css";
+import "styles/text.css";
 
 import contactsConfig from "@config/contacts.json";
 import { ApplicationForm, OrganizationTitle } from "components";
@@ -51,11 +52,15 @@ export const HomePage: React.FC = () => {
           <div className="vertical-line info-item" />
 
           <div className="info-item">
-            <h3 className="page-subtitle about-title">{t("phrase.aboutUs")}</h3>
+            <h3 className="mb-3 page-subtitle about-title text-underline-pullout color-highlight-primary">
+              {t("phrase.aboutUs")}
+            </h3>
             <p className="normal-text">{t("organization.about.prolog")}</p>
             {aboutSections.map((section: AboutSectionConfig) => (
               <p key={section.name} className="normal-text">
-                <strong>{section.name}</strong>
+                <strong className="text-underline-pullout color-highlight-primary">
+                  {section.name}
+                </strong>
                 <br />
                 {section.description}
               </p>
@@ -67,12 +72,12 @@ export const HomePage: React.FC = () => {
         <div className="contacts-wrapper">
           <div className="mt-4 contacts-container">
             <a
-              className="contacts-item big-text color-highlight-primary"
+              className="text-underline-pullout big-text color-highlight-primary"
               href={`mailto:${contactsConfig.email}`}>
               {contactsConfig.email}
             </a>
             <a
-              className="contacts-item big-text color-highlight-primary"
+              className="text-underline-pullout big-text color-highlight-primary"
               href={`tel:${contactsConfig.phone}`}>
               {formatPhone(contactsConfig.phone)}
             </a>

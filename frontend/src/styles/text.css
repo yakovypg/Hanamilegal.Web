@@ -1,0 +1,27 @@
+.text-underline-pullout {
+  margin: 0;
+  padding: 0;
+  flex: 1 1 0;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.text-underline-pullout::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  opacity: 0.6;
+  background: var(--color-common);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.text-underline-pullout:hover::after {
+  transform: scaleX(1);
+}

@@ -5,6 +5,7 @@
     "name": "Hanamilegal",
     "splitName": "Hanami Legal",
     "fullName": "LLC Hanamilegal",
+    "tradeName": "LLC Infra+",
     "activity": "Internet solutions development",
     "activityNote": "Consulting, turnkey development and support",
     "address": "191014, St. Petersburg, Paradnaya St., building 7, letter A, office 6-N, room 22",
@@ -13,7 +14,7 @@
     "slogan": "Your success is in full bloom",
     "about": {
       "prolog": "«Hanamilegal» offers comprehensive legal solutions aimed at sustainable growth, reducing operational risks, and improving the efficiency of your business. Our expertise covers the full spectrum of legal support for entrepreneurial activities:",
-      "epilog": "In addition, we develop commercial and corporate agreements “from scratch” for the client's unique needs, prepare legal opinions and strategic memoranda that serve as a reliable foundation for management decision-making.",
+      "epilog": "",
       "sections": [
         {
           "name": "1. Contractual and pre-contract work",
@@ -26,6 +27,10 @@
         {
           "name": "3. Litigation and dispute resolution",
           "description": "We represent clients in arbitration courts and courts of general jurisdiction at all stages of the process—from filing a claim to the full enforcement of the court decision, including interaction with the bailiff service. We achieve not just rulings, but the actual restoration of violated rights."
+        },
+        {
+          "name": "4. Corporate document development",
+          "description": "We develop commercial and corporate agreements “from scratch” for the client's unique needs, prepare legal opinions and strategic memoranda that serve as a reliable foundation for management decision-making."
         }
       ]
     }

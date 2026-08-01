@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
   return (
     <div className="d-flex flex-row p-4">
       <LinkContainer to={getRoutePath(VIEW_PANELS.home)}>
-        <Nav.Link className="home-nav-link">{t("organization.fullName")}</Nav.Link>
+        <Nav.Link className="home-nav-link">{t("organization.tradeName")}</Nav.Link>
       </LinkContainer>
 
       <LocaleToggle className="mx-4" />

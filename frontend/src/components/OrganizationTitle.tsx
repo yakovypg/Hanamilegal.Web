@@ -37,11 +37,12 @@ export const OrganizationTitle: React.FC<Props> = ({ className }: Props) => {
   const { width } = useWindowSize();
 
   return width < TWO_LINES_ORGANIZATION_TITLE_MAX_WIDTH ? (
-    <h3 className={`page-title two-lines-title uppercase-title color-highlight ${className}`}>
+    <h3
+      className={`page-title two-lines-title uppercase-title color-highlight-primary ${className}`}>
       <span className="word1">{t("organization.splitName").split(" ")[0]}</span>
       <span className="word2">{t("organization.splitName").split(" ").slice(1).join(" ")}</span>
     </h3>
   ) : (
-    <h3 className="page-title uppercase-title color-highlight">{t("organization.name")}</h3>
+    <h3 className="page-title uppercase-title color-highlight-primary">{t("organization.name")}</h3>
   );
 };

@@ -1,0 +1,28 @@
+.contact-us-elements-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  width: 440px;
+}
+
+.send-request-button {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 12px;
+  background: transparent;
+  border: 3px solid;
+  border-color: var(--color-common);
+  color: var(--color-common);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+}
+
+.send-request-button:hover {
+  border-color: var(--color-highlight-primary);
+}
+
+.send-request-button:disabled {
+  cursor: not-allowed;
+  border-color: var(--color-muted);
+}

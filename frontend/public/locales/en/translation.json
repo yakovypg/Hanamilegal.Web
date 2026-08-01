@@ -37,15 +37,31 @@
     "jurisprudence": "Jurisprudence",
     "pageNotFound": "Page not found"
   },
+  "placeholder": {
+    "name": "Name",
+    "email": "Email",
+    "organization": "Organization",
+    "applicationType": "Application type",
+    "applicationDescription": "Briefly describe your question"
+  },
   "action": {
     "backHome": "Home"
   },
   "error": {
     "internal": "An internal error occured",
-    "loadData": "An error occured while loading data"
+    "loadData": "An error occured while loading data",
+    "sendData": "An error occured while sending data",
+    "requiredFieldsNotSpecified": "Not all required fields are specified"
+  },
+  "validation": {
+    "valueMissing": "Value not specified",
+    "typeMismatch": "Value has invalid format",
+    "patternMismatch": "Value has invalid format",
+    "badInput": "Value has invalid format"
   },
   "phrase": {
-    "aboutUs": "About us"
+    "aboutUs": "About us",
+    "sendRequest": "Send request"
   },
   "general": {
     "services": [
@@ -70,5 +86,15 @@
       "Deploy applications in Docker",
       "Set up the server, repository, domain, and a secure connection"
     ]
+  },
+  "contactUsApplication": {
+    "types": ["Legal assistance", "Software development"]
+  },
+  "sentense": {
+    "applicationSent": "Application has been successfully sent",
+    "personalData": {
+      "consent": "I consent to the processing of personal data specified in the form to consider the application and check for conflicts of interest in accordance with the ",
+      "privacyPolicy": "privacy policy"
+    }
   }
 }

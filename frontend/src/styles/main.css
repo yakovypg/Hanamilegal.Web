@@ -28,8 +28,14 @@ body,
   --color-background: #2a2724;
   --color-common: #f0ede9;
   --color-primary: #adc4ff;
-  --color-secondary: gray;
-  --color-highlight: #fd3005;
+  --color-secondary: #bdbdbd;
+  --color-muted: gray;
+  --color-highlight-primary: #fd3005;
+  --color-highlight-secondary: #0d6efd;
+  --color-shadow-highlight-primary: rgba(253, 48, 5, 0.25);
+  --color-shadow-highlight-secondary: rgba(13, 110, 253, 0.25);
+  --color-success: #00ff00;
+  --color-error: #fd3005;
 
   --font-size-small: 16px;
   --font-size-normal: 18px;
@@ -54,8 +60,32 @@ body,
   color: var(--color-secondary) !important;
 }
 
-.color-highlight {
-  color: var(--color-highlight) !important;
+.color-muted {
+  color: var(--color-muted) !important;
+}
+
+.color-highlight-primary {
+  color: var(--color-highlight-primary) !important;
+}
+
+.color-highlight-secondary {
+  color: var(--color-highlight-secondary) !important;
+}
+
+.color-shadow-highlight-primary {
+  color: var(--color-shadow-highlight-primary) !important;
+}
+
+.color-shadow-highlight-secondary {
+  color: var(--color-shadow-highlight-secondary) !important;
+}
+
+.color-success {
+  color: var(--color-success) !important;
+}
+
+.color-error {
+  color: var(--color-error) !important;
 }
 
 .small-text {

@@ -1,0 +1,12 @@
+.notice-message {
+  opacity: 1;
+  transition: opacity 1300ms ease;
+}
+
+.notice-message--hiding {
+  opacity: 0;
+}
+
+.notice-message--hidden {
+  display: none;
+}

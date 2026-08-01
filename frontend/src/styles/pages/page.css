@@ -52,7 +52,7 @@
   width: 2px;
   height: 100%;
   align-self: stretch;
-  background: var(--color-secondary);
+  background: var(--color-muted);
 }
 
 @media (max-width: 720px) {

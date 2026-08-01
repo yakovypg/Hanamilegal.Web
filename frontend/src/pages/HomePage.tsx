@@ -3,7 +3,7 @@ import "styles/pages/page.css";
 import "styles/services.css";
 
 import contactsConfig from "@config/contacts.json";
-import { OrganizationTitle } from "components";
+import { ContactUsForm, OrganizationTitle } from "components";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { formatPhone } from "utils";
@@ -39,11 +39,13 @@ export const HomePage: React.FC = () => {
 
         <div className="info-container">
           <div className="info-item">
-            <ul className="service-list full-width-list normal-text">
+            <ul className="service-list normal-text">
               {services.map((service: string) => (
                 <li key={service}>{service}</li>
               ))}
             </ul>
+
+            <ContactUsForm className="mt-4" />
           </div>
 
           <div className="vertical-line info-item" />
@@ -52,7 +54,7 @@ export const HomePage: React.FC = () => {
             <h3 className="page-subtitle about-title">{t("phrase.aboutUs")}</h3>
             <p className="normal-text">{t("organization.about.prolog")}</p>
             {aboutSections.map((section: AboutSectionConfig) => (
-              <p className="normal-text">
+              <p key={section.name} className="normal-text">
                 <strong>{section.name}</strong>
                 <br />
                 {section.description}
@@ -65,12 +67,12 @@ export const HomePage: React.FC = () => {
         <div className="contacts-wrapper">
           <div className="mt-4 contacts-container">
             <a
-              className="contacts-item big-text color-highlight"
+              className="contacts-item big-text color-highlight-primary"
               href={`mailto:${contactsConfig.email}`}>
               {contactsConfig.email}
             </a>
             <a
-              className="contacts-item big-text color-highlight"
+              className="contacts-item big-text color-highlight-primary"
               href={`tel:${contactsConfig.phone}`}>
               {formatPhone(contactsConfig.phone)}
             </a>

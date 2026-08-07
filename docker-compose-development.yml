@@ -5,7 +5,7 @@ services:
     container_name: Hanamilegal.Web.Frontend
     image: hanamilegal-web-frontend-dev:latest
     build:
-      context: ./frontend
+      context: ./Applications/Hanamilegal.Web.Frontend
       dockerfile: Dockerfile.dev
       args:
         VITE_PORT: 8080

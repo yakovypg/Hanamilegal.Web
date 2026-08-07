@@ -5,7 +5,7 @@ services:
     container_name: Hanamilegal.Web.Frontend
     image: hanamilegal-web-frontend:latest
     build:
-      context: ./frontend
+      context: ./Applications/Hanamilegal.Web.Frontend
       dockerfile: Dockerfile
     ports:
       - 80:80
@@ -17,5 +17,5 @@ services:
           cpus: 1
           memory: 512M
     volumes:
-      - ./certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
-      - ./certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
+      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro

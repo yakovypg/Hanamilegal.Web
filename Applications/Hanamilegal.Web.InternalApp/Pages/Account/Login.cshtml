@@ -6,28 +6,28 @@
 }
 
 <div>
-<form method="post" class="login-form">
-    <h1>Log In</h1>
+    <form method="post" class="login-form">
+        <h1>Log In</h1>
 
-    <div asp-validation-summary="ModelOnly" class="color-highlight mt-3"></div>
+        <div asp-validation-summary="ModelOnly" class="color-highlight mt-3"></div>
 
-    <div>
-        <label asp-for="Login"></label>
-        <input asp-for="Login" autocomplete="username" />
-        <span class="color-highlight" asp-validation-for="Login"></span>
-    </div>
+        <div>
+            <label asp-for="Login"></label>
+            <input asp-for="Login" autocomplete="username" />
+            <span class="color-highlight" asp-validation-for="Login"></span>
+        </div>
 
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" autocomplete="current-password" />
-        <span class="color-highlight" asp-validation-for="Password"></span>
-    </div>
+        <div>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" autocomplete="current-password" />
+            <span class="color-highlight" asp-validation-for="Password"></span>
+        </div>
 
-    <label>
-        <input asp-for="RememberMe" />
-        Remember me
-    </label>
+        <label>
+            <input asp-for="RememberMe" />
+            Remember me
+        </label>
 
-    <button class="button primary mt-3" type="submit">Enter</button>
-</form>
+        <button class="button primary mt-3" type="submit">Enter</button>
+    </form>
 </div>

@@ -1,6 +1,7 @@
 using System;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.InternalApp.Api;
+using Hanamilegal.Web.InternalApp.Api.Accounts;
 using Hanamilegal.Web.InternalApp.Api.Applications;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -26,10 +27,30 @@ builder.Services.SetupAuthorization();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddJwtTokenService();
+
 builder.Services.AddTransient<ApiAuthorizationHandler>();
 
-builder.Services.Configure<ApplicationsApiOptions>(
-    builder.Configuration.GetSection("ApplicationsApi"));
+builder.Services
+    .AddOptions<AccountsApiOptions>()
+    .BindConfiguration(AccountsApiOptions.SectionName)
+    .Validate(o => !string.IsNullOrWhiteSpace(o.BaseUrl))
+    .ValidateOnStart();
+
+builder.Services
+    .AddOptions<ApplicationsApiOptions>()
+    .BindConfiguration(ApplicationsApiOptions.SectionName)
+    .Validate(o => !string.IsNullOrWhiteSpace(o.BaseUrl))
+    .ValidateOnStart();
+
+builder.Services.AddHttpClient<AccountsApiClient>((serviceProvider, client) =>
+{
+    var options = serviceProvider
+        .GetRequiredService<IOptions<AccountsApiOptions>>()
+        .Value;
+
+    client.BaseAddress = new Uri(options.BaseUrl);
+});
 
 builder.Services.AddHttpClient<ApplicationsApiClient>((serviceProvider, client) =>
 {

@@ -1,18 +1,34 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Hanamilegal.Web.Auth.Models;
+using Hanamilegal.Web.Auth.Services;
+using Hanamilegal.Web.Contracts.Accounts;
+using Hanamilegal.Web.InternalApp.Api.Accounts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hanamilegal.Web.InternalApp.Pages.Account;
 
 public class LoginModel : PageModel
 {
+    private readonly AccountsApiClient _accountsApiClient;
+    private readonly ITokenService _tokenService;
+
+    internal LoginModel(AccountsApiClient accountsApiClient, ITokenService tokenService)
+    {
+        ArgumentNullException.ThrowIfNull(accountsApiClient, nameof(accountsApiClient));
+        ArgumentNullException.ThrowIfNull(tokenService, nameof(tokenService));
+
+        _accountsApiClient = accountsApiClient;
+        _tokenService = tokenService;
+    }
+
     [BindProperty]
     [Required]
     [Display(Name = "Login")]
@@ -40,44 +56,66 @@ public class LoginModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        var isValidUser = Login == "admin" && Password == "12345";
+        LoginResponseDto loginResponse;
 
-        if (!isValidUser)
+        try
+        {
+            var loginData = new LoginRequestDto()
+            {
+                Email = Login,
+                Password = Password
+            };
+
+            loginResponse = await _accountsApiClient.LoginAsync(loginData);
+        }
+        catch (HttpRequestException)
+        {
+            ModelState.AddModelError(string.Empty, "The authentication service is temporarily unavailable");
+            return Page();
+        }
+        catch
         {
             ModelState.AddModelError(string.Empty, "Invalid email or password");
             return Page();
         }
 
-        var claims = new List<Claim>()
+        JwtSecurityTokenHandler tokenHandler = new();
+        TokenValidationParameters tokenValidationParameters = _tokenService.CreateTokenValidationParameters();
+
+        TokenValidationResult tokenValidationResult = await tokenHandler.ValidateTokenAsync(
+            loginResponse.AccessToken,
+            tokenValidationParameters);
+
+        if (!tokenValidationResult.IsValid)
         {
-            new(ClaimTypes.Name, Login),
-            new(ClaimTypes.NameIdentifier, Login),
-            new(ClaimTypes.Role, nameof(UserRole.ApplicationViewer)),
+            ModelState.AddModelError(string.Empty, "The authentication token is invalid");
+            return Page();
+        }
+
+        var claimsPrincipal = new ClaimsPrincipal(tokenValidationResult.ClaimsIdentity);
+
+        if (tokenValidationResult.SecurityToken is not JwtSecurityToken validatedToken)
+        {
+            ModelState.AddModelError(string.Empty, "The authentication token is invalid");
+            return Page();
+        }
+
+        var tokenExpiration = new DateTimeOffset(validatedToken.ValidTo, TimeSpan.Zero);
+
+        var authenticationProperties = new AuthenticationProperties()
+        {
+            AllowRefresh = true,
+            IsPersistent = RememberMe,
+            ExpiresUtc = tokenExpiration
         };
-
-        var identity = new ClaimsIdentity(
-            claims,
-            CookieAuthenticationDefaults.AuthenticationScheme);
-
-        var principal = new ClaimsPrincipal(identity);
 
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
-            principal,
-            new AuthenticationProperties
-            {
-                IsPersistent = RememberMe,
-                ExpiresUtc = RememberMe
-                    ? DateTimeOffset.UtcNow.AddDays(14)
-                    : DateTimeOffset.UtcNow.AddHours(1),
-                AllowRefresh = true
-            });
+            claimsPrincipal,
+            authenticationProperties);
 
-        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-        {
-            return LocalRedirect(returnUrl);
-        }
-
-        return RedirectToPage("/Index");
+        return !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? LocalRedirect(returnUrl)
+            : RedirectToPage("/Index");
     }
 }

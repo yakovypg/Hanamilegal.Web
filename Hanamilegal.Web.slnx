@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj" />
+    <Project Path="Api/Hanamilegal.Web.ApplicationsApi/Hanamilegal.Web.ApplicationsApi.csproj" />
+  </Folder>
+  <Folder Name="/Applications/">
+    <Project Path="Applications/Hanamilegal.Web.InternalApp/Hanamilegal.Web.InternalApp.csproj" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Shared/Hanamilegal.Web.ApiConfiguration/Hanamilegal.Web.ApiConfiguration.csproj" />
+    <Project Path="Shared/Hanamilegal.Web.Auth/Hanamilegal.Web.Auth.csproj" />
+  </Folder>
+</Solution>

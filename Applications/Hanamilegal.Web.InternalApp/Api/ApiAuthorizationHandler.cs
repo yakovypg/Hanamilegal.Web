@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Hanamilegal.Web.InternalApp.Api;
 
-public sealed class ApiAuthorizationHandler : DelegatingHandler
+internal sealed class ApiAuthorizationHandler : DelegatingHandler
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ApiAuthorizationHandler(IHttpContextAccessor httpContextAccessor)
+    internal ApiAuthorizationHandler(IHttpContextAccessor httpContextAccessor)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor, nameof(httpContextAccessor));
         _httpContextAccessor = httpContextAccessor;

@@ -15,7 +15,7 @@ public class IndexModel : PageModel
 {
     private readonly ApplicationsApiClient _applicationsApiClient;
 
-    public IndexModel(ApplicationsApiClient applicationsApiClient)
+    internal IndexModel(ApplicationsApiClient applicationsApiClient)
     {
         ArgumentNullException.ThrowIfNull(applicationsApiClient, nameof(applicationsApiClient));
         _applicationsApiClient = applicationsApiClient;

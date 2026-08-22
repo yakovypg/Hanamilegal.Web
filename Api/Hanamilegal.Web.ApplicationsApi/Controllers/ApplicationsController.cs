@@ -16,7 +16,7 @@ public class ApplicationsController : ControllerBase
 {
     private readonly IApplicationsService _applicationsService;
 
-    public ApplicationsController(IApplicationsService applicationsService)
+    internal ApplicationsController(IApplicationsService applicationsService)
     {
         ArgumentNullException.ThrowIfNull(applicationsService, nameof(applicationsService));
         _applicationsService = applicationsService;

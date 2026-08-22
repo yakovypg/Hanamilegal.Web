@@ -5,7 +5,7 @@ using Hanamilegal.Web.Contracts.Applications;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
 
-public interface IApplicationsService
+internal interface IApplicationsService
 {
     Task<ApplicationResponseDto> CreateAsync(CreateApplicationRequestDto dto);
     Task<ApplicationResponseDto?> GetByIdAsync(Guid id);

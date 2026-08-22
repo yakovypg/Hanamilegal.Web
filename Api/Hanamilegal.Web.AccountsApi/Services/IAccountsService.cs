@@ -3,7 +3,7 @@ using Hanamilegal.Web.Contracts.Accounts;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-public interface IAccountsService
+internal interface IAccountsService
 {
     Task<LoginResponseDto> LoginAsync(LoginRequestDto dto);
 }

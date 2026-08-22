@@ -4,7 +4,7 @@ using Hanamilegal.Web.ApiConfiguration.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Hanamilegal.Web.ApiConfiguration.Extensions;
@@ -23,19 +23,20 @@ public static class SwaggerServiceExtensions
 
         var apiVersion = new Version(apiVersionString);
 
-        IApiVersioningBuilder apiVersioningBuilder = services.AddApiVersioning(options =>
-        {
-            options.ReportApiVersions = true;
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ApiVersionReader = new HeaderApiVersionReader("api-version");
-            options.DefaultApiVersion = new ApiVersion(apiVersion.Major, apiVersion.Minor);
-        });
-
-        _ = apiVersioningBuilder.AddApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-        });
+        IApiVersioningBuilder apiVersioningBuilder = services
+            .AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                options.DefaultApiVersion = new ApiVersion(apiVersion.Major, apiVersion.Minor);
+            })
+            .AddMvc()
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         _ = services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
@@ -53,18 +54,9 @@ public static class SwaggerServiceExtensions
                 In = ParameterLocation.Header
             });
 
-            var securityRequirementScheme = new OpenApiSecurityScheme()
+            options.AddSecurityRequirement(document => new OpenApiSecurityRequirement()
             {
-                Reference = new OpenApiReference()
-                {
-                    Id = schemeName,
-                    Type = ReferenceType.SecurityScheme
-                }
-            };
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
-                { securityRequirementScheme, Array.Empty<string>() }
+                [new OpenApiSecuritySchemeReference(schemeName, document)] = []
             });
 
             /*

@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using Asp.Versioning.ApiExplorer;
 using Hanamilegal.Web.ApiConfiguration.Providers;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Providers;
 

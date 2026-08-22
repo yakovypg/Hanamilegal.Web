@@ -1,5 +1,5 @@
 using Asp.Versioning.ApiExplorer;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace Hanamilegal.Web.ApiConfiguration.Providers;
 

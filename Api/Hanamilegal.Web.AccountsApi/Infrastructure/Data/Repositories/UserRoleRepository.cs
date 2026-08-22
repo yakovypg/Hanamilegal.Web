@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 
-internal sealed class UserRoleRepository : IUserRoleRepository
+internal sealed partial class UserRoleRepository : IUserRoleRepository
 {
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ILogger<UserRepository> _logger;
@@ -27,10 +27,9 @@ internal sealed class UserRoleRepository : IUserRoleRepository
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(roleName, nameof(roleName));
 
-        _logger.LogInformation("Trying to add {RoleName} role", roleName);
+        LogTryAddRole(roleName);
 
         var role = new IdentityRole(roleName);
-
         IdentityResult createRoleResult = await _roleManager.CreateAsync(role);
 
         if (!createRoleResult.Succeeded)
@@ -41,7 +40,7 @@ internal sealed class UserRoleRepository : IUserRoleRepository
             throw new BadRequestException($"Cannot add {roleName} role: {errorDescriptions}");
         }
 
-        _logger.LogInformation("{RoleName} role added", roleName);
+        LogRoleAdded(roleName);
 
         return role;
     }
@@ -50,7 +49,7 @@ internal sealed class UserRoleRepository : IUserRoleRepository
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(roleName, nameof(roleName));
 
-        _logger.LogInformation("Trying to delete {RoleName} role", roleName);
+        LogTryDeleteRole(roleName);
 
         IdentityRole? existingRole = await _roleManager.FindByNameAsync(roleName);
 
@@ -70,21 +69,16 @@ internal sealed class UserRoleRepository : IUserRoleRepository
             throw new BadRequestException($"Cannot delete {roleName} role: {errorDescriptions}");
         }
 
-        _logger.LogInformation("{RoleName} role deleted", roleName);
+        LogRoleDeleted(roleName);
     }
 
     public async Task<IdentityRole?> FindByNameAsync(string roleName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(roleName, nameof(roleName));
 
-        _logger.LogInformation("Trying to find {RoleName} role", roleName);
-
+        LogTryFindRole(roleName);
         IdentityRole? foundRole = await _roleManager.FindByNameAsync(roleName);
-
-        _logger.LogInformation(
-            "{RoleName} role found: {Found}",
-            roleName,
-            foundRole is not null);
+        LogFindRoleResult(roleName, foundRole is not null);
 
         return foundRole;
     }
@@ -93,15 +87,34 @@ internal sealed class UserRoleRepository : IUserRoleRepository
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(roleName, nameof(roleName));
 
-        _logger.LogInformation("Trying to check if {RoleName} role exists", roleName);
-
+        LogTryCheckRoleExistsRole(roleName);
         IdentityRole? existingRole = await FindByNameAsync(roleName);
-
-        _logger.LogInformation(
-            "{RoleName} role exists: {Exists}",
-            roleName,
-            existingRole is not null);
+        LogRoleExistsResult(roleName, existingRole is not null);
 
         return existingRole is not null;
     }
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Trying to add {RoleName} role")]
+    private partial void LogTryAddRole(string roleName);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "{RoleName} role added")]
+    private partial void LogRoleAdded(string roleName);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Trying to delete {RoleName} role")]
+    private partial void LogTryDeleteRole(string roleName);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "{RoleName} role deleted")]
+    private partial void LogRoleDeleted(string roleName);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Trying to find {RoleName} role")]
+    private partial void LogTryFindRole(string roleName);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "{RoleName} role found: {Found}")]
+    private partial void LogFindRoleResult(string roleName, bool found);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Trying to check if {RoleName} role exists")]
+    private partial void LogTryCheckRoleExistsRole(string roleName);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "{RoleName} role exists: {Exists}")]
+    private partial void LogRoleExistsResult(string roleName, bool exists);
 }

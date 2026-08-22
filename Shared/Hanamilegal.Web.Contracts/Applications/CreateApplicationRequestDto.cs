@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Hanamilegal.Web.ApiConfiguration.Limits;
 
-namespace Hanamilegal.Web.ApplicationsApi.Contracts;
+namespace Hanamilegal.Web.Contracts.Applications;
 
 public sealed class CreateApplicationRequestDto
 {

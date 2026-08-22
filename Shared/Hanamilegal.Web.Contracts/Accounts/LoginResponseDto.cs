@@ -1,6 +1,6 @@
 using System;
 
-namespace Hanamilegal.Web.AccountsApi.Contracts;
+namespace Hanamilegal.Web.Contracts.Accounts;
 
 public sealed class LoginResponseDto
 {

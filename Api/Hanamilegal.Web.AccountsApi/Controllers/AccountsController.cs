@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Hanamilegal.Web.AccountsApi.Contracts;
 using Hanamilegal.Web.AccountsApi.Services;
+using Hanamilegal.Web.Contracts.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

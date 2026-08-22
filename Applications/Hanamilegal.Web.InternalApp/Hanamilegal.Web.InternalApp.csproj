@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Api/Hanamilegal.Web.ApplicationsApi/Hanamilegal.Web.ApplicationsApi.csproj" />
     <ProjectReference Include="../../Shared/Hanamilegal.Web.ApiConfiguration/Hanamilegal.Web.ApiConfiguration.csproj" />
     <ProjectReference Include="../../Shared/Hanamilegal.Web.Auth/Hanamilegal.Web.Auth.csproj" />
+    <ProjectReference Include="../../Shared/Hanamilegal.Web.Contracts/Hanamilegal.Web.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

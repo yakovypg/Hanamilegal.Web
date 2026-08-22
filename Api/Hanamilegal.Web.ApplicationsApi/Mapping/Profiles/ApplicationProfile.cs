@@ -1,9 +1,9 @@
 using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
-using Hanamilegal.Web.ApplicationsApi.Contracts;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
+using Hanamilegal.Web.Contracts.Applications;
 
 namespace Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 

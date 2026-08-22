@@ -1,6 +1,6 @@
 using System;
 
-namespace Hanamilegal.Web.ApplicationsApi.Contracts;
+namespace Hanamilegal.Web.Contracts.Applications;
 
 public sealed class ApplicationResponseDto
 {

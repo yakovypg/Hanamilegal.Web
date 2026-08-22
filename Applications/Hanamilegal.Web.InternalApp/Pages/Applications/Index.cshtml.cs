@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Hanamilegal.Web.ApplicationsApi.Contracts;
+using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.InternalApp.Api.Applications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

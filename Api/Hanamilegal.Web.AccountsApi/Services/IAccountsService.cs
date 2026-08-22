@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Hanamilegal.Web.AccountsApi.Contracts;
+using Hanamilegal.Web.Contracts.Accounts;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 

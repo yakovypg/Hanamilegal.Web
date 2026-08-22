@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Hanamilegal.Web.ApiConfiguration.Limits;
 
-namespace Hanamilegal.Web.AccountsApi.Contracts;
+namespace Hanamilegal.Web.Contracts.Accounts;
 
 public sealed class LoginRequestDto
 {

@@ -1,4 +1,4 @@
-namespace Hanamilegal.Web.ApplicationsApi.Contracts;
+namespace Hanamilegal.Web.Contracts.Applications;
 
 public enum ApplicationTypeDto
 {

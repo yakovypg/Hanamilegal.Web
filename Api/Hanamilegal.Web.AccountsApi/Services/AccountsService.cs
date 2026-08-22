@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using Hanamilegal.Web.AccountsApi.Contracts;
 using Hanamilegal.Web.ApiConfiguration.Exceptions;
 using Hanamilegal.Web.Auth.Models;
 using Hanamilegal.Web.Auth.Services;
+using Hanamilegal.Web.Contracts.Accounts;
 using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Services;

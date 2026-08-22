@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Hanamilegal.Web.AccountsApi.Contracts;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
+using Hanamilegal.Web.Contracts.Accounts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 

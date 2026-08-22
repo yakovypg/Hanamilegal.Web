@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Hanamilegal.Web.ApplicationsApi.Contracts;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
+using Hanamilegal.Web.Contracts.Applications;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
 

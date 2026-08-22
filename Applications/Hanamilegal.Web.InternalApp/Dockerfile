@@ -13,6 +13,7 @@ COPY Hanamilegal.Web.slnx ./
 COPY Applications/Hanamilegal.Web.InternalApp/Hanamilegal.Web.InternalApp.csproj Applications/Hanamilegal.Web.InternalApp/
 COPY Shared/Hanamilegal.Web.ApiConfiguration/Hanamilegal.Web.ApiConfiguration.csproj Shared/Hanamilegal.Web.ApiConfiguration/
 COPY Shared/Hanamilegal.Web.Auth/Hanamilegal.Web.Auth.csproj Shared/Hanamilegal.Web.Auth/
+COPY Shared/Hanamilegal.Web.Contracts/Hanamilegal.Web.Contracts.csproj Shared/Hanamilegal.Web.Contracts/
 
 # Restore dependencies
 RUN dotnet restore Applications/Hanamilegal.Web.InternalApp/Hanamilegal.Web.InternalApp.csproj
@@ -21,6 +22,7 @@ RUN dotnet restore Applications/Hanamilegal.Web.InternalApp/Hanamilegal.Web.Inte
 COPY Applications/Hanamilegal.Web.InternalApp/. Applications/Hanamilegal.Web.InternalApp/
 COPY Shared/Hanamilegal.Web.ApiConfiguration/. Shared/Hanamilegal.Web.ApiConfiguration/
 COPY Shared/Hanamilegal.Web.Auth/. Shared/Hanamilegal.Web.Auth/
+COPY Shared/Hanamilegal.Web.Contracts/. Shared/Hanamilegal.Web.Contracts/
 
 # Publish application
 RUN dotnet publish \

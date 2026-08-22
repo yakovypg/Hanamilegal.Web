@@ -11,21 +11,25 @@ charset = utf-8
 trim_trailing_whitespace = false
 insert_final_newline = true
 
+[*.{csproj,props,slnx,yml,sh,json,js,jsx,ts,tsx,css}]
+indent_style = space
+indent_size = 2
+
 [*.cs]
 csharp_style_namespace_declarations = file_scoped:warning
 
-# IDE0290: Use primary constructor
 [*.cs]
-dotnet_diagnostic.IDE0290.severity = none
+dotnet_diagnostic.CA1031.severity = none  # CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1515.severity = none  # CA1515: Consider making public types internal
+dotnet_diagnostic.CA1812.severity = none  # CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1848.severity = none  # CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1873.severity = none  # CA1873: Avoid potentially expensive logging
+dotnet_diagnostic.CA2007.severity = none  # CA2007: Do not directly await a Task
+dotnet_diagnostic.IDE0290.severity = none # IDE0290: Use primary constructor
 
-# CA1031: Do not catch general exception types
-[*.cs]
-dotnet_diagnostic.CA1031.severity = none
+[Applications/Hanamilegal.Web.InternalApp/**/*.cs]
+dotnet_diagnostic.CA1054.severity = none  # CA1054: URI parameters should not be strings
+dotnet_diagnostic.CA1056.severity = none  # CA1056: URI properties should not be strings
 
-# CA1812: Avoid uninstantiated internal classes
-[*.cs]
-dotnet_diagnostic.CA1812.severity = none
-
-# CA2235: Mark all non-serializable fields
-[*.cs]
-dotnet_diagnostic.CA2235.severity = none
+[Applications/Hanamilegal.Web.InternalApp/**/*.cshtml.cs]
+dotnet_diagnostic.SA1649.severity = none  # SA1649: File name should match first type name

@@ -1,6 +1,6 @@
 namespace Hanamilegal.Web.InternalApp.Api.Applications;
 
-internal sealed class ApplicationsApiOptions
+internal sealed record ApplicationsApiOptions(string BaseUrl)
 {
-    internal string BaseUrl { get; set; } = string.Empty;
+    internal const string SectionName = "ApplicationsApi";
 }

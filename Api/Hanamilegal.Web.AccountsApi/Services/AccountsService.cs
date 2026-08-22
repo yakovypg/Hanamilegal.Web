@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Hanamilegal.Web.ApiConfiguration.Exceptions;
 using Hanamilegal.Web.Auth.Models;
 using Hanamilegal.Web.Auth.Services;
 using Hanamilegal.Web.Contracts.Accounts;
@@ -34,22 +33,14 @@ internal sealed class AccountsService : IAccountsService
 
         _logger.LogInformation("Trying to log in user");
 
-        (bool userAuthenticated, string userId) = await _authenticationService.AuthenticateAsync(dto);
-
-        if (!userAuthenticated)
-        {
-            _logger.LogWarning("Invalid email or password");
-            throw new BadRequestException("Invalid email or password");
-        }
-
-        AccessToken accessToken = _tokenService.CreateAccessToken(userId);
+        AuthenticationResult authenticationResult = await _authenticationService.AuthenticateAsync(dto);
+        AccessToken accessToken = _tokenService.CreateAccessToken(authenticationResult);
 
         _logger.LogInformation("User logged in");
 
         return new LoginResponseDto()
         {
-            AccessToken = accessToken.Token,
-            ExpireDateUtc = accessToken.ExpireDateUtc
+            AccessToken = accessToken.Token
         };
     }
 }

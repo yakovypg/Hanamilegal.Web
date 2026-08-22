@@ -1,12 +1,14 @@
 using System;
 using System.Text.Json.Serialization;
 using Hanamilegal.Web.Auth.Authorization;
+using Hanamilegal.Web.Auth.Models;
 using Hanamilegal.Web.Auth.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
@@ -45,7 +47,8 @@ public static class ServiceCollectionExtensions
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         });
 
-        var jwtTokenService = new JwtTokenService(configuration);
+        IOptions<JwtOptions> jwtOptions = configuration.GetRequiredOptions<JwtOptions>(JwtOptions.SectionName);
+        JwtTokenService jwtTokenService = new(jwtOptions);
 
         _ = builder.AddJwtBearer(options =>
         {
@@ -75,5 +78,21 @@ public static class ServiceCollectionExtensions
                 nameof(RoleAtLeastRequirement.RoleAtLeastAdmin),
                 policy => policy.Requirements.Add(RoleAtLeastRequirement.RoleAtLeastAdmin));
         });
+    }
+
+    public static IServiceCollection AddJwtTokenService(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+        _ = services
+            .AddOptions<JwtOptions>()
+            .BindConfiguration(JwtOptions.SectionName)
+            .Validate(o => o.ExpireMinutes > 0)
+            .Validate(o => o.ClockSkewSeconds >= 0)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Issuer))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Audience))
+            .ValidateOnStart();
+
+        return services.AddScoped<ITokenService, JwtTokenService>();
     }
 }

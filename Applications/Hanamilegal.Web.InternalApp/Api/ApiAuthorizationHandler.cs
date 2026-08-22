@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 
 namespace Hanamilegal.Web.InternalApp.Api;
@@ -27,7 +28,13 @@ internal sealed class ApiAuthorizationHandler : DelegatingHandler
         string? accessToken = _httpContextAccessor.HttpContext?.User.FindFirstValue("access_token");
 
         if (!string.IsNullOrWhiteSpace(accessToken))
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        {
+            var authenticationHeaderValue = new AuthenticationHeaderValue(
+                JwtBearerDefaults.AuthenticationScheme,
+                accessToken);
+
+            request.Headers.Authorization = authenticationHeaderValue;
+        }
 
         return base.SendAsync(request, cancellationToken);
     }

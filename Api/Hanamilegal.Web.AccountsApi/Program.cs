@@ -15,6 +15,7 @@ _ = appBuilder.Services
     .SetupAuthorization()
     .SetupExceptionHandler()
     .SetupSwagger(appBuilder.Configuration)
+    .SetupOptions()
     .SetupProviders()
     .SetupServices()
     .SetupRepositories()

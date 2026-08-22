@@ -1,6 +1,7 @@
 using System;
 using Asp.Versioning;
 using Hanamilegal.Web.ApiConfiguration.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -18,10 +19,17 @@ public static class SwaggerServiceExtensions
         ArgumentNullException.ThrowIfNull(services, nameof(services));
         ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-        string apiVersionString = configuration.GetString("Swagger:ApiVersion");
-        string schemeName = configuration.GetString("Swagger:SchemeName");
+        _ = services
+            .AddOptions<SwaggerOptions>()
+            .BindConfiguration(SwaggerOptions.SectionName)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.ApiVersion))
+            .ValidateOnStart();
 
-        var apiVersion = new Version(apiVersionString);
+        SwaggerOptions swaggerOptions = configuration
+            .GetRequiredObject<SwaggerOptions>(SwaggerOptions.SectionName);
+
+        var apiVersion = new Version(swaggerOptions.ApiVersion);
+        string schemeName = JwtBearerDefaults.AuthenticationScheme;
 
         IApiVersioningBuilder apiVersioningBuilder = services
             .AddApiVersioning(options =>

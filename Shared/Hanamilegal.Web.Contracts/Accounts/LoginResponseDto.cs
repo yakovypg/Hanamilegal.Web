@@ -1,5 +1,3 @@
-using System;
-
 namespace Hanamilegal.Web.Contracts.Accounts;
 
 public sealed class LoginResponseDto
@@ -10,5 +8,4 @@ public sealed class LoginResponseDto
     }
 
     public string AccessToken { get; set; }
-    public DateTimeOffset ExpireDateUtc { get; set; }
 }

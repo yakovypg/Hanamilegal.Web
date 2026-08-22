@@ -1,68 +1,36 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Hanamilegal.Web.Auth.Models;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Hanamilegal.Web.Auth.Services;
 
 public class JwtTokenService : ITokenService
 {
-    private readonly IConfiguration _configuration;
+    public const int MinJwtKeyBits = 32 * 8;
+    public const string SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
 
-    public JwtTokenService(IConfiguration configuration)
+    private readonly IOptions<JwtOptions> _options;
+
+    public JwtTokenService(IOptions<JwtOptions> options)
     {
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
-        _configuration = configuration;
+        ArgumentNullException.ThrowIfNull(options, nameof(options));
+        _options = options;
     }
 
-    public TokenValidationParameters CreateTokenValidationParameters()
+    public AccessToken CreateAccessToken(AuthenticationResult authenticationResult)
     {
-        string key = ExtractKeyFromConfiguration();
-        string issuer = ExtractIssuerFromConfiguration();
-        string audience = ExtractAudienceFromConfiguration();
-
-        SymmetricSecurityKey signingKey = CreateSymmetricSecurityKey(key);
-
-        return new TokenValidationParameters()
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = issuer,
-            ValidAudience = audience,
-            IssuerSigningKey = signingKey
-        };
-    }
-
-    public AccessToken CreateAccessToken(string userId, params Claim[] extraClaims)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(userId, nameof(userId));
-        ArgumentNullException.ThrowIfNull(extraClaims, nameof(extraClaims));
-
-        string key = ExtractKeyFromConfiguration();
-        string issuer = ExtractIssuerFromConfiguration();
-        string audience = ExtractAudienceFromConfiguration();
-        int expireMinutes = ExtractExpireMinutesFromConfiguration();
-
-        DateTime expireDateUtc = DateTime.UtcNow.AddMinutes(expireMinutes);
-        SigningCredentials signingCredentials = CreateSigningCredentials(key);
-
-        IEnumerable<Claim> claims =
-        [
-            ..CreateUserClaims(userId),
-            ..CreateRoleClaims(),
-            ..extraClaims
-        ];
+        DateTime expireDateUtc = DateTime.UtcNow.AddMinutes(_options.Value.ExpireMinutes);
+        SigningCredentials signingCredentials = CreateSigningCredentials(_options.Value.Key);
+        IEnumerable<Claim> claims = CreateClaims(authenticationResult);
 
         var jwtSecurityToken = new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
+            issuer: _options.Value.Issuer,
+            audience: _options.Value.Audience,
             claims: claims,
             expires: expireDateUtc,
             signingCredentials: signingCredentials);
@@ -73,11 +41,39 @@ public class JwtTokenService : ITokenService
         return new AccessToken(token, expireDateUtc);
     }
 
+    public TokenValidationParameters CreateTokenValidationParameters()
+    {
+        SymmetricSecurityKey signingKey = CreateSymmetricSecurityKey(_options.Value.Key);
+
+        return new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = signingKey,
+
+            ValidateIssuer = true,
+            ValidIssuer = _options.Value.Issuer,
+
+            ValidateAudience = true,
+            ValidAudience = _options.Value.Audience,
+
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromSeconds(_options.Value.ClockSkewSeconds),
+
+            ValidAlgorithms = [SecurityAlgorithm],
+            RequireExpirationTime = true
+        };
+    }
+
     private static SymmetricSecurityKey CreateSymmetricSecurityKey(string key)
     {
         ArgumentException.ThrowIfNullOrEmpty(key, nameof(key));
 
         byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+        const int minJwtKeyBytes = MinJwtKeyBits / 8;
+
+        if (keyBytes.Length < minJwtKeyBytes)
+            throw new InvalidOperationException($"JWT key must contain at least {MinJwtKeyBits} bits");
+
         return new SymmetricSecurityKey(keyBytes);
     }
 
@@ -86,54 +82,31 @@ public class JwtTokenService : ITokenService
         ArgumentException.ThrowIfNullOrEmpty(key, nameof(key));
 
         SymmetricSecurityKey signingKey = CreateSymmetricSecurityKey(key);
-        return new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+        return new SigningCredentials(signingKey, SecurityAlgorithm);
     }
 
-    private static List<Claim> CreateUserClaims(string userId)
+    private static List<Claim> CreateClaims(AuthenticationResult authenticationResult)
     {
-        ArgumentException.ThrowIfNullOrEmpty(userId, nameof(userId));
-
         string jti = Guid.NewGuid().ToString();
 
-        return
+        List<Claim> claims =
         [
             new(JwtRegisteredClaimNames.Jti, jti),
-            new(ClaimTypes.NameIdentifier, userId)
+            new(ClaimTypes.NameIdentifier, authenticationResult.UserId)
         ];
-    }
 
-    private static IEnumerable<Claim> CreateRoleClaims()
-    {
-        return Enum.GetNames<UserRole>()
-            .Select(t => new Claim(ClaimTypes.Role, t));
-    }
+        if (!string.IsNullOrEmpty(authenticationResult.UserEmail))
+        {
+            var emailClaim = new Claim(ClaimTypes.Email, authenticationResult.UserEmail);
+            claims.Add(emailClaim);
+        }
 
-    private string ExtractIssuerFromConfiguration()
-    {
-        return _configuration["Jwt:Issuer"]
-            ?? throw new KeyNotFoundException("Issuer for JWT not specified");
-    }
+        foreach (string role in authenticationResult.UserRoles)
+        {
+            var roleClaim = new Claim(ClaimTypes.Role, role);
+            claims.Add(roleClaim);
+        }
 
-    private string ExtractAudienceFromConfiguration()
-    {
-        return _configuration["Jwt:Audience"]
-            ?? throw new KeyNotFoundException("Audience for JWT not specified");
-    }
-
-    private string ExtractKeyFromConfiguration()
-    {
-        return _configuration["Jwt:Key"]
-            ?? throw new KeyNotFoundException("Key for JWT not specified");
-    }
-
-    private int ExtractExpireMinutesFromConfiguration()
-    {
-        string expireMinutesSource = _configuration["Jwt:ExpireMinutes"]
-            ?? throw new KeyNotFoundException("Expire minutes for JWT not specified");
-
-        if (!int.TryParse(expireMinutesSource, out int expireMinutes))
-            throw new FormatException("Expire minutes for JWT not recognized");
-
-        return expireMinutes;
+        return claims;
     }
 }

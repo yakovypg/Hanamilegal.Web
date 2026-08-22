@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Reflection;
+using Hanamilegal.Web.AccountsApi.Configuration;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Providers;
@@ -15,6 +17,24 @@ namespace Hanamilegal.Web.AccountsApi.Infrastructure.Extensions;
 
 internal static class ServiceCollectionExtensions
 {
+    internal static IServiceCollection SetupOptions(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+        _ = services
+            .AddOptions<InitialUsersOptions>()
+            .BindConfiguration(InitialUsersOptions.SectionName)
+            .Validate(options =>
+            {
+                return options.Users.All(user =>
+                    !string.IsNullOrWhiteSpace(user.Email) &&
+                    !string.IsNullOrWhiteSpace(user.Password));
+            })
+            .ValidateOnStart();
+
+        return services;
+    }
+
     internal static IServiceCollection SetupProviders(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));

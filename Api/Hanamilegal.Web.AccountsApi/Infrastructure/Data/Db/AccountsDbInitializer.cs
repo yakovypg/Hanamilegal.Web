@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hanamilegal.Web.AccountsApi.Configuration;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.Auth.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 
@@ -12,23 +13,23 @@ internal sealed class AccountsDbInitializer : IAccountsDbInitializer
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserRoleRepository _userRoleRepository;
-    private readonly IConfiguration _configuration;
+    private readonly IOptions<InitialUsersOptions> _initialUsersOptions;
     private readonly ILogger<AccountsDbInitializer> _logger;
 
     internal AccountsDbInitializer(
         IUserRepository userRepository,
         IUserRoleRepository userRoleRepository,
-        IConfiguration configuration,
+        IOptions<InitialUsersOptions> initialUsersOptions,
         ILogger<AccountsDbInitializer> logger)
     {
         ArgumentNullException.ThrowIfNull(userRepository, nameof(userRepository));
         ArgumentNullException.ThrowIfNull(userRoleRepository, nameof(userRoleRepository));
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+        ArgumentNullException.ThrowIfNull(initialUsersOptions, nameof(initialUsersOptions));
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
 
         _userRepository = userRepository;
         _userRoleRepository = userRoleRepository;
-        _configuration = configuration;
+        _initialUsersOptions = initialUsersOptions;
         _logger = logger;
     }
 
@@ -81,12 +82,11 @@ internal sealed class AccountsDbInitializer : IAccountsDbInitializer
     {
         _logger.LogInformation("Start adding initial users");
 
-        IEnumerable<(string Email, string Password, UserRole Role)> initialUsers =
-            AccountsDbInitialData.GetInitialUsers(_configuration);
+        List<InitialUser> initialUsers = _initialUsersOptions.Value.Users;
 
-        foreach (var (email, password, role) in initialUsers)
+        foreach (InitialUser user in initialUsers)
         {
-            await AddUserAsync(email, password, role);
+            await AddUserAsync(user.Email, user.Password, user.Role);
         }
 
         _logger.LogInformation("Initial users added");

@@ -32,6 +32,11 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
       ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
       # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
+      Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
       Storages__PersistentKeyStorage: /Keys
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
@@ -62,19 +67,20 @@ services:
         Database=${ACCOUNTS_DB_NAME};
         Username=${ACCOUNTS_DB_USER};
         Password=${ACCOUNTS_DB_PASSWORD}
-      InitialUsers__User__Email: ${ACCOUNTS_DB_INIT_USER_EMAIL}
-      InitialUsers__User__Password: ${ACCOUNTS_DB_INIT_USER_PASSWORD}
-      InitialUsers__User__Role: ${ACCOUNTS_DB_INIT_USER_ROLE}
-      InitialUsers__ApplicationViewer__Email: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_EMAIL}
-      InitialUsers__ApplicationViewer__Password: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_PASSWORD}
-      InitialUsers__ApplicationViewer__Role: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_ROLE}
-      InitialUsers__Admin__Email: ${ACCOUNTS_DB_INIT_ADMIN_EMAIL}
-      InitialUsers__Admin__Password: ${ACCOUNTS_DB_INIT_ADMIN_PASSWORD}
-      InitialUsers__Admin__Role: ${ACCOUNTS_DB_INIT_ADMIN_ROLE}
+      InitialUsers__Users__0__Email: ${ACCOUNTS_DB_INIT_USER_EMAIL}
+      InitialUsers__Users__0__Password: ${ACCOUNTS_DB_INIT_USER_PASSWORD}
+      InitialUsers__Users__0__Role: ${ACCOUNTS_DB_INIT_USER_ROLE}
+      InitialUsers__Users__1__Email: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_EMAIL}
+      InitialUsers__Users__1__Password: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_PASSWORD}
+      InitialUsers__Users__1__Role: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_ROLE}
+      InitialUsers__Users__2__Email: ${ACCOUNTS_DB_INIT_ADMIN_EMAIL}
+      InitialUsers__Users__2__Password: ${ACCOUNTS_DB_INIT_ADMIN_PASSWORD}
+      InitialUsers__Users__2__Role: ${ACCOUNTS_DB_INIT_ADMIN_ROLE}
+      Jwt__Key: ${JWT_KEY}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE}
-      Jwt__Key: ${JWT_KEY}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
+      Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
@@ -103,10 +109,11 @@ services:
         Database=${APPLICATIONS_DB_NAME};
         Username=${APPLICATIONS_DB_USER};
         Password=${APPLICATIONS_DB_PASSWORD}
+      Jwt__Key: ${JWT_KEY}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE}
-      Jwt__Key: ${JWT_KEY}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
+      Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro

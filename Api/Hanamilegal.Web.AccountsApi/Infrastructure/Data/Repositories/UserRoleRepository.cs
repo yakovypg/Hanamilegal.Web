@@ -12,7 +12,7 @@ internal sealed partial class UserRoleRepository : IUserRoleRepository
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ILogger<UserRepository> _logger;
 
-    internal UserRoleRepository(
+    public UserRoleRepository(
         RoleManager<IdentityRole> roleManager,
         ILogger<UserRepository> logger)
     {

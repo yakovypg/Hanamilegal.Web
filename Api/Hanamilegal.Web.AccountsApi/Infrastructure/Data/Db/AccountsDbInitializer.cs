@@ -16,7 +16,7 @@ internal sealed class AccountsDbInitializer : IAccountsDbInitializer
     private readonly IOptions<InitialUsersOptions> _initialUsersOptions;
     private readonly ILogger<AccountsDbInitializer> _logger;
 
-    internal AccountsDbInitializer(
+    public AccountsDbInitializer(
         IUserRepository userRepository,
         IUserRoleRepository userRoleRepository,
         IOptions<InitialUsersOptions> initialUsersOptions,

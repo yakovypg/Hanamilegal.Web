@@ -13,7 +13,7 @@ internal sealed class ApiAuthorizationHandler : DelegatingHandler
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    internal ApiAuthorizationHandler(IHttpContextAccessor httpContextAccessor)
+    public ApiAuthorizationHandler(IHttpContextAccessor httpContextAccessor)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor, nameof(httpContextAccessor));
         _httpContextAccessor = httpContextAccessor;

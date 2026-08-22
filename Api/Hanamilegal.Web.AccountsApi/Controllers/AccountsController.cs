@@ -14,7 +14,7 @@ public class AccountsController : ControllerBase
 {
     private readonly IAccountsService _accountsService;
 
-    internal AccountsController(IAccountsService accountsService)
+    public AccountsController(IAccountsService accountsService)
     {
         ArgumentNullException.ThrowIfNull(accountsService, nameof(accountsService));
         _accountsService = accountsService;

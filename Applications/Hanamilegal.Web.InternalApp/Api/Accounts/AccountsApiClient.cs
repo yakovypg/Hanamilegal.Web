@@ -12,7 +12,7 @@ internal sealed class AccountsApiClient
 {
     private readonly HttpClient _httpClient;
 
-    internal AccountsApiClient(HttpClient httpClient)
+    public AccountsApiClient(HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient, nameof(httpClient));
         _httpClient = httpClient;

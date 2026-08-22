@@ -7,7 +7,7 @@ namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 
 internal sealed class ApplicationsDbContext : IdentityDbContext
 {
-    internal ApplicationsDbContext(DbContextOptions<ApplicationsDbContext> options)
+    public ApplicationsDbContext(DbContextOptions<ApplicationsDbContext> options)
         : base(options ?? throw new ArgumentNullException(nameof(options)))
     {
     }

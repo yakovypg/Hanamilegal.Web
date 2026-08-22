@@ -14,7 +14,7 @@ internal sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOpti
     private readonly IApiInfoProvider _apiInfoProvider;
     private readonly IApiVersionDescriptionProvider _apiVersionDescriptionProvider;
 
-    internal ConfigureSwaggerOptions(
+    public ConfigureSwaggerOptions(
         IApiInfoProvider apiInfoProvider,
         IApiVersionDescriptionProvider apiVersionDescriptionProvider)
     {

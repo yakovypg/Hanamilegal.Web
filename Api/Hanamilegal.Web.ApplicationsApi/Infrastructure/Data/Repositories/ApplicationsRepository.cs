@@ -12,7 +12,7 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
 {
     private readonly ApplicationsDbContext _context;
 
-    internal ApplicationsRepository(ApplicationsDbContext context)
+    public ApplicationsRepository(ApplicationsDbContext context)
     {
         ArgumentNullException.ThrowIfNull(context, nameof(context));
         _context = context;

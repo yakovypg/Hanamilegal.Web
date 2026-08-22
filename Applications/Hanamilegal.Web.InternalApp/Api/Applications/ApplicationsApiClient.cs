@@ -21,7 +21,7 @@ internal sealed class ApplicationsApiClient
 
     private readonly HttpClient _httpClient;
 
-    internal ApplicationsApiClient(HttpClient httpClient)
+    public ApplicationsApiClient(HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient, nameof(httpClient));
         _httpClient = httpClient;

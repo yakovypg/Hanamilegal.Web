@@ -13,7 +13,7 @@ internal sealed class AccountsService : IAccountsService
     private readonly ITokenService _tokenService;
     private readonly ILogger<AccountsService> _logger;
 
-    internal AccountsService(
+    public AccountsService(
         IAuthenticationService authenticateService,
         ITokenService tokenService,
         ILogger<AccountsService> logger)

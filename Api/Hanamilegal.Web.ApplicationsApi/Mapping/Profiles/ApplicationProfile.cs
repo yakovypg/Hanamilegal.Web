@@ -9,7 +9,7 @@ namespace Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 
 internal sealed class ApplicationProfile : Profile
 {
-    internal ApplicationProfile()
+    public ApplicationProfile()
     {
         CreateMap<ApplicationTypeDto, ApplicationType>()
             .ConvertUsingEnumMapping(opt => opt.MapByName())

@@ -13,7 +13,7 @@ internal sealed class UserRepository : IUserRepository
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<UserRepository> _logger;
 
-    internal UserRepository(
+    public UserRepository(
         UserManager<IdentityUser> userManager,
         ILogger<UserRepository> logger)
     {

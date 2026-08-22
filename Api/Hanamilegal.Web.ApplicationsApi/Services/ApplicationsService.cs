@@ -14,7 +14,7 @@ internal sealed class ApplicationsService : IApplicationsService
     private readonly IApplicationsRepository _applicationRepository;
     private readonly IMapper _mapper;
 
-    internal ApplicationsService(IApplicationsRepository applicationRepository, IMapper mapper)
+    public ApplicationsService(IApplicationsRepository applicationRepository, IMapper mapper)
     {
         ArgumentNullException.ThrowIfNull(applicationRepository, nameof(applicationRepository));
         ArgumentNullException.ThrowIfNull(mapper, nameof(mapper));

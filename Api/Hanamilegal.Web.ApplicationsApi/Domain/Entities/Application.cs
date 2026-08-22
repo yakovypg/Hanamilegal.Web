@@ -5,7 +5,7 @@ namespace Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 
 internal sealed class Application
 {
-    internal Application()
+    public Application()
     {
         CreatedAtUtc = DateTimeOffset.UtcNow;
         SenderName = string.Empty;

@@ -6,7 +6,7 @@ namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 
 internal sealed class AccountsDbContext : IdentityDbContext
 {
-    internal AccountsDbContext(DbContextOptions<AccountsDbContext> options)
+    public AccountsDbContext(DbContextOptions<AccountsDbContext> options)
         : base(options ?? throw new ArgumentNullException(nameof(options)))
     {
     }

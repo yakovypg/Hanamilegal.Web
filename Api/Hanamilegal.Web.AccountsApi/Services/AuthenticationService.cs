@@ -17,7 +17,7 @@ internal sealed class AuthenticationService : IAuthenticationService
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<AuthenticationService> _logger;
 
-    internal AuthenticationService(
+    public AuthenticationService(
         IUserRepository userRepository,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,

@@ -11,7 +11,7 @@ internal sealed class AccountsDbStartupInitializerHostedService : IHostedService
 {
     private readonly IServiceScopeFactory _scopeFactory;
 
-    internal AccountsDbStartupInitializerHostedService(IServiceScopeFactory scopeFactory)
+    public AccountsDbStartupInitializerHostedService(IServiceScopeFactory scopeFactory)
     {
         ArgumentNullException.ThrowIfNull(scopeFactory, nameof(scopeFactory));
         _scopeFactory = scopeFactory;

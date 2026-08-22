@@ -20,18 +20,10 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
-        static void Configure(IMapperConfigurationExpression configuration)
+        return services.AddAutoMapper(configuration =>
         {
-            configuration.AddProfile(new ApplicationProfile());
-        }
-
-        var mappingConfig = new MapperConfiguration(Configure, null);
-
-        IMapper mapper = mappingConfig.CreateMapper();
-
-        return services
-            .AddAutoMapper(t => { })
-            .AddSingleton(mapper);
+            configuration.AddProfile<ApplicationProfile>();
+        });
     }
 
     internal static IServiceCollection SetupProviders(this IServiceCollection services)

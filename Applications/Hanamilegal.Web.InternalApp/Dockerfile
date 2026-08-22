@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app/src
 
 # Copy .csproj files
@@ -21,7 +21,7 @@ RUN dotnet publish \
     ./Applications/Hanamilegal.Web.InternalApp/Hanamilegal.Web.InternalApp.csproj
 
 # Use runtime
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:10.0 AS runtime
 
 # Create final image
 WORKDIR /app

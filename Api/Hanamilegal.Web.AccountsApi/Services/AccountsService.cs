@@ -38,9 +38,6 @@ internal sealed class AccountsService : IAccountsService
 
         _logger.LogInformation("User logged in");
 
-        return new LoginResponseDto()
-        {
-            AccessToken = accessToken.Token
-        };
+        return new LoginResponseDto(accessToken.Token);
     }
 }

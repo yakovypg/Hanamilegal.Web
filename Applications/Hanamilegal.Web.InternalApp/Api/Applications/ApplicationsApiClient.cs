@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -67,9 +68,9 @@ internal sealed class ApplicationsApiClient
         HttpResponseMessage response = await _httpClient.GetAsync(url, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        IReadOnlyList<ApplicationResponseDto>? foundApplications = await response.Content
-            .ReadFromJsonAsync<IReadOnlyList<ApplicationResponseDto>>(JsonOptions, cancellationToken);
-
-        return foundApplications ?? [];
+        return await response.Content.ReadFromJsonAsync<IReadOnlyList<ApplicationResponseDto>>(
+                JsonOptions,
+                cancellationToken)
+            ?? throw new InvalidDataException("Applications API returned invalid data");
     }
 }

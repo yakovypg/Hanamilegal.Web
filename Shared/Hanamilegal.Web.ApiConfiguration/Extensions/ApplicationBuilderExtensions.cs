@@ -7,7 +7,7 @@ namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
-    public static IApplicationBuilder SetupStandardMiddlewares(this IApplicationBuilder appBuilder)
+    public static IApplicationBuilder SetupStandardApiMiddlewares(this IApplicationBuilder appBuilder)
     {
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
 
@@ -19,7 +19,7 @@ public static class ApplicationBuilderExtensions
             .UseEndpoints(t => t.MapControllers());
     }
 
-    public static IApplicationBuilder SetupExceptionHandler(this IApplicationBuilder appBuilder)
+    public static IApplicationBuilder SetupApiExceptionHandler(this IApplicationBuilder appBuilder)
     {
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
 

@@ -10,10 +10,10 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
     environmentName: appBuilder.Environment.EnvironmentName);
 
 _ = appBuilder.Services
-    .SetupStandardServices()
+    .SetupStandardApiServices()
     .SetupAuthentication(appBuilder.Configuration)
     .SetupAuthorization()
-    .SetupExceptionHandler()
+    .SetupApiExceptionHandler()
     .SetupSwagger(appBuilder.Configuration)
     .SetupMapper()
     .SetupProviders()
@@ -24,8 +24,8 @@ _ = appBuilder.Services
 WebApplication app = appBuilder.Build();
 
 _ = app
-    .SetupStandardMiddlewares()
-    .SetupExceptionHandler()
+    .SetupStandardApiMiddlewares()
+    .SetupApiExceptionHandler()
     .SetupSwaggerApp();
 
 app.Run();

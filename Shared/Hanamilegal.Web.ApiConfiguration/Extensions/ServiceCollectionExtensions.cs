@@ -14,7 +14,7 @@ namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection SetupStandardServices(this IServiceCollection services)
+    public static IServiceCollection SetupStandardApiServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 

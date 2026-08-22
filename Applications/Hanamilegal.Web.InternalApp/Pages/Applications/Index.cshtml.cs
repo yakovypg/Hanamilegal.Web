@@ -48,29 +48,7 @@ public class IndexModel : PageModel
 
         try
         {
-            // Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
-            Applications =
-            [
-                new()
-                {
-                    CreatedAtUtc = new DateTime(2026, 1, 2),
-                    Type = ApplicationTypeDto.LegalSupport,
-                    SenderName = "Ivan",
-                    Organization = "Organization",
-                    Email = "Ivan@mail.ru",
-                    Text = "Dear Hanamilegal, I send you an application. The text of that application is very long."
-                },
-                new()
-                {
-                    CreatedAtUtc = new DateTime(2025, 3, 4),
-                    Type = ApplicationTypeDto.SoftwareDevelopment,
-                    SenderName = "Maria",
-                    Organization = "Organization",
-                    Email = "Maria@mail.ru",
-                    Text = "Hello! My name is Maria and I want to tell you a lot of questions. First, how are you? What is your name? What the capital of Great Britain? How many months in the year?"
-                },
-                new(), new(), new()
-            ];
+            Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
         }
         catch
         {

@@ -16,6 +16,8 @@ indent_style = space
 indent_size = 2
 
 [*.cs]
+# dotnet_diagnostic.IDE0005.severity = warning  # IDE0005: Remove unnecessary using directives
+dotnet_diagnostic.IDE0130.severity = warning    # IDE0130: Namespace does not match folder structure
 csharp_style_namespace_declarations = file_scoped:warning
 
 [*.cs]

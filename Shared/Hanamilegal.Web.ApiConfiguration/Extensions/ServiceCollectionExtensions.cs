@@ -2,6 +2,7 @@ using System;
 using System.Text.Json.Serialization;
 using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Auth.Models;
+using Hanamilegal.Web.Auth.Options;
 using Hanamilegal.Web.Auth.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

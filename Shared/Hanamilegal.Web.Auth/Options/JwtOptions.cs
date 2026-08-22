@@ -1,4 +1,4 @@
-namespace Hanamilegal.Web.Auth.Models;
+namespace Hanamilegal.Web.Auth.Options;
 
 public sealed record JwtOptions(
     string Key,

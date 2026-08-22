@@ -1,4 +1,4 @@
-namespace Hanamilegal.Web.InternalApp.Api.Applications;
+namespace Hanamilegal.Web.InternalApp.Configuration;
 
 internal sealed record ApplicationsApiOptions(string BaseUrl)
 {

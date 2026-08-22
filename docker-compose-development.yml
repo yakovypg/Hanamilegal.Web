@@ -1,14 +1,145 @@
 name: hanamilegal-web
 
 services:
-  frontend:
-    container_name: Hanamilegal.Web.Frontend
-    image: hanamilegal-web-frontend-dev:latest
+  public-app:
+    container_name: Hanamilegal.Web.PublicApp
+    image: hanamilegal-web-public-app-dev:latest
+    restart: on-failure
     build:
-      context: ./Applications/Hanamilegal.Web.Frontend
+      context: ./Applications/Hanamilegal.Web.PublicApp
       dockerfile: Dockerfile.dev
       args:
         VITE_PORT: 8080
     ports:
       - 8080:8080
+  
+  internal-app:
+    container_name: Hanamilegal.Web.InternalApp
+    image: hanamilegal-web-internal-app-dev:latest
     restart: on-failure
+    build:
+      context: ./
+      dockerfile: ./Applications/Hanamilegal.Web.InternalApp/Dockerfile.dev
+    depends_on:
+      - accounts-api
+      - applications-api
+    ports:
+      - 8081:443
+    environment:
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_HTTPS_PORT: 8081
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
+      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
+      # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
+      Storages__PersistentKeyStorage: /Keys
+    volumes:
+      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
+      - internal-app-keys:/Keys
+  
+  accounts-api:
+    container_name: Hanamilegal.Web.AccountsApi
+    image: hanamilegal-web-accounts-api-dev:latest
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: ./Api/Hanamilegal.Web.AccountsApi/Dockerfile.dev
+    depends_on:
+      - accounts-db
+    ports:
+      - 10001:443
+    environment:
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_HTTPS_PORT: 10001
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
+      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
+      # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
+      ConnectionStrings__AccountsDb: >-
+        Host=accounts-db;
+        Port=5432;
+        Database=${ACCOUNTS_DB_NAME};
+        Username=${ACCOUNTS_DB_USER};
+        Password=${ACCOUNTS_DB_PASSWORD}
+      InitialUsers__User__Email: ${ACCOUNTS_DB_INIT_USER_EMAIL}
+      InitialUsers__User__Password: ${ACCOUNTS_DB_INIT_USER_PASSWORD}
+      InitialUsers__User__Role: ${ACCOUNTS_DB_INIT_USER_ROLE}
+      InitialUsers__ApplicationViewer__Email: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_EMAIL}
+      InitialUsers__ApplicationViewer__Password: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_PASSWORD}
+      InitialUsers__ApplicationViewer__Role: ${ACCOUNTS_DB_INIT_APPLICATION_VIEWER_ROLE}
+      InitialUsers__Admin__Email: ${ACCOUNTS_DB_INIT_ADMIN_EMAIL}
+      InitialUsers__Admin__Password: ${ACCOUNTS_DB_INIT_ADMIN_PASSWORD}
+      InitialUsers__Admin__Role: ${ACCOUNTS_DB_INIT_ADMIN_ROLE}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
+    volumes:
+      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
+  
+  applications-api:
+    container_name: Hanamilegal.Web.ApplicationsApi
+    image: hanamilegal-web-applications-api-dev:latest
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: ./Api/Hanamilegal.Web.ApplicationsApi/Dockerfile.dev
+    depends_on:
+      - applications-db
+    ports:
+      - 10002:443
+    environment:
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_HTTPS_PORT: 10002
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
+      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
+      # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
+      ConnectionStrings__ApplicationsDb: >-
+        Host=applications-db;
+        Port=5432;
+        Database=${APPLICATIONS_DB_NAME};
+        Username=${APPLICATIONS_DB_USER};
+        Password=${APPLICATIONS_DB_PASSWORD}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
+    volumes:
+      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
+      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
+  
+  accounts-db:
+    container_name: AccountsDb
+    image: postgres:18
+    restart: on-failure
+    ports:
+      - 12001:5432
+    environment:
+      POSTGRES_DB: ${ACCOUNTS_DB_NAME}
+      POSTGRES_USER: ${ACCOUNTS_DB_USER}
+      POSTGRES_PASSWORD: ${ACCOUNTS_DB_PASSWORD}
+    volumes:
+      # In postgres 18+ /var/lib/postgresql/data moved to /var/lib/postgresql
+      - accounts-db-data:/var/lib/postgresql
+  
+  applications-db:
+    container_name: ApplicationsDb
+    image: postgres:18
+    restart: on-failure
+    ports:
+      - 12002:5432
+    environment:
+      POSTGRES_DB: ${APPLICATIONS_DB_NAME}
+      POSTGRES_USER: ${APPLICATIONS_DB_USER}
+      POSTGRES_PASSWORD: ${APPLICATIONS_DB_PASSWORD}
+    volumes:
+      # In postgres 18+ /var/lib/postgresql/data moved to /var/lib/postgresql
+      - applications-db-data:/var/lib/postgresql
+
+volumes:
+  accounts-db-data:
+  applications-db-data:
+  internal-app-keys:

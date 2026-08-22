@@ -12,7 +12,7 @@ internal sealed class ApiInfoProvider : IApiInfoProvider
     {
         ArgumentNullException.ThrowIfNull(versionDescription, nameof(versionDescription));
 
-        string title = Assembly.GetExecutingAssembly().GetName().Name ?? "API";
+        string title = GetType().Assembly.GetName().Name ?? "API";
 
         var apiInfo = new OpenApiInfo()
         {

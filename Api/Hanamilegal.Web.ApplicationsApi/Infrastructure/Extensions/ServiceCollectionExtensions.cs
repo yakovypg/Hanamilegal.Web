@@ -56,7 +56,7 @@ internal static class ServiceCollectionExtensions
         return services
             .AddDbContext<ApplicationsDbContext>(options =>
             {
-                string? executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+                string? executingAssemblyName = typeof(ApplicationsDbContext).Assembly.GetName().Name;
 
                 options.UseNpgsql(
                     connectionString,

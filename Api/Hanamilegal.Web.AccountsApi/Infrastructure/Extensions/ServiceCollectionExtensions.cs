@@ -73,7 +73,7 @@ internal static class ServiceCollectionExtensions
             .AddHostedService<AccountsDbStartupInitializerHostedService>()
             .AddDbContext<AccountsDbContext>(options =>
             {
-                string? executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+                string? executingAssemblyName = typeof(AccountsDbContext).Assembly.GetName().Name;
 
                 options.UseNpgsql(
                     connectionString,

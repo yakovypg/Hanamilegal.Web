@@ -15,7 +15,8 @@ _ = appBuilder.Services
     .SetupAuthenticationWithCookies()
     .SetupAuthorization()
     .SetupServices()
-    .SetupHttpClients();
+    .SetupHttpClients()
+    .AddPersistentKeyStorage(appBuilder.Configuration);
 
 WebApplication app = appBuilder.Build();
 

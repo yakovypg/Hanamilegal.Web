@@ -1,9 +1,14 @@
 using System;
+using System.IO;
+using System.Reflection;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.InternalApp.Api;
 using Hanamilegal.Web.InternalApp.Api.Accounts;
 using Hanamilegal.Web.InternalApp.Api.Applications;
+using Hanamilegal.Web.InternalApp.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -53,6 +58,13 @@ internal static class ServiceCollectionExtensions
             .Validate(o => !string.IsNullOrWhiteSpace(o.BaseUrl))
             .ValidateOnStart();
 
+        _ = services
+            .AddOptions<PersistentKeyStorageOptions>()
+            .BindConfiguration(PersistentKeyStorageOptions.SectionName)
+            .Validate(o => Directory.Exists(o.Path))
+            .Validate(o => o.LifetimeDays > 0)
+            .ValidateOnStart();
+
         return services;
     }
 
@@ -83,5 +95,26 @@ internal static class ServiceCollectionExtensions
         }).AddHttpMessageHandler<ApiAuthorizationHandler>();
 
         return services;
+    }
+
+    internal static IDataProtectionBuilder AddPersistentKeyStorage(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+
+        PersistentKeyStorageOptions options = configuration
+            .GetRequiredObject<PersistentKeyStorageOptions>(PersistentKeyStorageOptions.SectionName);
+
+        string applicationName = nameof(InternalApp);
+        DirectoryInfo keysDirectory = new(options.Path);
+        TimeSpan lifetime = TimeSpan.FromDays(options.LifetimeDays);
+
+        return services
+            .AddDataProtection()
+            .SetApplicationName(applicationName)
+            .PersistKeysToFileSystem(keysDirectory)
+            .SetDefaultKeyLifetime(lifetime);
     }
 }

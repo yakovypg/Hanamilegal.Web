@@ -44,7 +44,6 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
-      Storages__PersistentKeyStorage: /Keys
     deploy:
       resources:
         limits:

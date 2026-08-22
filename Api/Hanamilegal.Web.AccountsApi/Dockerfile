@@ -1,24 +1,32 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app/src
 
-# Copy .csproj files
-COPY ./Shared/Hanamilegal.Web.ApiConfiguration/Hanamilegal.Web.ApiConfiguration.csproj ./Shared/Hanamilegal.Web.ApiConfiguration/
-COPY ./Shared/Hanamilegal.Web.Auth/Hanamilegal.Web.Auth.csproj ./Shared/Hanamilegal.Web.Auth/
-COPY ./Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj ./Api/Hanamilegal.Web.AccountsApi/
+# Copy configuration files
+COPY Directory.Build.props ./
+COPY Directory.Packages.props ./
+COPY stylecop.json ./
+COPY .ruleset ./
+COPY .editorconfig ./
+
+# Copy solution and .csproj files
+COPY Hanamilegal.Web.slnx ./
+COPY Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj Api/Hanamilegal.Web.AccountsApi/
+COPY Shared/Hanamilegal.Web.ApiConfiguration/Hanamilegal.Web.ApiConfiguration.csproj Shared/Hanamilegal.Web.ApiConfiguration/
+COPY Shared/Hanamilegal.Web.Auth/Hanamilegal.Web.Auth.csproj Shared/Hanamilegal.Web.Auth/
 
 # Restore dependencies
-RUN dotnet restore ./Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj
+RUN dotnet restore Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj
 
 # Copy sources
-COPY ./Shared/Hanamilegal.Web.ApiConfiguration/. ./Shared/Hanamilegal.Web.ApiConfiguration/
-COPY ./Shared/Hanamilegal.Web.Auth/. ./Shared/Hanamilegal.Web.Auth/
-COPY ./Api/Hanamilegal.Web.AccountsApi/. ./Api/Hanamilegal.Web.AccountsApi/
+COPY Api/Hanamilegal.Web.AccountsApi/. Api/Hanamilegal.Web.AccountsApi/
+COPY Shared/Hanamilegal.Web.ApiConfiguration/. Shared/Hanamilegal.Web.ApiConfiguration/
+COPY Shared/Hanamilegal.Web.Auth/. Shared/Hanamilegal.Web.Auth/
 
 # Publish application
 RUN dotnet publish \
+    Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj \
     -c Release \
-    -o /app/publish \
-    ./Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj
+    -o /app/publish
 
 # Use runtime
 FROM mcr.microsoft.com/dotnet/runtime:10.0 AS runtime

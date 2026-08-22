@@ -8,4 +8,8 @@ public sealed record JwtOptions(
     int ClockSkewSeconds)
 {
     public const string SectionName = "Jwt";
+
+    public JwtOptions()
+        : this(string.Empty, string.Empty, string.Empty, default, default)
+    { }
 }

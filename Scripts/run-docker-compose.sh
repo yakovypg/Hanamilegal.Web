@@ -19,4 +19,4 @@ if [ "$SPECIFIED_MODE" = "dev" ] || [ "$SPECIFIED_MODE" = "development" ]; then
   MODE="development"
 fi
 
-docker compose -f "$SCRIPT_DIR/../docker-compose-$MODE.yml" "${@:2}"
+docker compose -f "$SCRIPT_DIR/../docker-compose-$MODE.yml" --env-file "$SCRIPT_DIR/../.env" "${@:2}"

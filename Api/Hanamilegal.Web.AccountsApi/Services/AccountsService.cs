@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-internal class AccountsService : IAccountsService
+internal sealed class AccountsService : IAccountsService
 {
     private readonly IAuthenticationService _authenticationService;
     private readonly ITokenService _tokenService;
@@ -27,7 +27,7 @@ internal class AccountsService : IAccountsService
         _tokenService = tokenService;
         _logger = logger;
     }
-    
+
     public async Task<LoginResponseDto> LoginAsync(LoginRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
@@ -35,7 +35,7 @@ internal class AccountsService : IAccountsService
         _logger.LogInformation("Trying to log in user");
 
         (bool userAuthenticated, string userId) = await _authenticationService.AuthenticateAsync(dto);
-        
+
         if (!userAuthenticated)
         {
             _logger.LogWarning("Invalid email or password");
@@ -45,7 +45,7 @@ internal class AccountsService : IAccountsService
         AccessToken accessToken = _tokenService.CreateAccessToken(userId);
 
         _logger.LogInformation("User logged in");
-        
+
         return new LoginResponseDto()
         {
             AccessToken = accessToken.Token,

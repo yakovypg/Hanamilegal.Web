@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 
-internal class UserRoleRepository : IUserRoleRepository
+internal sealed class UserRoleRepository : IUserRoleRepository
 {
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ILogger<UserRepository> _logger;
@@ -37,7 +37,7 @@ internal class UserRoleRepository : IUserRoleRepository
         {
             string errorDescriptions = createRoleResult.Errors.GetJoinedDescriptions();
             _logger.LogWarning("Cannot add {RoleName} role: {@Errors}", roleName, errorDescriptions);
-            
+
             throw new BadRequestException($"Cannot add {roleName} role: {errorDescriptions}");
         }
 
@@ -80,12 +80,12 @@ internal class UserRoleRepository : IUserRoleRepository
         _logger.LogInformation("Trying to find {RoleName} role", roleName);
 
         IdentityRole? foundRole = await _roleManager.FindByNameAsync(roleName);
-        
+
         _logger.LogInformation(
             "{RoleName} role found: {Found}",
             roleName,
             foundRole is not null);
-        
+
         return foundRole;
     }
 
@@ -96,7 +96,7 @@ internal class UserRoleRepository : IUserRoleRepository
         _logger.LogInformation("Trying to check if {RoleName} role exists", roleName);
 
         IdentityRole? existingRole = await FindByNameAsync(roleName);
-        
+
         _logger.LogInformation(
             "{RoleName} role exists: {Exists}",
             roleName,

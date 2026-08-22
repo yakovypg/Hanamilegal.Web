@@ -49,7 +49,7 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    //app.UseDeveloperExceptionPage();
+    // app.UseDeveloperExceptionPage();
     app.UseExceptionHandler("/Error");
 }
 

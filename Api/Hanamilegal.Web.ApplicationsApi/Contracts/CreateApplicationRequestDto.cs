@@ -16,15 +16,20 @@ public sealed class CreateApplicationRequestDto
     [Required]
     public ApplicationTypeDto Type { get; set; }
 
-    [Required, MaxLength(DtoLimits.CommonTextMaxLength)]
+    [Required]
+    [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string SenderName { get; set; }
 
-    [Required, MaxLength(DtoLimits.CommonTextMaxLength)]
+    [Required]
+    [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string Organization { get; set; }
 
-    [Required, EmailAddress, MaxLength(DtoLimits.CommonTextMaxLength)]
+    [Required]
+    [EmailAddress]
+    [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string Email { get; set; }
 
-    [Required, MaxLength(DtoLimits.LongTextMaxLength)]
+    [Required]
+    [MaxLength(DtoLimits.LongTextMaxLength)]
     public string Text { get; set; }
 }

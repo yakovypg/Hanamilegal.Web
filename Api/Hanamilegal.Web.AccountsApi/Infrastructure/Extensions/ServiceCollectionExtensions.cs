@@ -51,12 +51,12 @@ internal static class ServiceCollectionExtensions
             .AddDbContext<AccountsDbContext>(options =>
             {
                 string? executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-                
+
                 options.UseNpgsql(
                     connectionString,
                     t => t.MigrationsAssembly(executingAssemblyName));
             });
-        
+
         IdentityBuilder identityBuilder = services.AddIdentity<IdentityUser, IdentityRole>(setup =>
         {
             setup.User.RequireUniqueEmail = true;
@@ -65,7 +65,7 @@ internal static class ServiceCollectionExtensions
         _ = identityBuilder
             .AddEntityFrameworkStores<AccountsDbContext>()
             .AddDefaultTokenProviders();
-        
+
         return services;
     }
 }

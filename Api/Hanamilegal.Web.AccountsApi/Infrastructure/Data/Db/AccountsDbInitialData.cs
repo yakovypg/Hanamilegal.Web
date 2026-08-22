@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.Auth.Models;
 using Microsoft.Extensions.Configuration;
-using Hanamilegal.Web.ApiConfiguration.Extensions;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 

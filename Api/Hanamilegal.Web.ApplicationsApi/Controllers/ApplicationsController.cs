@@ -38,8 +38,7 @@ public class ApplicationsController : ControllerBase
         return CreatedAtAction(
             nameof(GetById),
             new { id = createdApplicationDto.Id },
-            createdApplicationDto
-        );
+            createdApplicationDto);
     }
 
     // GET /api/applications/{id}

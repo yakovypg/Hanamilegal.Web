@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 
-internal class ApplicationsRepository : IApplicationsRepository
+internal sealed class ApplicationsRepository : IApplicationsRepository
 {
     private readonly ApplicationsDbContext _context;
 
@@ -30,7 +30,7 @@ internal class ApplicationsRepository : IApplicationsRepository
     {
         Application foundApplication = await FindByIdAsync(id);
         _context.Applications.Remove(foundApplication);
-        
+
         await _context.SaveChangesAsync();
     }
 

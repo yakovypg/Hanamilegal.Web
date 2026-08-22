@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 
-internal class AccountsDbInitializer : IAccountsDbInitializer
+internal sealed class AccountsDbInitializer : IAccountsDbInitializer
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserRoleRepository _userRoleRepository;
@@ -83,7 +83,7 @@ internal class AccountsDbInitializer : IAccountsDbInitializer
 
         IEnumerable<(string Email, string Password, UserRole Role)> initialUsers =
             AccountsDbInitialData.GetInitialUsers(_configuration);
-        
+
         foreach (var (email, password, role) in initialUsers)
         {
             await AddUserAsync(email, password, role);

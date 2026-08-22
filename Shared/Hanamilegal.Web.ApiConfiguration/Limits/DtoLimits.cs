@@ -1,4 +1,4 @@
-﻿namespace Hanamilegal.Web.ApiConfiguration.Limits;
+namespace Hanamilegal.Web.ApiConfiguration.Limits;
 
 public static class DtoLimits
 {

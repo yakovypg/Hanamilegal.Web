@@ -1,10 +1,10 @@
+using System;
 using System.Threading.Tasks;
+using Hanamilegal.Web.AccountsApi.Contracts;
+using Hanamilegal.Web.AccountsApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Hanamilegal.Web.AccountsApi.Contracts;
-using Hanamilegal.Web.AccountsApi.Services;
-using System;
 
 namespace Hanamilegal.Web.AccountsApi.Controllers;
 
@@ -28,7 +28,7 @@ public class AccountsController : ControllerBase
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
-    
+
         LoginResponseDto loginResponseDto = await _accountsService.LoginAsync(dto);
         return Ok(loginResponseDto);
     }

@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Auth.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
-        
+
         return services;
     }
 
@@ -66,11 +66,11 @@ public static class ServiceCollectionExtensions
             options.AddPolicy(
                 nameof(RoleAtLeastRequirement.RoleAtLeastUser),
                 policy => policy.Requirements.Add(RoleAtLeastRequirement.RoleAtLeastUser));
-            
+
             options.AddPolicy(
                 nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer),
                 policy => policy.Requirements.Add(RoleAtLeastRequirement.RoleAtLeastApplicationViewer));
-            
+
             options.AddPolicy(
                 nameof(RoleAtLeastRequirement.RoleAtLeastAdmin),
                 policy => policy.Requirements.Add(RoleAtLeastRequirement.RoleAtLeastAdmin));

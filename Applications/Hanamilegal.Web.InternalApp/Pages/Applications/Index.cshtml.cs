@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +26,7 @@ public class IndexModel : PageModel
 
     [BindProperty(SupportsGet = true)]
     public ApplicationSearchRequestDto Filter { get; set; }
-    
+
     public IReadOnlyList<ApplicationResponseDto> Applications { get; private set; }
     public string? ErrorMessage { get; private set; }
 
@@ -48,11 +48,11 @@ public class IndexModel : PageModel
 
         try
         {
-            //Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
-            
+            // Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
             Applications =
             [
-                new() {
+                new()
+                {
                     CreatedAtUtc = new DateTime(2026, 1, 2),
                     Type = ApplicationTypeDto.LegalSupport,
                     SenderName = "Ivan",
@@ -60,7 +60,8 @@ public class IndexModel : PageModel
                     Email = "Ivan@mail.ru",
                     Text = "Dear Hanamilegal, I send you an application. The text of that application is very long."
                 },
-                new() {
+                new()
+                {
                     CreatedAtUtc = new DateTime(2025, 3, 4),
                     Type = ApplicationTypeDto.SoftwareDevelopment,
                     SenderName = "Maria",
@@ -77,4 +78,3 @@ public class IndexModel : PageModel
         }
     }
 }
-

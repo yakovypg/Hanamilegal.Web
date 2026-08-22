@@ -6,12 +6,12 @@ using Microsoft.OpenApi.Models;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Providers;
 
-internal class ApiInfoProvider : IApiInfoProvider
+internal sealed class ApiInfoProvider : IApiInfoProvider
 {
     public OpenApiInfo CreateApiInfo(ApiVersionDescription versionDescription)
     {
         ArgumentNullException.ThrowIfNull(versionDescription, nameof(versionDescription));
-        
+
         string title = Assembly.GetExecutingAssembly().GetName().Name ?? "API";
 
         var apiInfo = new OpenApiInfo()

@@ -3,7 +3,7 @@ using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 
 namespace Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 
-internal class Application
+internal sealed class Application
 {
     internal Application()
     {

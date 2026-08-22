@@ -7,7 +7,7 @@ using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 
 namespace Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 
-internal class ApplicationProfile : Profile
+internal sealed class ApplicationProfile : Profile
 {
     internal ApplicationProfile()
     {
@@ -18,10 +18,10 @@ internal class ApplicationProfile : Profile
         CreateMap<CreateApplicationRequestDto, Application>()
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.CreatedAtUtc, o => o.Ignore());
-        
+
         CreateMap<ApplicationSearchRequestDto, ApplicationSearchFilter>()
             .ReverseMap();
-        
+
         CreateMap<Application, ApplicationResponseDto>();
     }
 }

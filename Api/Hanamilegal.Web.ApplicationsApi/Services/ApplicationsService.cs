@@ -9,7 +9,7 @@ using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
 
-internal class ApplicationsService : IApplicationsService
+internal sealed class ApplicationsService : IApplicationsService
 {
     private readonly IApplicationsRepository _applicationRepository;
     private readonly IMapper _mapper;

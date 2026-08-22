@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
-public static class SwaggerExtensions
+public static class SwaggerServiceExtensions
 {
     public static IServiceCollection SetupSwagger(
         this IServiceCollection services,
@@ -20,7 +20,7 @@ public static class SwaggerExtensions
 
         string apiVersionString = configuration.GetString("Swagger:ApiVersion");
         string schemeName = configuration.GetString("Swagger:SchemeName");
-        
+
         var apiVersion = new Version(apiVersionString);
 
         IApiVersioningBuilder apiVersioningBuilder = services.AddApiVersioning(options =>
@@ -40,7 +40,7 @@ public static class SwaggerExtensions
         _ = services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
         return services.AddSwaggerGen(options =>
-        {   
+        {
             options.CustomSchemaIds(t => t.FullName);
 
             options.AddSecurityDefinition(schemeName, new OpenApiSecurityScheme()

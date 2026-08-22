@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-internal class AuthenticationService : IAuthenticationService
+internal sealed class AuthenticationService : IAuthenticationService
 {
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<IdentityUser> _signInManager;
@@ -26,7 +26,7 @@ internal class AuthenticationService : IAuthenticationService
         _signInManager = signInManager;
         _logger = logger;
     }
-    
+
     public async Task<(bool Ok, string UserId)> AuthenticateAsync(LoginRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));

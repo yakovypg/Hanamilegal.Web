@@ -11,9 +11,11 @@ public sealed class LoginRequestDto
         Password = string.Empty;
     }
 
-    [Required, MaxLength(DtoLimits.CommonTextMaxLength)]
+    [Required]
+    [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string Email { get; set; }
 
-    [Required, MaxLength(DtoLimits.CommonTextMaxLength)]
+    [Required]
+    [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string Password { get; set; }
 }

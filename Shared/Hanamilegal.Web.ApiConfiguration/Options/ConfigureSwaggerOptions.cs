@@ -31,7 +31,7 @@ internal sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOpti
 
         IEnumerable<ApiVersionDescription> apiVersionDescriptions =
             _apiVersionDescriptionProvider.ApiVersionDescriptions;
-        
+
         foreach (ApiVersionDescription description in apiVersionDescriptions)
         {
             OpenApiInfo apiInfo = _apiInfoProvider.CreateApiInfo(description);

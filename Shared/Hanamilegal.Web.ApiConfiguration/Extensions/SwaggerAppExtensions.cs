@@ -31,8 +31,7 @@ public static class SwaggerAppExtensions
 
                 options.SwaggerEndpoint(
                     $"/{swaggerRoutePrefix}/{groupName}/swagger.json",
-                    groupName.ToUpperInvariant()
-                );
+                    groupName.ToUpperInvariant());
             }
 
             options.RoutePrefix = swaggerRoutePrefix;

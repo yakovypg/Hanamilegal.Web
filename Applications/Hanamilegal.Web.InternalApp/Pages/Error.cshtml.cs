@@ -22,7 +22,7 @@ public class ErrorModel : PageModel
     {
         IExceptionHandlerPathFeature? exceptionFeature =
             HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-        
+
         if (exceptionFeature is not null)
         {
             _logger.LogError(
@@ -32,4 +32,3 @@ public class ErrorModel : PageModel
         }
     }
 }
-

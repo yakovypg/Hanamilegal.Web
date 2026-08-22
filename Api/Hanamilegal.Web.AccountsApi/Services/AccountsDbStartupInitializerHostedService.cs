@@ -20,9 +20,9 @@ internal sealed class AccountsDbStartupInitializerHostedService : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using IServiceScope scope = _scopeFactory.CreateScope();
-        IAccountsDbInitializer dbInitializer = scope.ServiceProvider.GetRequiredService<IAccountsDbInitializer>();
+        IAccountsDbInitializer initializer = scope.ServiceProvider.GetRequiredService<IAccountsDbInitializer>();
 
-        await dbInitializer.InitializeDatabaseAsync();
+        await initializer.InitializeDatabaseAsync();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

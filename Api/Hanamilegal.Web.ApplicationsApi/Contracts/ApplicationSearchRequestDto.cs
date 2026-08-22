@@ -17,6 +17,7 @@ public sealed class ApplicationSearchRequestDto
     [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string? Organization { get; set; }
 
-    [EmailAddress, MaxLength(DtoLimits.CommonTextMaxLength)]
+    [EmailAddress]
+    [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string? Email { get; set; }
 }

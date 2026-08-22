@@ -1,12 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
 using Hanamilegal.Web.Auth.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hanamilegal.Web.Auth.Services;
 
@@ -52,14 +52,14 @@ public class JwtTokenService : ITokenService
 
         DateTime expireDateUtc = DateTime.UtcNow.AddMinutes(expireMinutes);
         SigningCredentials signingCredentials = CreateSigningCredentials(key);
-        
+
         IEnumerable<Claim> claims =
         [
             ..CreateUserClaims(userId),
             ..CreateRoleClaims(),
             ..extraClaims
         ];
-        
+
         var jwtSecurityToken = new JwtSecurityToken(
             issuer: issuer,
             audience: audience,

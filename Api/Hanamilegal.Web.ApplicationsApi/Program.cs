@@ -1,6 +1,6 @@
 using System.IO;
-using Hanamilegal.Web.ApplicationsApi.Infrastructure.Extensions;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
+using Hanamilegal.Web.ApplicationsApi.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 
 WebApplicationBuilder appBuilder = WebApplication.CreateBuilder(args);

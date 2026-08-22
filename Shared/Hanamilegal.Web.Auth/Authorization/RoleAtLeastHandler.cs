@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Hanamilegal.Web.Auth.Models;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hanamilegal.Web.Auth.Authorization;
 

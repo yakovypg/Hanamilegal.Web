@@ -13,12 +13,12 @@ namespace Hanamilegal.Web.InternalApp.Api.Applications;
 
 public sealed class ApplicationsApiClient
 {
-    private readonly HttpClient _httpClient;
-
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true
     };
+
+    private readonly HttpClient _httpClient;
 
     public ApplicationsApiClient(HttpClient httpClient)
     {
@@ -61,14 +61,15 @@ public sealed class ApplicationsApiClient
         if (!string.IsNullOrWhiteSpace(filter.Email))
             query[nameof(filter.Email)] = filter.Email;
 
-        string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, query);
+        string urlString = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, query);
+        Uri url = new(urlString);
 
         HttpResponseMessage response = await _httpClient.GetAsync(url, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         IReadOnlyList<ApplicationResponseDto>? foundApplications = await response.Content
             .ReadFromJsonAsync<IReadOnlyList<ApplicationResponseDto>>(JsonOptions, cancellationToken);
-        
+
         return foundApplications ?? [];
     }
 }

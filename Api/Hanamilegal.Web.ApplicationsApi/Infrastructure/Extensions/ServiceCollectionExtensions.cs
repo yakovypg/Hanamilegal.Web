@@ -1,16 +1,16 @@
 using System;
 using System.Reflection;
 using AutoMapper;
+using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.ApiConfiguration.Providers;
+using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Providers;
 using Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 using Hanamilegal.Web.ApplicationsApi.Services;
-using Hanamilegal.Web.ApiConfiguration.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Extensions;
 
@@ -65,7 +65,7 @@ internal static class ServiceCollectionExtensions
             .AddDbContext<ApplicationsDbContext>(options =>
             {
                 string? executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-                
+
                 options.UseNpgsql(
                     connectionString,
                     t => t.MigrationsAssembly(executingAssemblyName));

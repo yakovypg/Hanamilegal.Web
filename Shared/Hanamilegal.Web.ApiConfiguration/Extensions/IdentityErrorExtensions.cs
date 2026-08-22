@@ -10,7 +10,7 @@ public static class IdentityErrorExtensions
     public static string GetJoinedDescriptions(this IEnumerable<IdentityError> errors)
     {
         ArgumentNullException.ThrowIfNull(errors, nameof(errors));
-        
+
         IEnumerable<string> descriptions = errors.Select(t => t.Description);
         return string.Join(", ", descriptions);
     }

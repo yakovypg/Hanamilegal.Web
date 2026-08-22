@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
-using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.ApiConfiguration.Exceptions;
+using Hanamilegal.Web.ApiConfiguration.Extensions;
+using Hanamilegal.Web.Auth.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Hanamilegal.Web.Auth.Models;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 
-internal class UserRepository : IUserRepository
+internal sealed class UserRepository : IUserRepository
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<UserRepository> _logger;
@@ -54,7 +54,7 @@ internal class UserRepository : IUserRepository
         _logger.LogInformation("Trying to add user to {RoleName} role", roleName);
 
         IdentityResult addToRoleResult = await _userManager.AddToRoleAsync(user, roleName);
-        
+
         if (!addToRoleResult.Succeeded)
         {
             string errorDescriptions = addToRoleResult.Errors.GetJoinedDescriptions();
@@ -102,9 +102,9 @@ internal class UserRepository : IUserRepository
         _logger.LogInformation("Trying to find user");
 
         IdentityUser? foundUser = await _userManager.FindByEmailAsync(email);
-        
+
         _logger.LogInformation("User found: {Found}", foundUser is not null);
-        
+
         return foundUser;
     }
 
@@ -115,7 +115,7 @@ internal class UserRepository : IUserRepository
         _logger.LogInformation("Trying to check if user exists");
 
         IdentityUser? existingUser = await FindByEmailAsync(email);
-        
+
         _logger.LogInformation("User exists: {Exists}", existingUser is not null);
 
         return existingUser is not null;

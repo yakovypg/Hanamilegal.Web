@@ -53,7 +53,10 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection SetupRepositories(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
-        return services.AddScoped<IUserRepository, UserRepository>();
+
+        return services
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IUserRoleRepository, UserRoleRepository>();
     }
 
     internal static IServiceCollection SetupAccountsDb(

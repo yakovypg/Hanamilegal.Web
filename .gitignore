@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Certificates
+Certs/*.pem
+Certs/*.base64
+
 # Error log files
 compiler-diagnostics.sarif
 

@@ -1,0 +1,42 @@
+.error-card {
+    width: min(560px, 100%);
+    padding: 48px 36px;
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid var(--color-light-border);
+    box-shadow: 0 20px 60px var(--color-light-shadow);
+}
+
+.error-icon {
+    width: 72px;
+    height: 72px;
+    font-size: 44px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    color: var(--color-light);
+    background: var(--color-highlight);
+}
+
+.error-card h1 {
+    margin: 0 0 14px;
+    color: var(--color-common);
+    font-size: var(--font-size-title);
+}
+
+.error-card p {
+    line-height: 1.6;
+    margin: 0 auto 24px;
+    color: var(--color-secondary);
+    font-size: var(--font-size-subtitle);
+}
+
+.error-actions {
+    gap: 12px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}

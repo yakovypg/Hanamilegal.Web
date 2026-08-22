@@ -1,0 +1,147 @@
+﻿@page
+@model IndexModel
+@using Hanamilegal.Web.ApplicationsApi.Contracts
+@{
+    ViewData["Title"] = "Applications";
+}
+
+<div class="text-center title-text mb-2">
+    <h1>Applications</h1>
+</div>
+
+<div class="align-self-start w-100">
+    <form method="get" class="card card-body shadow-sm mb-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label asp-for="Filter.Id" class="form-label">
+                    Application ID
+                </label>
+
+                <input asp-for="Filter.Id" class="form-control" placeholder="GUID" />
+                <span asp-validation-for="Filter.Id" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Filter.FromDateUtc" class="form-label">
+                    From Date (UTC)
+                </label>
+
+                <input asp-for="Filter.FromDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="Filter.FromDateUtc" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Filter.ToDateUtc" class="form-label">
+                    To Date (UTC)
+                </label>
+
+                <input asp-for="Filter.ToDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="Filter.ToDateUtc" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Filter.Type" class="form-label">
+                    Application Type
+                </label>
+
+                <select asp-for="Filter.Type" class="form-select">
+                    <option value="">All types</option>
+
+                    @foreach (ApplicationTypeDto type in Enum.GetValues<ApplicationTypeDto>())
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Filter.SenderName" class="form-label">
+                    Sender Name
+                </label>
+
+                <input asp-for="Filter.SenderName" class="form-control" />
+                <span asp-validation-for="Filter.SenderName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Filter.Organization" class="form-label">
+                    Organization
+                </label>
+
+                <input asp-for="Filter.Organization" class="form-control" />
+                <span asp-validation-for="Filter.Organization" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Filter.Email" class="form-label">
+                    Email
+                </label>
+
+                <input asp-for="Filter.Email" type="email" class="form-control" />
+                <span asp-validation-for="Filter.Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center gap-3">
+            <button type="submit" class="button primary width-120">
+                Find
+            </button>
+
+            <a asp-page="./Index" class="text-center button secondary width-120">
+                Reset
+            </a>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+else if (Model.Applications.Count == 0)
+{
+    <div class="alert alert-info">
+        Applications not found
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light text-center align-middle">
+                <tr>
+                    <th>Created At (UTC)</th>
+                    <th>Type</th>
+                    <th>Sender Name</th>
+                    <th>Organization</th>
+                    <th>Email</th>
+                    <th>Text</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (ApplicationResponseDto application in Model.Applications)
+                {
+                    <tr>
+                        <td>@application.CreatedAtUtc</td>
+                        <td>@application.Type</td>
+                        <td>@application.SenderName</td>
+                        <td>@application.Organization</td>
+
+                        <td>
+                            <a href="mailto:@application.Email">
+                                @application.Email
+                            </a>
+                        </td>
+
+                        <td>@application.Text</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

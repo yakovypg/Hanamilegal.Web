@@ -1,0 +1,121 @@
+html,
+body {
+  min-height: 100%;
+}
+
+html,
+body,
+#root {
+  --color-background: #f2f2f2;
+  --color-background-secondary: #f3f4f6;
+  --color-background-footer: #e4e4e4;
+  --color-common: #111827;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-secondary: #6b7280;
+  --color-light: white;
+  --color-light-hover: #f9fafb;
+  --color-semi-dark: #374151;
+  --color-highlight: #ef4444;
+  --color-light-border: #e5e7eb;
+  --color-medium-border: #d1d5db;
+  --color-light-shadow: rgba(15, 23, 42, 0.12);
+
+  --font-size-small: 14px;
+  --font-size-normal: 16px;
+  --font-size-big: 18px;
+  --font-size-subtitle: 24px;
+  --font-size-title: 38px;
+
+  font-family: Arial, sans-serif;
+  color: var(--color-common);
+  background-color: var(--color-background);
+}
+
+@media (max-width: 720px) {
+  html,
+  body,
+  #root {
+    --font-size-small: 14px;
+    --font-size-normal: 16px;
+    --font-size-big: 18px;
+    --font-size-subtitle: 24px;
+    --font-size-title: 38px;
+  }
+}
+
+.color-background {
+  color: var(--color-background) !important;
+}
+
+.color-background-secondary {
+  color: var(--color-background-secondary) !important;
+}
+
+.color-background-footer {
+  color: var(--color-background-footer) !important;
+}
+
+.color-common {
+  color: var(--color-common) !important;
+}
+
+.color-primary {
+  color: var(--color-primary) !important;
+}
+
+.color-primary-hover {
+  color: var(--color-primary-hover) !important;
+}
+
+.color-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.color-light {
+  color: var(--color-light) !important;
+}
+
+.color-light-hover {
+  color: var(--color-light-hover) !important;
+}
+
+.color-semi-dark {
+  color: var(--color-semi-dark) !important;
+}
+
+.color-highlight {
+  color: var(--color-highlight) !important;
+}
+
+.color-light-border {
+  color: var(--color-light-border) !important;
+}
+
+.color-medium-border {
+  color: var(--color-medium-border) !important;
+}
+
+.color-light-shadow {
+  color: var(--color-light-shadow) !important;
+}
+
+.small-text {
+  font-size: var(--font-size-small) !important;
+}
+
+.normal-text {
+  font-size: var(--font-size-normal) !important;
+}
+
+.big-text {
+  font-size: var(--font-size-big) !important;
+}
+
+.subtitle-text {
+  font-size: var(--font-size-subtitle) !important;
+}
+
+.title-text {
+  font-size: var(--font-size-title) !important;
+}

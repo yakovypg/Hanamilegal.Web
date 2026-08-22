@@ -1,0 +1,23 @@
+@page
+@model AccessDeniedModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/error.css" asp-append-version="true" />
+}
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="page-centerred">
+    <div class="error-card">
+        <div class="error-icon">!</div>
+
+        <h1>Access Denied</h1>
+        <p> You have not got enough rights for viewing this page</p>
+
+        <div class="error-actions">
+            <a class="button primary" asp-page="/Index">
+                Move to home
+            </a>
+        </div>
+    </div>
+</div>

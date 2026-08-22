@@ -12,7 +12,7 @@ services:
         VITE_PORT: 8080
     ports:
       - 8080:8080
-  
+
   internal-app:
     container_name: Hanamilegal.Web.InternalApp
     image: hanamilegal-web-internal-app-dev:latest
@@ -37,7 +37,7 @@ services:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
       - internal-app-keys:/Keys
-  
+
   accounts-api:
     container_name: Hanamilegal.Web.AccountsApi
     image: hanamilegal-web-accounts-api-dev:latest
@@ -78,7 +78,7 @@ services:
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
-  
+
   applications-api:
     container_name: Hanamilegal.Web.ApplicationsApi
     image: hanamilegal-web-applications-api-dev:latest
@@ -110,7 +110,7 @@ services:
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
-  
+
   accounts-db:
     container_name: AccountsDb
     image: postgres:18
@@ -124,7 +124,7 @@ services:
     volumes:
       # In postgres 18+ /var/lib/postgresql/data moved to /var/lib/postgresql
       - accounts-db-data:/var/lib/postgresql
-  
+
   applications-db:
     container_name: ApplicationsDb
     image: postgres:18

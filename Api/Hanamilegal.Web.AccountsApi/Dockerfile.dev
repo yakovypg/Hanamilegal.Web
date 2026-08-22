@@ -19,4 +19,4 @@ ENTRYPOINT [ \
     "dotnet", "run", \
     "--project", "./Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj", \
     "--configuration", "Debug" \
-]
+    ]

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 
-internal interface IAccountsDbInitializer
+public interface IAccountsDbInitializer
 {
     Task InitializeDatabaseAsync();
 }

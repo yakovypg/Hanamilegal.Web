@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace Hanamilegal.Web.InternalApp.Api.Applications;
 
-internal sealed class ApplicationsApiClient
+public sealed class ApplicationsApiClient
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -27,7 +27,7 @@ internal sealed class ApplicationsApiClient
         _httpClient = httpClient;
     }
 
-    internal async Task<IReadOnlyList<ApplicationResponseDto>> SearchAsync(
+    public async Task<IReadOnlyList<ApplicationResponseDto>> SearchAsync(
         ApplicationSearchRequestDto filter,
         CancellationToken cancellationToken = default)
     {

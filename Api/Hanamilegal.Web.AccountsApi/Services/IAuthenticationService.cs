@@ -4,7 +4,7 @@ using Hanamilegal.Web.Contracts.Accounts;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-internal interface IAuthenticationService
+public interface IAuthenticationService
 {
     Task<AuthenticationResult> AuthenticateAsync(LoginRequestDto dto);
 }

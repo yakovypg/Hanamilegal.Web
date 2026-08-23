@@ -1,6 +1,6 @@
 namespace Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 
-internal enum ApplicationType
+public enum ApplicationType
 {
     LegalSupport,
     SoftwareDevelopment

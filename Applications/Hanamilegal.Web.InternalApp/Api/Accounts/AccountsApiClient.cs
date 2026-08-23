@@ -8,7 +8,7 @@ using Hanamilegal.Web.Contracts.Accounts;
 
 namespace Hanamilegal.Web.InternalApp.Api.Accounts;
 
-internal sealed class AccountsApiClient
+public sealed class AccountsApiClient
 {
     private readonly HttpClient _httpClient;
 
@@ -18,7 +18,7 @@ internal sealed class AccountsApiClient
         _httpClient = httpClient;
     }
 
-    internal async Task<LoginResponseDto> LoginAsync(
+    public async Task<LoginResponseDto> LoginAsync(
         LoginRequestDto loginData,
         CancellationToken cancellationToken = default)
     {

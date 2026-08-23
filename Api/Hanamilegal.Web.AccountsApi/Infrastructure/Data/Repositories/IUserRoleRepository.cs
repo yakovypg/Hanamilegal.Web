@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 
-internal interface IUserRoleRepository
+public interface IUserRoleRepository
 {
     Task<IdentityRole> AddAsync(string roleName);
     Task DeleteByNameAsync(string roleName);

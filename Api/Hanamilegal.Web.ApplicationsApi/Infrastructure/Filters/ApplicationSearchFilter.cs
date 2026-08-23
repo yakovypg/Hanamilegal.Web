@@ -5,17 +5,17 @@ using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 
-internal sealed class ApplicationSearchFilter
+public sealed class ApplicationSearchFilter
 {
-    internal Guid? Id { get; set; }
-    internal DateTimeOffset? FromDateUtc { get; set; }
-    internal DateTimeOffset? ToDateUtc { get; set; }
-    internal ApplicationType? Type { get; set; }
-    internal string? SenderName { get; set; }
-    internal string? Organization { get; set; }
-    internal string? Email { get; set; }
+    public Guid? Id { get; set; }
+    public DateTimeOffset? FromDateUtc { get; set; }
+    public DateTimeOffset? ToDateUtc { get; set; }
+    public ApplicationType? Type { get; set; }
+    public string? SenderName { get; set; }
+    public string? Organization { get; set; }
+    public string? Email { get; set; }
 
-    internal IQueryable<Application> Apply(IQueryable<Application> applications)
+    public IQueryable<Application> Apply(IQueryable<Application> applications)
     {
         if (Id is not null)
             applications = applications.Where(t => t.Id == Id);

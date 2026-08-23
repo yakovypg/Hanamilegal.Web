@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
 
-internal interface IUserRepository
+public interface IUserRepository
 {
     Task<IdentityUser> AddAsync(string email, string password, UserRole role);
     Task DeleteByEmailAsync(string email);

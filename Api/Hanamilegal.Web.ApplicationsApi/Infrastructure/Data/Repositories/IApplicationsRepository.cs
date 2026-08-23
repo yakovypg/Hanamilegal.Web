@@ -6,7 +6,7 @@ using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 
-internal interface IApplicationsRepository
+public interface IApplicationsRepository
 {
     Task AddAsync(Application application);
     Task DeleteByIdAsync(Guid id);

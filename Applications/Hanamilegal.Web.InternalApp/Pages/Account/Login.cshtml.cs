@@ -20,7 +20,7 @@ public class LoginModel : PageModel
     private readonly AccountsApiClient _accountsApiClient;
     private readonly ITokenService _tokenService;
 
-    internal LoginModel(AccountsApiClient accountsApiClient, ITokenService tokenService)
+    public LoginModel(AccountsApiClient accountsApiClient, ITokenService tokenService)
     {
         ArgumentNullException.ThrowIfNull(accountsApiClient, nameof(accountsApiClient));
         ArgumentNullException.ThrowIfNull(tokenService, nameof(tokenService));

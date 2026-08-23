@@ -61,7 +61,7 @@ internal static class ServiceCollectionExtensions
         _ = services
             .AddOptions<PersistentKeyStorageOptions>()
             .BindConfiguration(PersistentKeyStorageOptions.SectionName)
-            .Validate(o => Directory.Exists(o.Path))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Path))
             .Validate(o => o.LifetimeDays > 0)
             .ValidateOnStart();
 
@@ -110,6 +110,9 @@ internal static class ServiceCollectionExtensions
         string applicationName = nameof(InternalApp);
         DirectoryInfo keysDirectory = new(options.Path);
         TimeSpan lifetime = TimeSpan.FromDays(options.LifetimeDays);
+
+        if (!keysDirectory.Exists)
+            keysDirectory.Create();
 
         return services
             .AddDataProtection()

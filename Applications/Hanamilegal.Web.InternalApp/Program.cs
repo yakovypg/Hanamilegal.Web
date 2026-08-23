@@ -11,10 +11,10 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
 
 _ = appBuilder.Services
     .SetupStandardServices()
-    .SetupAuthenticationWithCookies()
-    .SetupAuthorization()
     .SetupOptions()
     .SetupServices()
+    .SetupAuthenticationWithCookies()
+    .SetupAuthorization()
     .SetupHttpClients()
     .AddPersistentKeyStorage(appBuilder.Configuration);
 

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using Hanamilegal.Web.AccountsApi.Configuration;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Repositories;
@@ -46,6 +45,7 @@ internal static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
         return services
+            .AddJwtTokenService()
             .AddScoped<IAuthenticationService, AuthenticationService>()
             .AddScoped<IAccountsService, AccountsService>();
     }

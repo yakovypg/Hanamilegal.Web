@@ -33,8 +33,7 @@ services:
     ports:
       - 8081:443
     environment:
-      ASPNETCORE_URLS: https://+;http://+
-      ASPNETCORE_HTTPS_PORT: 8081
+      ASPNETCORE_URLS: https://+:443
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
       ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
@@ -66,8 +65,7 @@ services:
     ports:
       - 10001:443
     environment:
-      ASPNETCORE_URLS: https://+;http://+
-      ASPNETCORE_HTTPS_PORT: 10001
+      ASPNETCORE_URLS: https://+:443
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
       ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
@@ -113,8 +111,7 @@ services:
     ports:
       - 10002:443
     environment:
-      ASPNETCORE_URLS: https://+;http://+
-      ASPNETCORE_HTTPS_PORT: 10002
+      ASPNETCORE_URLS: https://+:443
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
       ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem

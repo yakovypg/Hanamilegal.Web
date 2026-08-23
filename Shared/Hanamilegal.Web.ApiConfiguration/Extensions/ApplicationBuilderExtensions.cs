@@ -1,7 +1,6 @@
 using System;
 using Hanamilegal.Web.ApiConfiguration.Handlers;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
@@ -12,18 +11,18 @@ public static class ApplicationBuilderExtensions
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
 
         return appBuilder
+            .UseHttpsRedirection()
             .UseRouting()
             .UseAuthentication()
-            .UseAuthorization()
-            .UseHttpsRedirection()
-            .UseEndpoints(t => t.MapControllers());
+            .UseAuthorization();
     }
 
-    public static IApplicationBuilder SetupApiExceptionHandler(this IApplicationBuilder appBuilder)
+    public static IApplicationBuilder SetupApiExceptionHandler(
+        this IApplicationBuilder appBuilder,
+        ApiExceptionHandler apiExceptionHandler)
     {
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
-
-        var apiExceptionHandler = appBuilder.ApplicationServices.GetRequiredService<ApiExceptionHandler>();
+        ArgumentNullException.ThrowIfNull(apiExceptionHandler, nameof(apiExceptionHandler));
 
         var exceptionHandlerOptions = new ExceptionHandlerOptions()
         {

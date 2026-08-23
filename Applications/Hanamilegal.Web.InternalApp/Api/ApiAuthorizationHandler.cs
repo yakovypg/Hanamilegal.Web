@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Hanamilegal.Web.InternalApp.Api;
 
-internal sealed class ApiAuthorizationHandler : DelegatingHandler
+public sealed class ApiAuthorizationHandler : DelegatingHandler
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

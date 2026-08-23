@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-internal sealed class AccountsDbStartupInitializerHostedService : IHostedService
+public sealed class AccountsDbStartupInitializerHostedService : IHostedService
 {
     private readonly IServiceScopeFactory _scopeFactory;
 

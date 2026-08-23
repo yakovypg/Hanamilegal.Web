@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-internal sealed class AuthenticationService : IAuthenticationService
+public sealed class AuthenticationService : IAuthenticationService
 {
     private readonly IUserRepository _userRepository;
     private readonly SignInManager<IdentityUser> _signInManager;

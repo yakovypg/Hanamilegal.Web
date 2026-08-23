@@ -1,12 +1,11 @@
 using System;
-using System.Reflection;
 using Asp.Versioning.ApiExplorer;
 using Hanamilegal.Web.ApiConfiguration.Providers;
 using Microsoft.OpenApi;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Providers;
 
-internal sealed class ApiInfoProvider : IApiInfoProvider
+public sealed class ApiInfoProvider : IApiInfoProvider
 {
     public OpenApiInfo CreateApiInfo(ApiVersionDescription versionDescription)
     {

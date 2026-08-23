@@ -9,7 +9,7 @@ using Hanamilegal.Web.Contracts.Applications;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
 
-internal sealed class ApplicationsService : IApplicationsService
+public sealed class ApplicationsService : IApplicationsService
 {
     private readonly IApplicationsRepository _applicationRepository;
     private readonly IMapper _mapper;

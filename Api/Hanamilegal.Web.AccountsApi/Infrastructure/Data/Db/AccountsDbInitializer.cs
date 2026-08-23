@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 
-internal sealed class AccountsDbInitializer : IAccountsDbInitializer
+public sealed class AccountsDbInitializer : IAccountsDbInitializer
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserRoleRepository _userRoleRepository;
@@ -82,7 +82,7 @@ internal sealed class AccountsDbInitializer : IAccountsDbInitializer
     {
         _logger.LogInformation("Start adding initial users");
 
-        List<InitialUser> initialUsers = _initialUsersOptions.Value.Users;
+        IEnumerable<InitialUser> initialUsers = _initialUsersOptions.Value.Users;
 
         foreach (InitialUser user in initialUsers)
         {

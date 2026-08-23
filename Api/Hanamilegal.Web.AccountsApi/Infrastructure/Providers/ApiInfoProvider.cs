@@ -5,7 +5,7 @@ using Microsoft.OpenApi;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Providers;
 
-internal sealed class ApiInfoProvider : IApiInfoProvider
+public sealed class ApiInfoProvider : IApiInfoProvider
 {
     public OpenApiInfo CreateApiInfo(ApiVersionDescription versionDescription)
     {

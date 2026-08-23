@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-internal sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+public sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
     private readonly IApiInfoProvider _apiInfoProvider;
     private readonly IApiVersionDescriptionProvider _apiVersionDescriptionProvider;

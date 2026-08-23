@@ -7,7 +7,7 @@ using Hanamilegal.Web.Contracts.Applications;
 
 namespace Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 
-internal sealed class ApplicationProfile : Profile
+public sealed class ApplicationProfile : Profile
 {
     public ApplicationProfile()
     {

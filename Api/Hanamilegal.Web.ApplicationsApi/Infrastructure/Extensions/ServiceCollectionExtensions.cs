@@ -1,6 +1,4 @@
 using System;
-using System.Reflection;
-using AutoMapper;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.ApiConfiguration.Providers;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;

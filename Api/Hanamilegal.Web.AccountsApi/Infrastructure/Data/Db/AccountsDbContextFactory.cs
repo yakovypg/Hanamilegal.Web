@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
 
-internal sealed class AccountsDbContextFactory
+public sealed class AccountsDbContextFactory
     : IDesignTimeDbContextFactory<AccountsDbContext>
 {
     public AccountsDbContext CreateDbContext(string[] args)

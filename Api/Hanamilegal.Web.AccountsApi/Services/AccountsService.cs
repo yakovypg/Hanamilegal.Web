@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.AccountsApi.Services;
 
-internal sealed class AccountsService : IAccountsService
+public sealed class AccountsService : IAccountsService
 {
     private readonly IAuthenticationService _authenticationService;
     private readonly ITokenService _tokenService;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Hanamilegal.Web.AccountsApi.Configuration;
 
-internal sealed record InitialUsersOptions(List<InitialUser> Users)
+public sealed record InitialUsersOptions(IEnumerable<InitialUser> Users)
 {
     public const string SectionName = "InitialUsers";
 

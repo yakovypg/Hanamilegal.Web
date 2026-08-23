@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 
-internal sealed class ApplicationsDbContext : IdentityDbContext
+public sealed class ApplicationsDbContext : IdentityDbContext
 {
     public ApplicationsDbContext(DbContextOptions<ApplicationsDbContext> options)
         : base(options ?? throw new ArgumentNullException(nameof(options)))
     {
     }
 
-    internal DbSet<Application> Applications { get; set; }
+    public DbSet<Application> Applications { get; set; }
 }

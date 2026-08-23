@@ -1,9 +1,12 @@
 ﻿@page
 @model IndexModel
-@using Hanamilegal.Web.Contracts.Applications
+@section Styles {
+    <link rel="stylesheet" href="~/css/text.css" asp-append-version="true" />
+}
 @{
     ViewData["Title"] = "Applications";
 }
+@using Hanamilegal.Web.Contracts.Applications
 
 <div class="text-center title-text mb-2">
     <h1>Applications</h1>
@@ -138,7 +141,7 @@ else
                             </a>
                         </td>
 
-                        <td>@application.Text</td>
+                        <td class="text-with-new-lines">@application.Text</td>
                     </tr>
                 }
             </tbody>

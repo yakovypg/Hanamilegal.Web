@@ -1,0 +1,4 @@
+.text-with-new-lines {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

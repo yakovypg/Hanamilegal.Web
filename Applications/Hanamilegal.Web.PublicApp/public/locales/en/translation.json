@@ -93,8 +93,9 @@
     ]
   },
   "application": {
-    "contactUs": {
-      "types": ["Legal assistance", "Software development"]
+    "type": {
+      "legalSupport": "Legal support",
+      "softwareDevelopment": "Software development"
     }
   },
   "sentense": {

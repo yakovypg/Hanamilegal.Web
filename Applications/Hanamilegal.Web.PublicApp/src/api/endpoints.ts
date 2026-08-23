@@ -1,2 +1,3 @@
-export const API_BASE_URL: string = "/api";
-export const APPLICATIONS_ENDPOINT: string = `${API_BASE_URL}/applications`;
+import { ENDPOINTS_CONFIG } from "types";
+
+export const APPLICATIONS_ENDPOINT: string = `${ENDPOINTS_CONFIG.applicationsApiBaseUrl}/applications`;

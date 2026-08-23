@@ -16,7 +16,15 @@ export default defineConfig(({ mode }: ConfigEnv) => {
   return {
     plugins: plugins,
     server: {
-      port: serverPort
+      port: serverPort,
+      strictPort: true,
+      proxy: {
+        "/api": {
+          target: "https://applications-api:443",
+          changeOrigin: true,
+          secure: false
+        }
+      }
     },
     resolve: {
       tsconfigPaths: true

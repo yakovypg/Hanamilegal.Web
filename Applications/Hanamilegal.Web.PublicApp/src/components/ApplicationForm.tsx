@@ -6,23 +6,23 @@ import {
   ApplicationComboBox,
   ApplicationField,
   ApplicationTextArea,
-  NoticeMessage
-} from "components";
+  type ComboBoxOption,
+  NoticeMessage} from "components";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Notice } from "types";
-
-interface SenderData {
-  readonly name: string;
-  readonly email: string;
-  readonly organization: string;
-  readonly applicationType: string;
-  readonly applicationDescription: string;
-}
+import { type Application, APPLICATION_TYPES, type ApplicationType, Notice } from "types";
 
 interface Props {
   readonly className?: string;
 }
+
+const applicationFieldNames: Application = {
+  type: "applicationType",
+  senderName: "senderName",
+  email: "email",
+  organization: "organization",
+  text: "applicationDescription",
+};
 
 export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
   const { t } = useTranslation();
@@ -33,13 +33,14 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [notice, setNotice] = useState<Notice | null>(null);
 
-  const applicationTypesRaw: unknown = t("application.contactUs.types", {
-    returnObjects: true
-  });
+  const applicationTypes: ApplicationType[] = Object.values(APPLICATION_TYPES);
 
-  const applicationTypes: string[] = Array.isArray(applicationTypesRaw)
-    ? (applicationTypesRaw as string[])
-    : [];
+  const applicationTypeOptions: ComboBoxOption[] = applicationTypes.map((x: ApplicationType) => {
+    return {
+      value: x,
+      label: t(`application.type.${x}`)
+    }
+  });
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,15 +55,15 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
     const form: HTMLFormElement = e.currentTarget;
     const formData: FormData = new FormData(form);
 
-    const payload: SenderData = {
-      name: String(formData.get("name") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      organization: String(formData.get("organization") ?? ""),
-      applicationType: String(formData.get("applicationType") ?? ""),
-      applicationDescription: String(formData.get("applicationDescription") ?? "")
+    const application: Application = {
+      type: String(formData.get(applicationFieldNames.type) ?? ""),
+      senderName: String(formData.get(applicationFieldNames.senderName) ?? ""),
+      email: String(formData.get(applicationFieldNames.email) ?? ""),
+      organization: String(formData.get(applicationFieldNames.organization) ?? ""),
+      text: String(formData.get(applicationFieldNames.text) ?? "")
     };
 
-    const allRequiredFieldsSpecified: boolean = Object.values(payload).every(
+    const allRequiredFieldsSpecified: boolean = Object.values(application).every(
       (value: string) => value.trim() !== ""
     );
 
@@ -75,7 +76,7 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
     const request: RequestInit = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(application)
     };
 
     let response: Response | null = null;
@@ -110,35 +111,35 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
       <div className="application-elements-container">
         <ApplicationField
           required
-          name="name"
+          name={applicationFieldNames.senderName}
           type="text"
           autoComplete="name"
           placeholder={t("placeholder.name")}
         />
         <ApplicationField
           required
-          name="email"
+          name={applicationFieldNames.email}
           type="email"
           autoComplete="email"
           placeholder={t("placeholder.email")}
         />
         <ApplicationField
           required
-          name="organization"
+          name={applicationFieldNames.organization}
           type="text"
           autoComplete="organization"
           placeholder={t("placeholder.organization")}
         />
         <ApplicationComboBox
           required
-          name="applicationType"
-          options={applicationTypes}
+          name={applicationFieldNames.type}
+          options={applicationTypeOptions}
           placeholder={t("placeholder.applicationType")}
         />
         <ApplicationTextArea
           required
           className="span2"
-          name="applicationDescription"
+          name={applicationFieldNames.text}
           placeholder={t("placeholder.applicationDescription")}
         />
         <ApplicationCheckBox

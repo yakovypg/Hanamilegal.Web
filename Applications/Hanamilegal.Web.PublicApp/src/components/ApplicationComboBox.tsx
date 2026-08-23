@@ -3,12 +3,17 @@ import "styles/components/application-element.css";
 import { useTranslation } from "react-i18next";
 import { createValidityHandler, type ValidityMessages } from "utils";
 
+export interface ComboBoxOption {
+  value: string;
+  label: string;
+}
+
 interface Props {
   readonly className?: string;
   readonly name: string;
   readonly required?: boolean;
   readonly placeholder?: string;
-  readonly options: string[];
+  readonly options: ComboBoxOption[];
 }
 
 export const ApplicationComboBox: React.FC<Props> = ({
@@ -40,9 +45,9 @@ export const ApplicationComboBox: React.FC<Props> = ({
           {placeholder}
         </option>
 
-        {options.map((option: string) => (
-          <option key={option} value={option}>
-            {option}
+        {options.map((option: ComboBoxOption) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

@@ -1,5 +1,5 @@
 export { ApplicationCheckBox } from "./ApplicationCheckBox";
-export { ApplicationComboBox } from "./ApplicationComboBox";
+export { ApplicationComboBox, type ComboBoxOption } from "./ApplicationComboBox";
 export { ApplicationField } from "./ApplicationField";
 export { ApplicationForm } from "./ApplicationForm";
 export { ApplicationTextArea } from "./ApplicationTextArea";

@@ -8,9 +8,13 @@ services:
     build:
       context: ./Applications/Hanamilegal.Web.PublicApp
       dockerfile: Dockerfile
+    depends_on:
+      - applications-api
     ports:
       - 80:80
       - 443:443
+    environment:
+      VITE_APPLICATIONS_API_BASE_URL: /api
     deploy:
       resources:
         limits:

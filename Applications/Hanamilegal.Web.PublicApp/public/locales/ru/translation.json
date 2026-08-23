@@ -93,8 +93,9 @@
     ]
   },
   "application": {
-    "contactUs": {
-      "types": ["Юридическая помощь", "Разработка ПО"]
+    "type": {
+      "legalSupport": "Юридическая помощь",
+      "softwareDevelopment": "Разработка ПО"
     }
   },
   "sentense": {

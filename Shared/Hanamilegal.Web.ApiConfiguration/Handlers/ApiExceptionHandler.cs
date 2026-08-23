@@ -72,7 +72,9 @@ public class ApiExceptionHandler
         JsonSerializerOptions jsonSerializerOptions = CreateJsonSerializerOptions();
         string response = JsonSerializer.Serialize(errorData, jsonSerializerOptions);
 
+        context.Response.StatusCode = (int)errorStatusCode;
         context.Response.ContentType = "application/json";
+
         await context.Response.WriteAsync(response);
     }
 }

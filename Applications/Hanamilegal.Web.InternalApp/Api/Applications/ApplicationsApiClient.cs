@@ -1,30 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.Contracts.Applications;
+using Hanamilegal.Web.InternalApp.Services;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Hanamilegal.Web.InternalApp.Api.Applications;
 
 public sealed class ApplicationsApiClient
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNameCaseInsensitive = true
-    };
-
     private readonly HttpClient _httpClient;
+    private readonly IJsonContentService _jsonContentService;
 
-    public ApplicationsApiClient(HttpClient httpClient)
+    public ApplicationsApiClient(HttpClient httpClient, IJsonContentService jsonContentService)
     {
         ArgumentNullException.ThrowIfNull(httpClient, nameof(httpClient));
+        ArgumentNullException.ThrowIfNull(jsonContentService, nameof(jsonContentService));
+
         _httpClient = httpClient;
+        _jsonContentService = jsonContentService;
     }
 
     public async Task<IReadOnlyList<ApplicationResponseDto>> SearchAsync(
@@ -67,9 +64,7 @@ public sealed class ApplicationsApiClient
         HttpResponseMessage response = await _httpClient.GetAsync(url, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<IReadOnlyList<ApplicationResponseDto>>(
-                JsonOptions,
-                cancellationToken)
-            ?? throw new InvalidDataException("Applications API returned invalid data");
+        return await _jsonContentService
+            .ReadAsync<IReadOnlyList<ApplicationResponseDto>>(response.Content, cancellationToken);
     }
 }

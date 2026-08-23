@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Text.Json.Serialization;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.InternalApp.Api;
 using Hanamilegal.Web.InternalApp.Api.Accounts;
 using Hanamilegal.Web.InternalApp.Api.Applications;
 using Hanamilegal.Web.InternalApp.Configuration;
+using Hanamilegal.Web.InternalApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +21,14 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
-        _ = services.AddRazorPages();
+        _ = services
+            .AddRazorPages()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+            });
 
         return services;
     }
@@ -74,6 +83,7 @@ internal static class ServiceCollectionExtensions
         return services
             .AddHttpContextAccessor()
             .AddTransient<ApiAuthorizationHandler>()
+            .AddTransient<IJsonContentService, JsonContentService>()
             .AddJwtTokenService();
     }
 

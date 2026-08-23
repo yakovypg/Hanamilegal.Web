@@ -35,3 +35,7 @@ dotnet_diagnostic.CA1056.severity = none  # CA1056: URI properties should not be
 
 [Applications/Hanamilegal.Web.InternalApp/**/*.cshtml.cs]
 dotnet_diagnostic.SA1649.severity = none  # SA1649: File name should match first type name
+
+[Api/**/Migrations/*.cs]
+dotnet_analyzer_diagnostic.severity = none
+dotnet_diagnostic.CA1062.severity = none

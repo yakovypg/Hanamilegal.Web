@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Hanamilegal.Web.Auth.Services;
 using Hanamilegal.Web.Contracts.Accounts;
 using Hanamilegal.Web.InternalApp.Api.Accounts;
+using Hanamilegal.Web.InternalApp.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -120,12 +121,20 @@ public class LoginModel : PageModel
 
         var tokenExpiration = new DateTimeOffset(validatedToken.ValidTo, TimeSpan.Zero);
 
+        var authenticationToken = new AuthenticationToken()
+        {
+            Name = AuthenticationTokenNames.AccessToken,
+            Value = loginResponse.AccessToken
+        };
+
         var authenticationProperties = new AuthenticationProperties()
         {
             AllowRefresh = true,
             IsPersistent = RememberMe,
             ExpiresUtc = tokenExpiration
         };
+
+        authenticationProperties.StoreTokens([authenticationToken]);
 
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,

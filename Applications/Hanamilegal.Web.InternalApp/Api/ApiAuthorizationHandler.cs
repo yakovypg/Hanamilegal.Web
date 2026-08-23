@@ -1,9 +1,11 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Hanamilegal.Web.InternalApp.Configuration;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 
@@ -19,23 +21,28 @@ public sealed class ApiAuthorizationHandler : DelegatingHandler
         _httpContextAccessor = httpContextAccessor;
     }
 
-    protected override Task<HttpResponseMessage> SendAsync(
+    protected override async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request, nameof(request));
 
-        string? accessToken = _httpContextAccessor.HttpContext?.User.FindFirstValue("access_token");
+        HttpContext? httpContext = _httpContextAccessor.HttpContext;
 
-        if (!string.IsNullOrWhiteSpace(accessToken))
+        if (httpContext is not null)
         {
-            var authenticationHeaderValue = new AuthenticationHeaderValue(
-                JwtBearerDefaults.AuthenticationScheme,
-                accessToken);
+            string? accessToken = await httpContext.GetTokenAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                AuthenticationTokenNames.AccessToken);
 
-            request.Headers.Authorization = authenticationHeaderValue;
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                    JwtBearerDefaults.AuthenticationScheme,
+                    accessToken);
+            }
         }
 
-        return base.SendAsync(request, cancellationToken);
+        return await base.SendAsync(request, cancellationToken);
     }
 }

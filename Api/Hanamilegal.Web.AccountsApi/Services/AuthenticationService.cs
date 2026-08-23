@@ -44,7 +44,7 @@ public sealed class AuthenticationService : IAuthenticationService
         if (user is null)
         {
             _logger.LogWarning("Invalid email");
-            throw new BadRequestException("Invalid email or password");
+            throw new UnauthorizedException("Invalid email or password");
         }
 
         _logger.LogInformation("Trying to sign in user");
@@ -55,7 +55,7 @@ public sealed class AuthenticationService : IAuthenticationService
         if (!signInResult.Succeeded)
         {
             _logger.LogWarning("Invalid password");
-            throw new BadRequestException("Invalid email or password");
+            throw new UnauthorizedException("Invalid email or password");
         }
 
         _logger.LogInformation("User authenticated successfully");

@@ -22,7 +22,7 @@ public sealed class AccountsApiClient
         LoginRequestDto loginData,
         CancellationToken cancellationToken = default)
     {
-        Uri url = new(AccountsApiRoutes.Login);
+        string url = AccountsApiRoutes.Login;
         using JsonContent content = JsonContent.Create(loginData);
 
         HttpResponseMessage response = await _httpClient.PostAsync(url, content, cancellationToken);

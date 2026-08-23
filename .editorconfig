@@ -32,6 +32,7 @@ dotnet_diagnostic.IDE0290.severity = none # IDE0290: Use primary constructor
 [Applications/Hanamilegal.Web.InternalApp/**/*.cs]
 dotnet_diagnostic.CA1054.severity = none  # CA1054: URI parameters should not be strings
 dotnet_diagnostic.CA1056.severity = none  # CA1056: URI properties should not be strings
+dotnet_diagnostic.CA2234.severity = none  # CA2234: Pass System.Uri objects instead of strings
 
 [Applications/Hanamilegal.Web.InternalApp/**/*.cshtml.cs]
 dotnet_diagnostic.SA1649.severity = none  # SA1649: File name should match first type name

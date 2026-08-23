@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -78,13 +79,19 @@ public class LoginModel : PageModel
         catch (HttpRequestException ex)
         {
             _logger.LogError(ex, "Login failed: {ErrorMessage}", ex.Message);
-            ModelState.AddModelError(string.Empty, "The authentication service is temporarily unavailable");
+
+            if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                ModelState.AddModelError(string.Empty, "Invalid email or password");
+            else
+                ModelState.AddModelError(string.Empty, "Authentication service is temporarily unavailable");
+
             return Page();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Login failed: {ErrorMessage}", ex.Message);
-            ModelState.AddModelError(string.Empty, "Invalid email or password");
+            ModelState.AddModelError(string.Empty, "Authentication service is temporarily unavailable");
+
             return Page();
         }
 

@@ -83,6 +83,7 @@ internal static class ServiceCollectionExtensions
         IdentityBuilder identityBuilder = services.AddIdentity<IdentityUser, IdentityRole>(setup =>
         {
             setup.User.RequireUniqueEmail = true;
+            setup.DisablePasswordRequirements();
         });
 
         _ = identityBuilder

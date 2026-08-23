@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Hanamilegal.Web.InternalApp.Pages.Account;
@@ -19,14 +20,20 @@ public class LoginModel : PageModel
 {
     private readonly AccountsApiClient _accountsApiClient;
     private readonly ITokenService _tokenService;
+    private readonly ILogger<LoginModel> _logger;
 
-    public LoginModel(AccountsApiClient accountsApiClient, ITokenService tokenService)
+    public LoginModel(
+        AccountsApiClient accountsApiClient,
+        ITokenService tokenService,
+        ILogger<LoginModel> logger)
     {
         ArgumentNullException.ThrowIfNull(accountsApiClient, nameof(accountsApiClient));
         ArgumentNullException.ThrowIfNull(tokenService, nameof(tokenService));
+        ArgumentNullException.ThrowIfNull(logger, nameof(logger));
 
         _accountsApiClient = accountsApiClient;
         _tokenService = tokenService;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -68,13 +75,15 @@ public class LoginModel : PageModel
 
             loginResponse = await _accountsApiClient.LoginAsync(loginData);
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
+            _logger.LogError(ex, "Login failed: {ErrorMessage}", ex.Message);
             ModelState.AddModelError(string.Empty, "The authentication service is temporarily unavailable");
             return Page();
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Login failed: {ErrorMessage}", ex.Message);
             ModelState.AddModelError(string.Empty, "Invalid email or password");
             return Page();
         }
@@ -88,6 +97,7 @@ public class LoginModel : PageModel
 
         if (!tokenValidationResult.IsValid)
         {
+            _logger.LogWarning("Login failed: authentication token is invalid");
             ModelState.AddModelError(string.Empty, "The authentication token is invalid");
             return Page();
         }
@@ -96,6 +106,7 @@ public class LoginModel : PageModel
 
         if (tokenValidationResult.SecurityToken is not JwtSecurityToken validatedToken)
         {
+            _logger.LogWarning("Login failed: authentication token is invalid");
             ModelState.AddModelError(string.Empty, "The authentication token is invalid");
             return Page();
         }

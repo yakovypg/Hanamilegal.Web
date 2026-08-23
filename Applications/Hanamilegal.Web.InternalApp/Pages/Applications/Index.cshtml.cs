@@ -7,6 +7,7 @@ using Hanamilegal.Web.InternalApp.Api.Applications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.InternalApp.Pages.Applications;
 
@@ -14,11 +15,15 @@ namespace Hanamilegal.Web.InternalApp.Pages.Applications;
 public class IndexModel : PageModel
 {
     private readonly ApplicationsApiClient _applicationsApiClient;
+    private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(ApplicationsApiClient applicationsApiClient)
+    public IndexModel(ApplicationsApiClient applicationsApiClient, ILogger<IndexModel> logger)
     {
         ArgumentNullException.ThrowIfNull(applicationsApiClient, nameof(applicationsApiClient));
+        ArgumentNullException.ThrowIfNull(logger, nameof(logger));
+
         _applicationsApiClient = applicationsApiClient;
+        _logger = logger;
 
         Filter = new();
         Applications = [];
@@ -50,8 +55,9 @@ public class IndexModel : PageModel
         {
             Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Failed to search applications: {ErrorMessage}", ex.Message);
             ErrorMessage = "Failed to load applications";
         }
     }

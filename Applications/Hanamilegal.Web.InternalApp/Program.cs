@@ -14,6 +14,7 @@ _ = appBuilder.Services
     .SetupStandardServices()
     .SetupAuthenticationWithCookies()
     .SetupAuthorization()
+    .SetupOptions()
     .SetupServices()
     .SetupHttpClients()
     .AddPersistentKeyStorage(appBuilder.Configuration);

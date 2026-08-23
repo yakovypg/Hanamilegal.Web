@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
+# Script be sourced: source migrations-load-env.sh
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    echo "error: script must be sourced (source $0)" >&2
+    exit 1
+fi
+
 if [[ -n ${BASH_VERSION:-} ]]; then
     SOURCE_FILE="${BASH_SOURCE[0]}"
 elif [[ -n ${ZSH_VERSION:-} ]]; then
     SOURCE_FILE="${(%):-%N}"
 else
     echo "error: shell not supported" >&2
-    exit 1
+    return 1 2>/dev/null || exit 1
 fi
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "$SOURCE_FILE")" && pwd)"
@@ -14,7 +20,7 @@ ENV_FILE="$SCRIPT_DIR/../.env"
 
 if [[ ! -f "$ENV_FILE" ]]; then
     echo "error: .env file not found in '$ENV_FILE'" >&2
-    exit 1
+    return 1 2>/dev/null || exit 1
 fi
 
 set -a

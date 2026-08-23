@@ -1,6 +1,7 @@
 using System;
 using Hanamilegal.Web.ApiConfiguration.Handlers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Hanamilegal.Web.ApiConfiguration.Extensions;
 
@@ -17,19 +18,19 @@ public static class ApplicationBuilderExtensions
             .UseAuthorization();
     }
 
-    public static IApplicationBuilder SetupApiExceptionHandler(
-        this IApplicationBuilder appBuilder,
-        ApiExceptionHandler apiExceptionHandler)
+    public static IApplicationBuilder SetupApiExceptionHandler(this IApplicationBuilder appBuilder)
     {
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
-        ArgumentNullException.ThrowIfNull(apiExceptionHandler, nameof(apiExceptionHandler));
 
-        var exceptionHandlerOptions = new ExceptionHandlerOptions()
+        return appBuilder.UseExceptionHandler(app =>
         {
-            AllowStatusCode404Response = true,
-            ExceptionHandler = async httpContext => await apiExceptionHandler.HandleExceptionAsync(httpContext)
-        };
+            app.Run(async context =>
+            {
+                ApiExceptionHandler exceptionhandler =
+                    context.RequestServices.GetRequiredService<ApiExceptionHandler>();
 
-        return appBuilder.UseExceptionHandler(exceptionHandlerOptions);
+                await exceptionhandler.HandleExceptionAsync(context);
+            });
+        });
     }
 }

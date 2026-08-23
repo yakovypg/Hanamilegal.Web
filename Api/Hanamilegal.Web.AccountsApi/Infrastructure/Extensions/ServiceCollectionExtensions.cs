@@ -37,7 +37,7 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection SetupProviders(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
-        return services.AddScoped<IApiInfoProvider, ApiInfoProvider>();
+        return services.AddSingleton<IApiInfoProvider, ApiInfoProvider>();
     }
 
     internal static IServiceCollection SetupServices(this IServiceCollection services)

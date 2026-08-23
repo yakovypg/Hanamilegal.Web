@@ -1,8 +1,6 @@
 using Hanamilegal.Web.ApiConfiguration.Extensions;
-using Hanamilegal.Web.ApiConfiguration.Handlers;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 WebApplicationBuilder appBuilder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +21,9 @@ _ = appBuilder.Services
     .SetupApiExceptionHandler();
 
 WebApplication app = appBuilder.Build();
-ApiExceptionHandler apiExceptionHandler = app.Services.GetRequiredService<ApiExceptionHandler>();
 
 _ = app
-    .SetupApiExceptionHandler(apiExceptionHandler)
+    .SetupApiExceptionHandler()
     .SetupStandardApiMiddlewares()
     .SetupSwaggerApp();
 

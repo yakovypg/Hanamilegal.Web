@@ -46,7 +46,7 @@ public static class SwaggerServiceExtensions
                 options.SubstituteApiVersionInUrl = true;
             });
 
-        _ = services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+        _ = services.AddSingleton<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
         return services.AddSwaggerGen(options =>
         {

@@ -25,7 +25,7 @@ WebApplication app = appBuilder.Build();
 _ = app
     .SetupApiExceptionHandler()
     .SetupStandardApiMiddlewares()
-    .SetupSwaggerApp();
+    .SetupSwagger();
 
 _ = app.MapControllers();
 

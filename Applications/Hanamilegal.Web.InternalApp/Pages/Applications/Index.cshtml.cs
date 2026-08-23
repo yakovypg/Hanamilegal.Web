@@ -57,7 +57,7 @@ public class IndexModel : PageModel
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to search applications: {ErrorMessage}", ex.Message);
+            _logger.LogError(ex, "Failed to load applications: {ErrorMessage}", ex.Message);
             ErrorMessage = "Failed to load applications";
         }
     }

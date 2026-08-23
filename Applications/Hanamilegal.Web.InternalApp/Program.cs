@@ -1,4 +1,3 @@
-using System.IO;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.InternalApp.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -7,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 WebApplicationBuilder appBuilder = WebApplication.CreateBuilder(args);
 
 _ = appBuilder.Configuration.AddAppSettingsJson(
-    basePath: Directory.GetCurrentDirectory(),
+    basePath: appBuilder.Environment.ContentRootPath,
     environmentName: appBuilder.Environment.EnvironmentName);
 
 _ = appBuilder.Services

@@ -19,8 +19,8 @@ public static class ConfigurationBuilderExtensions
 
         return configurationBuilder
             .SetBasePath(basePath)
-            .AddEnvironmentVariables()
             .AddJsonFile(coreSettingsFileName, optional: true, reloadOnChange: true)
-            .AddJsonFile(additionalSettingsFileName, optional: true, reloadOnChange: true);
+            .AddJsonFile(additionalSettingsFileName, optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
     }
 }

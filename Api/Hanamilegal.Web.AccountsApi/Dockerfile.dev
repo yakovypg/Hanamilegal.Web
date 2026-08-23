@@ -1,4 +1,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+
+# Install vsdbg for debugging from VS Code
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://aka.ms/getvsdbgsh \
+    | bash /dev/stdin -v latest -l /vsdbg
+
 WORKDIR /app/src
 
 # Copy configuration files
@@ -27,6 +35,7 @@ COPY Shared/Hanamilegal.Web.Contracts/. Shared/Hanamilegal.Web.Contracts/
 # Run application
 ENTRYPOINT [ \
     "dotnet", "run", \
+    "--no-launch-profile", \
     "--project", "Api/Hanamilegal.Web.AccountsApi/Hanamilegal.Web.AccountsApi.csproj", \
     "--configuration", "Debug" \
     ]

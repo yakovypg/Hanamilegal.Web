@@ -1,6 +1,6 @@
 import "styles/components/application-form.css";
 
-import { APPLICATIONS_ENDPOINT } from "api";
+import { CREATE_APPLICATION_ENDPOINT } from "api";
 import {
   ApplicationCheckBox,
   ApplicationComboBox,
@@ -82,7 +82,7 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
     let response: Response | null = null;
 
     try {
-      response = await fetch(APPLICATIONS_ENDPOINT, request);
+      response = await fetch(CREATE_APPLICATION_ENDPOINT, request);
     } catch {
       /* empty */
     }

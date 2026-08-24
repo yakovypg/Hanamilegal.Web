@@ -19,10 +19,11 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       port: serverPort,
       strictPort: true,
       proxy: {
-        "/api": {
-          target: "https://applications-api:443",
+        "/applications-api": {
+          target: "https://applications-api",
           changeOrigin: true,
-          secure: false
+          secure: false,
+          rewrite: (path: string) => path.replace(/^\/applications-api(?=\/|$)/, ""),
         }
       }
     },

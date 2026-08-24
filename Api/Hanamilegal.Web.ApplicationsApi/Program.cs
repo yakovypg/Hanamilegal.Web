@@ -25,6 +25,7 @@ WebApplication app = appBuilder.Build();
 
 _ = app
     .SetupApiExceptionHandler()
+    .SetupCors()
     .SetupStandardApiMiddlewares()
     .SetupSwagger();
 

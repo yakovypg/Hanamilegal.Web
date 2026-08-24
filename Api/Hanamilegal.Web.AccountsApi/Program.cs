@@ -11,6 +11,7 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
 _ = appBuilder.Services
     .SetupStandardApiServices()
     .SetupOptions()
+    .SetupCors(appBuilder.Configuration)
     .SetupAuthentication(appBuilder.Configuration)
     .SetupAuthorization()
     .SetupProviders()

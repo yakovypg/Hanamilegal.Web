@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Hanamilegal.Web.ApiConfiguration.Options;
 using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Auth.Options;
 using Hanamilegal.Web.Auth.Services;
@@ -78,6 +79,34 @@ public static class ServiceCollectionExtensions
             options.AddPolicy(
                 nameof(RoleAtLeastRequirement.RoleAtLeastAdmin),
                 policy => policy.Requirements.Add(RoleAtLeastRequirement.RoleAtLeastAdmin));
+        });
+    }
+
+    public static IServiceCollection SetupCors(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+
+        _ = services
+            .AddOptions<CorsOptions>()
+            .BindConfiguration(CorsOptions.SectionName)
+            .Validate(o => o.Frontend?.AllowedOrigins is not null)
+            .ValidateOnStart();
+
+        CorsOptions options = configuration.GetRequiredObject<CorsOptions>(CorsOptions.SectionName);
+
+        return services.AddCors(setup =>
+        {
+            setup.AddPolicy(nameof(options.Frontend), policy =>
+            {
+                policy
+                    .WithOrigins([.. options.Frontend.AllowedOrigins])
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
         });
     }
 

@@ -1,7 +1,4 @@
-<h1 align="center">Hanamilehal.Web</h1>
-<p align="center">
-  <img alt="ypdf" height="200" src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXFmc21tZjN4OGY2cXRyaTNqdzQwdHY3ZmRyOXdib240cmY5M2hsZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/z5zWcuq8qDfrl9B3Tp/giphy.gif" />
-</p>
+# Hanamilehal.Web
 
 ## Table of Contents
 

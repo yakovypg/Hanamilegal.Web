@@ -12,6 +12,10 @@ RUN yarn install --frozen-lockfile
 # Copy all files
 COPY . ./
 
+# Configure environment
+ARG VITE_APPLICATIONS_API_BASE_URL
+ENV VITE_APPLICATIONS_API_BASE_URL=$VITE_APPLICATIONS_API_BASE_URL
+
 # Build the application
 RUN yarn build:prod;
 

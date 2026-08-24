@@ -8,17 +8,17 @@ services:
     build:
       context: ./Applications/Hanamilegal.Web.PublicApp
       dockerfile: Dockerfile
+      args:
+        VITE_APPLICATIONS_API_BASE_URL: ${APPLICATIONS_API_BASE_URL}
     depends_on:
       - applications-api
     ports:
       - 80:80
       - 443:443
-    environment:
-      VITE_APPLICATIONS_API_BASE_URL: /api
     deploy:
       resources:
         limits:
-          cpus: 1
+          cpus: 0.8
           memory: 512M
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
@@ -50,7 +50,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.25
+          cpus: 0.4
           memory: 512M
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
@@ -97,8 +97,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.25
-          memory: 512M
+          cpus: 0.2
+          memory: 128M
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
@@ -134,8 +134,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.25
-          memory: 512M
+          cpus: 0.2
+          memory: 128M
     volumes:
       - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
@@ -153,8 +153,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.25
-          memory: 512M
+          cpus: 0.2
+          memory: 128M
     volumes:
       # In postgres 18+ /var/lib/postgresql/data moved to /var/lib/postgresql
       - accounts-db-data:/var/lib/postgresql
@@ -172,8 +172,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.25
-          memory: 512M
+          cpus: 0.2
+          memory: 128M
     volumes:
       # In postgres 18+ /var/lib/postgresql/data moved to /var/lib/postgresql
       - applications-db-data:/var/lib/postgresql

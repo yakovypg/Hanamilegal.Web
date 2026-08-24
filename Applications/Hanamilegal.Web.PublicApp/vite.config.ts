@@ -16,6 +16,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
   return {
     plugins: plugins,
     server: {
+      host: "0.0.0.0",
       port: serverPort,
       strictPort: true,
       proxy: {

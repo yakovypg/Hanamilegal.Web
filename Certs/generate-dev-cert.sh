@@ -43,3 +43,8 @@ openssl req -x509 -nodes -newkey rsa:2048 \
 
 base64 -w 0 "$CRT_FILE_PATH" > "$BASE64_CRT_FILE_PATH"
 base64 -w 0 "$KEY_FILE_PATH" > "$BASE64_KEY_FILE_PATH"
+
+chmod 644 "$CRT_FILE_PATH"
+chmod 600 "$KEY_FILE_PATH"
+chmod 644 "$BASE64_CRT_FILE_PATH"
+chmod 600 "$BASE64_KEY_FILE_PATH"

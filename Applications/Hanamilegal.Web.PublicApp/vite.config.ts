@@ -24,7 +24,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           target: "https://applications-api",
           changeOrigin: true,
           secure: false,
-          rewrite: (path: string) => path.replace(/^\/applications-api(?=\/|$)/, ""),
+          rewrite: (path: string) => path.replace(/^\/applications-api(?=\/|$)/, "")
         }
       }
     },

@@ -66,13 +66,6 @@ internal static class ServiceCollectionExtensions
             .Validate(o => !string.IsNullOrWhiteSpace(o.BaseUrl))
             .ValidateOnStart();
 
-        _ = services
-            .AddOptions<PersistentKeyStorageOptions>()
-            .BindConfiguration(PersistentKeyStorageOptions.SectionName)
-            .Validate(o => !string.IsNullOrWhiteSpace(o.Path))
-            .Validate(o => o.LifetimeDays > 0)
-            .ValidateOnStart();
-
         return services;
     }
 
@@ -112,6 +105,13 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
         ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+
+        _ = services
+            .AddOptions<PersistentKeyStorageOptions>()
+            .BindConfiguration(PersistentKeyStorageOptions.SectionName)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Path))
+            .Validate(o => o.LifetimeDays > 0)
+            .ValidateOnStart();
 
         PersistentKeyStorageOptions options = configuration
             .GetRequiredObject<PersistentKeyStorageOptions>(PersistentKeyStorageOptions.SectionName);

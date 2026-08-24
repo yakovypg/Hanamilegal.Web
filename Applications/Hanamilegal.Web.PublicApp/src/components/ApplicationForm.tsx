@@ -7,7 +7,8 @@ import {
   ApplicationField,
   ApplicationTextArea,
   type ComboBoxOption,
-  NoticeMessage} from "components";
+  NoticeMessage
+} from "components";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Application, APPLICATION_TYPES, type ApplicationType, Notice } from "types";
@@ -21,7 +22,7 @@ const applicationFieldNames: Application = {
   senderName: "senderName",
   email: "email",
   organization: "organization",
-  text: "applicationDescription",
+  text: "applicationDescription"
 };
 
 export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
@@ -39,7 +40,7 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
     return {
       value: x,
       label: t(`application.type.${x}`)
-    }
+    };
   });
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {

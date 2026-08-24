@@ -9,5 +9,5 @@ if (!applicationsApiBaseUrl) {
 }
 
 export const ENDPOINTS_CONFIG: EndpointsConfig = {
-  applicationsApiBaseUrl: applicationsApiBaseUrl,
+  applicationsApiBaseUrl: applicationsApiBaseUrl
 };

@@ -4,6 +4,7 @@
 .idea
 
 # Local configuration
+**/appsettings.Local.json
 .env
 .env.*
 
@@ -16,11 +17,16 @@
 Dockerfile*
 .dockerignore
 
-# Node modules and build artifacts
-node_modules
-dist
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+**/publish/
 
-# TypeScript build / cache
-*.tsbuildinfo
-.cache
-.vite
+# Diagnostics
+*.sarif
+
+# NuGet
+**/packages/
+*.nupkg
+*.snupkg

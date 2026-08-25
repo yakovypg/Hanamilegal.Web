@@ -1,21 +1,26 @@
-# Node modules and build output
-node_modules
-dist
-
-# dotenv files
-.env
-.env.*
-
 # Editor
 .vscode
 .vs
 .idea
 
+# Local configuration
+.env
+.env.*
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Docker files
+Dockerfile*
+.dockerignore
+
+# Node modules and build artifacts
+node_modules
+dist
+
 # TypeScript build / cache
 *.tsbuildinfo
 .cache
 .vite
-
-# Misc
-*.log
-tmp

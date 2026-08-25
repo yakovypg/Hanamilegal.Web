@@ -20,4 +20,7 @@ public sealed class ApplicationSearchRequestDto
     [EmailAddress]
     [MaxLength(DtoLimits.CommonTextMaxLength)]
     public string? Email { get; set; }
+
+    public ApplicationSortFieldDto? SortField { get; set; }
+    public SortDirectionDto? SortDirection { get; set; }
 }

@@ -15,12 +15,24 @@ public sealed class ApplicationProfile : Profile
             .ConvertUsingEnumMapping(opt => opt.MapByName())
             .ReverseMap();
 
+        CreateMap<SortDirectionDto, SortDirection>()
+            .ConvertUsingEnumMapping(opt => opt.MapByName())
+            .ReverseMap();
+
+        CreateMap<ApplicationSortFieldDto, ApplicationSortField>()
+            .ConvertUsingEnumMapping(opt => opt.MapByName())
+            .ReverseMap();
+
+        CreateMap<ApplicationSortParametersDto, ApplicationSortParameters>();
+
         CreateMap<CreateApplicationRequestDto, Application>()
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.CreatedAtUtc, o => o.Ignore());
 
         CreateMap<ApplicationSearchRequestDto, ApplicationSearchFilter>()
-            .ReverseMap();
+            .ForMember(
+                dest => dest.SortParameters,
+                opt => opt.MapFrom<ApplicationSortParametersResolver>());
 
         CreateMap<Application, ApplicationResponseDto>();
     }

@@ -4,6 +4,7 @@ using Hanamilegal.Web.ApiConfiguration.Providers;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Providers;
+using Hanamilegal.Web.ApplicationsApi.Mapping;
 using Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 using Hanamilegal.Web.ApplicationsApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection SetupMapper(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+        _ = services.AddTransient<ApplicationSortParametersResolver>();
 
         return services.AddAutoMapper(configuration =>
         {

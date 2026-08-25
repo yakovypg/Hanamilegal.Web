@@ -59,6 +59,12 @@ public sealed class ApplicationsApiClient
         if (!string.IsNullOrWhiteSpace(filter.Email))
             query[nameof(filter.Email)] = filter.Email;
 
+        if (filter.SortField.HasValue)
+            query[nameof(filter.SortField)] = filter.SortField.ToString();
+
+        if (filter.SortDirection.HasValue)
+            query[nameof(filter.SortDirection)] = filter.SortDirection.ToString();
+
         string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, query);
 
         HttpResponseMessage response = await _httpClient.GetAsync(url, cancellationToken);

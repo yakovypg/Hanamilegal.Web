@@ -88,8 +88,8 @@ services:
       dockerfile: ./Api/Hanamilegal.Web.AccountsApi/Dockerfile
     depends_on:
       - accounts-db
-    ports:
-      - 10001:443
+    expose:
+      - 443
     environment:
       ASPNETCORE_URLS: https://+:443
       ASPNETCORE_ENVIRONMENT: Production
@@ -134,8 +134,8 @@ services:
       dockerfile: ./Api/Hanamilegal.Web.ApplicationsApi/Dockerfile
     depends_on:
       - applications-db
-    ports:
-      - 10002:443
+    expose:
+      - 443
     environment:
       ASPNETCORE_URLS: https://+:443
       ASPNETCORE_ENVIRONMENT: Production
@@ -166,8 +166,8 @@ services:
     container_name: AccountsDb
     image: postgres:18
     restart: on-failure
-    ports:
-      - 12001:5432
+    expose:
+      - 5432
     environment:
       POSTGRES_DB: ${ACCOUNTS_DB_NAME}
       POSTGRES_USER: ${ACCOUNTS_DB_USER}
@@ -185,8 +185,8 @@ services:
     container_name: ApplicationsDb
     image: postgres:18
     restart: on-failure
-    ports:
-      - 12002:5432
+    expose:
+      - 5432
     environment:
       POSTGRES_DB: ${APPLICATIONS_DB_NAME}
       POSTGRES_USER: ${APPLICATIONS_DB_USER}

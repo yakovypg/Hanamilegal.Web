@@ -1,12 +1,12 @@
 name: hanamilegal-web
 
 services:
-  public-app:
-    container_name: Hanamilegal.Web.PublicApp
-    image: hanamilegal-web-public-app-dev:latest
+  legal-support-app:
+    container_name: Hanamilegal.Web.LegalSupportApp
+    image: hanamilegal-web-legal-support-app-dev:latest
     restart: on-failure
     build:
-      context: ./Applications/Hanamilegal.Web.PublicApp
+      context: ./Applications/Hanamilegal.Web.LegalSupportApp
       dockerfile: Dockerfile.dev
     depends_on:
       - applications-api

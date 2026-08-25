@@ -18,7 +18,8 @@ export const ContactsPage: React.FC = () => {
           <div>
             <img
               className="my-4 w-100"
-              src="https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyNHp2MHQ5dXgzYWh3dWJyMDFpaHR0cTRhNTNicTFsbXIzOG1vMGhrZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h72H0tXcBjqI6edm6M/giphy.gif" />
+              src="https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyNHp2MHQ5dXgzYWh3dWJyMDFpaHR0cTRhNTNicTFsbXIzOG1vMGhrZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h72H0tXcBjqI6edm6M/giphy.gif"
+            />
           </div>
           <button onClick={closeModal}>X</button>
         </div>
@@ -38,9 +39,9 @@ export const ContactsPage: React.FC = () => {
         <YandexMap className="yandex-map" address={contactsConfig.yandexMapAddress} />
       </div> */}
       <div className="mt-3 text-center">
-        <a href={contactsConfig.yandexMapLink} >{t("sentense.openInMap")}</a>
+        <a href={contactsConfig.yandexMapLink}>{t("sentense.openInMap")}</a>
       </div>
-      <div className="mt-3 text-center" >
+      <div className="mt-3 text-center">
         <button type="button" onClick={openTestModal} className="btn btn-primary">
           (^‿^)
         </button>

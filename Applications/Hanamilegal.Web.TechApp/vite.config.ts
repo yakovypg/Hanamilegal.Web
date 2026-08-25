@@ -1,4 +1,4 @@
-import basicSsl from '@vitejs/plugin-basic-ssl'
+import basicSsl from "@vitejs/plugin-basic-ssl";
 import react from "@vitejs/plugin-react";
 import { type ConfigEnv, defineConfig, loadEnv, type PluginOption } from "vite";
 

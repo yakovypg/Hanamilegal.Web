@@ -1,4 +1,4 @@
-import "styles/pages/service-details-page.css"
+import "styles/pages/service-details-page.css";
 
 import React from "react";
 import { useTranslation } from "react-i18next";

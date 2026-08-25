@@ -1,4 +1,4 @@
-import "styles/modals/modal-overlay.css"
+import "styles/modals/modal-overlay.css";
 
 import React, { type JSX } from "react";
 import { createPortal } from "react-dom";
@@ -10,7 +10,12 @@ interface Props {
   onClose?: () => void;
 }
 
-export const ModalOverlay: React.FC<Props> = ({ show, content, closeAfterClickOnBlurredArea, onClose }: Props) => {
+export const ModalOverlay: React.FC<Props> = ({
+  show,
+  content,
+  closeAfterClickOnBlurredArea,
+  onClose
+}: Props) => {
   if (!show) {
     return null;
   }
@@ -24,7 +29,9 @@ export const ModalOverlay: React.FC<Props> = ({ show, content, closeAfterClickOn
   const modal: JSX.Element = (
     <div className="modal-dialog" aria-modal="true" role="dialog">
       <div className="blurred-container" onClick={handleBackdropClick} />
-      <div className="content-container" onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}>
+      <div
+        className="content-container"
+        onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}>
         {content}
       </div>
     </div>

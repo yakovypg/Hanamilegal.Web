@@ -4,20 +4,21 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 interface OpenOptions {
   content: React.ReactNode;
   closeAfterClickOnBlurredArea: boolean;
-};
+}
 
 interface ModalContextType {
   openModal: (opts: OpenOptions) => void;
   closeModal: () => void;
   isOpen: boolean;
-};
+}
 
 interface ModalProviderProps {
   children: React.ReactNode;
-};
+}
 
-const ModalContext: React.Context<ModalContextType | undefined>
-  = createContext<ModalContextType | undefined>(undefined);
+const ModalContext: React.Context<ModalContextType | undefined> = createContext<
+  ModalContextType | undefined
+>(undefined);
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }: ModalProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);

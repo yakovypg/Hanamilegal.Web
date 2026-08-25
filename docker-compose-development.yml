@@ -44,6 +44,18 @@ services:
       - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
       - internal-app-keys:/Keys
 
+  tech-app:
+    container_name: Hanamilegal.Web.TechApp
+    image: hanamilegal-web-tech-app-dev:latest
+    restart: on-failure
+    build:
+      context: ./Applications/Hanamilegal.Web.TechApp
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8082:8082
+    environment:
+      VITE_PORT: 8082
+
   accounts-api:
     container_name: Hanamilegal.Web.AccountsApi
     image: hanamilegal-web-accounts-api-dev:latest

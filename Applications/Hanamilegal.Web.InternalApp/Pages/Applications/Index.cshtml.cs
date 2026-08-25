@@ -51,6 +51,9 @@ public class IndexModel : PageModel
         if (!ModelState.IsValid)
             return;
 
+        if (Filter.SortParameters is null)
+            ApplyDefaultSortParameters();
+
         try
         {
             Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
@@ -60,5 +63,14 @@ public class IndexModel : PageModel
             _logger.LogError(ex, "Failed to load applications: {ErrorMessage}", ex.Message);
             ErrorMessage = "Failed to load applications";
         }
+    }
+
+    private void ApplyDefaultSortParameters()
+    {
+        Filter.SortParameters = new()
+        {
+            SortBy = ApplicationSortFieldDto.CreatedAtUtc,
+            Direction = SortDirectionDto.Descending
+        };
     }
 }

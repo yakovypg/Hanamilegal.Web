@@ -2,7 +2,7 @@ import "styles/link.css";
 
 import contactsConfig from "@config/contacts.json";
 import copyrightConfig from "@config/copyright.json";
-import { faFacebook, faTelegram, faVk } from "@fortawesome/free-brands-svg-icons";
+import { faTelegram, faVk } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Container } from "react-bootstrap";
@@ -41,13 +41,6 @@ export const Footer: React.FC = () => {
               target="_blank"
               rel="noreferrer">
               <FontAwesomeIcon icon={faTelegram} size="lg" />
-            </a>
-            <a
-              className="text-muted fs-4"
-              href={contactsConfig.social.facebook}
-              target="_blank"
-              rel="noreferrer">
-              <FontAwesomeIcon icon={faFacebook} size="lg" />
             </a>
           </div>
         </div>

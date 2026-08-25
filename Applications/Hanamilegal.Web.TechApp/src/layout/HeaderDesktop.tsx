@@ -1,7 +1,7 @@
 import "styles/icon.css";
 import "styles/layout/header.css";
 
-import icon from "assets/icon.svg";
+import favicon from "assets/favicon.ico";
 import { LocaleToggle } from "components";
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
@@ -23,7 +23,7 @@ export const HeaderDesktop: React.FC = () => {
               onClick={() => removeNavLinkActive()}
               to={getRoutePath(VIEW_PANELS.home)}
               className="d-flex align-items-center text-decoration-none me-4">
-              <img className="me-2 icon-48" src={icon} alt="icon" />
+              <img className="me-2 icon-48" src={favicon} alt="favicon" />
               <div className="d-flex flex-column">
                 <span className="fw-bold text-dark">{t("organization.name")}</span>
                 <small className="text-muted">{t("phrase.officialSite")}</small>

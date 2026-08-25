@@ -19,8 +19,6 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
-        _ = services.AddTransient<ApplicationSortParametersResolver>();
-
         return services.AddAutoMapper(configuration =>
         {
             configuration.AddProfile<ApplicationProfile>();

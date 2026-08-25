@@ -89,11 +89,11 @@
 
         <div class="row g-3 mt-3 justify-content-center">
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <label asp-for="Filter.SortField" class="form-label">
+                <label asp-for="Filter.SortParameters.SortBy" class="form-label">
                     Sort by
                 </label>
 
-                <select asp-for="Filter.SortField" class="form-select">
+                <select asp-for="Filter.SortParameters.SortBy" class="form-select">
                     <option value="@ApplicationSortFieldDto.CreatedAtUtc">
                         Created date
                     </option>
@@ -114,15 +114,15 @@
                     </option>
                 </select>
 
-                <span asp-validation-for="Filter.SortField" class="text-danger"></span>
+                <span asp-validation-for="Filter.SortParameters.SortBy" class="text-danger"></span>
             </div>
 
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <label asp-for="Filter.SortDirection" class="form-label">
+                <label asp-for="Filter.SortParameters.Direction" class="form-label">
                     Direction
                 </label>
 
-                <select asp-for="Filter.SortDirection" class="form-select">
+                <select asp-for="Filter.SortParameters.Direction" class="form-select">
                     <option value="@SortDirectionDto.Descending">
                         Descending
                     </option>
@@ -131,7 +131,7 @@
                     </option>
                 </select>
 
-                <span asp-validation-for="Filter.SortDirection" class="text-danger"></span>
+                <span asp-validation-for="Filter.SortParameters.Direction" class="text-danger"></span>
             </div>
         </div>
 

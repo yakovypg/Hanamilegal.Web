@@ -29,11 +29,7 @@ public sealed class ApplicationProfile : Profile
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.CreatedAtUtc, o => o.Ignore());
 
-        CreateMap<ApplicationSearchRequestDto, ApplicationSearchFilter>()
-            .ForMember(
-                dest => dest.SortParameters,
-                opt => opt.MapFrom<ApplicationSortParametersResolver>());
-
+        CreateMap<ApplicationSearchRequestDto, ApplicationSearchFilter>();
         CreateMap<Application, ApplicationResponseDto>();
     }
 }

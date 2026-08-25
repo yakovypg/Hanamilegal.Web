@@ -59,11 +59,14 @@ public sealed class ApplicationsApiClient
         if (!string.IsNullOrWhiteSpace(filter.Email))
             query[nameof(filter.Email)] = filter.Email;
 
-        if (filter.SortField.HasValue)
-            query[nameof(filter.SortField)] = filter.SortField.ToString();
+        if (filter.SortParameters is not null)
+        {
+            query[$"{nameof(filter.SortParameters)}.{nameof(filter.SortParameters.SortBy)}"] =
+                filter.SortParameters.SortBy.ToString();
 
-        if (filter.SortDirection.HasValue)
-            query[nameof(filter.SortDirection)] = filter.SortDirection.ToString();
+            query[$"{nameof(filter.SortParameters)}.{nameof(filter.SortParameters.Direction)}"] =
+                filter.SortParameters.Direction.ToString();
+        }
 
         string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, query);
 

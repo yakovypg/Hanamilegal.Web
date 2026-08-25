@@ -30,14 +30,11 @@ services:
     depends_on:
       - accounts-api
       - applications-api
-    ports:
-      - 8081:443
+    expose:
+      - 80
     environment:
-      ASPNETCORE_URLS: https://+:443
+      ASPNETCORE_URLS: http://+:80
       ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
-      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
-      # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
       Jwt__Key: ${JWT_KEY}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE}
@@ -49,8 +46,6 @@ services:
           cpus: 0.4
           memory: 512M
     volumes:
-      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
-      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
       - internal-app-keys:/Keys
 
   tech-app:
@@ -74,6 +69,7 @@ services:
     restart: on-failure
     depends_on:
       - legal-support-app
+      - internal-app
       - tech-app
     ports:
       - 80:80

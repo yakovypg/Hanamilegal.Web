@@ -10,6 +10,7 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
     environmentName: appBuilder.Environment.EnvironmentName);
 
 _ = appBuilder.Services
+    .SetupHeaders()
     .SetupStandardServices()
     .SetupOptions()
     .SetupServices()
@@ -22,6 +23,7 @@ WebApplication app = appBuilder.Build();
 
 _ = app
     .SetupExceptionHandler(app.Environment.IsDevelopment())
+    .SetupHeaders()
     .SetupStandardMiddlewares();
 
 _ = app.MapRazorPages();

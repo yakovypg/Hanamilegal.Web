@@ -74,6 +74,11 @@ services:
     ports:
       - 80:80
       - 443:443
+    deploy:
+      resources:
+        limits:
+          cpus: 0.1
+          memory: 64M
     volumes:
       - ./Proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./Certs/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro

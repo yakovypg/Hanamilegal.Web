@@ -1,0 +1,12 @@
+.services-row {
+  gap: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.service-icon {
+  font-size: 80px;
+  color: rgba(85, 135, 168, 0.9);
+}

@@ -1,0 +1,45 @@
+.review-card {
+  gap: 12px;
+  width: 300px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.review-header {
+  gap: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.review-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex: 0 0 56px;
+  object-fit: cover;
+}
+
+.review-author {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.review-separator {
+  width: 50%;
+  height: 2px;
+  border-radius: 2px;
+  background: lightgray;
+  margin: 0 auto;
+}
+
+.review-text {
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: justify;
+}

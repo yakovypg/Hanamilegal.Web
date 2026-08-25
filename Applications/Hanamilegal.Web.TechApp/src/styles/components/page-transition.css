@@ -1,0 +1,9 @@
+.motion-div {
+  width: 100%;
+}
+
+.transition-main {
+  width: 100%;
+  position: relative;
+  will-change: transform, opacity;
+}

@@ -1,0 +1,184 @@
+.snake-wrapper {
+  --gap-x: 36px;
+  --gap-around: 0.44;
+  --circle-size: 96px;
+
+  --icon-color: #0d6efd;
+  --icon-hover-color: #ff6b81;
+  --line-color: #e6eefc;
+  --line-hover-color: rgba(13, 110, 253, 0.08);
+  --line-shadow-color: rgba(255, 255, 255, 0.6);
+  --caption-color: black;
+
+  --circle-backgroud: white;
+  --circle-border-color: white;
+  --circle-border-hover-color: rgba(13, 110, 253, 0.14);
+  --cirle-shadow-color: rgba(8, 20, 40, 0.08);
+  --circle-grad-start: rgba(13, 110, 253, 0.06);
+  --circle-grad-end: transparent;
+  --circle-grad-hover-start: rgba(255, 182, 193, 0.14);
+  --circle-grad-hover-end: transparent;
+
+  position: relative;
+  width: min(900px, 100%);
+  height: calc(var(--circle-size) * 1.6);
+}
+
+.snake-nav {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.snake-line {
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+  color: var(--line-color);
+}
+
+.snake-list {
+  --cols: 4;
+
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: grid;
+  list-style: none;
+  align-items: center;
+  grid-template-columns: repeat(var(--cols), 1fr);
+}
+
+.snake-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.snake-item .snake-link {
+  z-index: 2;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: var(--circle-backgroud);
+  color: var(--icon-color);
+  width: var(--circle-size);
+  height: var(--circle-size);
+  box-shadow: 0 6px 18px var(--cirle-shadow-color);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.snake-item.pos-0 .snake-link {
+  transform: translateY(-22%);
+}
+.snake-item.pos-1 .snake-link {
+  transform: translateY(22%);
+}
+.snake-item.pos-2 .snake-link {
+  transform: translateY(-22%);
+}
+.snake-item.pos-3 .snake-link {
+  transform: translateY(22%);
+}
+
+.snake-circle {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-color: var(--circle-border-color);
+  background: linear-gradient(180deg, var(--circle-grad-start), var(--circle-grad-end));
+  transition:
+    background-color 0.2s ease,
+    background-image 0.2s ease,
+    color 0.2s ease;
+}
+
+.snake-caption {
+  height: 1.5em;
+  opacity: 0;
+  margin: 12px 0 0;
+  font-size: 1.5rem;
+  min-height: 1.2em;
+  text-align: center;
+  pointer-events: none;
+  color: var(--caption-color);
+  transform: translateY(6px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.snake-caption[aria-hidden="false"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.snake-link:hover,
+.snake-link:focus {
+  outline: none;
+  transform: translateY(0) scale(1.06);
+  border-color: var(--circle-border-hover-color);
+}
+
+.snake-link:hover .snake-circle,
+.snake-link:focus .snake-circle {
+  color: var(--icon-hover-color);
+  background-image: linear-gradient(
+    180deg,
+    var(--circle-grad-hover-start),
+    var(--circle-grad-hover-end)
+  );
+}
+
+@media (max-width: 640px) {
+  .snake-wrapper {
+    --gap-x: 18px;
+    --gap-around: 0.5;
+    --circle-size: 48px;
+
+    height: calc(var(--circle-size) * 1.4);
+  }
+
+  .snake-item.pos-0 .snake-link,
+  .snake-item.pos-2 .snake-link {
+    transform: translateY(-12%);
+  }
+  .snake-item.pos-1 .snake-link,
+  .snake-item.pos-3 .snake-link {
+    transform: translateY(12%);
+  }
+}
+
+.snake-line path {
+  z-index: 1;
+  stroke-width: 6;
+  stroke-dashoffset: 0;
+  stroke-dasharray: 24 10 24 10 24 10 24;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke: var(--line-color);
+  filter: drop-shadow(0 1px 0 var(--line-shadow-color));
+}
+
+.snake-nav:hover .snake-line path {
+  stroke: var(--line-hover-color);
+}

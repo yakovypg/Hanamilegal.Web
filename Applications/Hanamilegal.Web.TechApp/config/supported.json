@@ -1,0 +1,13 @@
+{
+  "languageStack": ["C#", "C++", "Python", "JavaScript", "TypeScript"],
+  "techStack": [
+    "Avalonia UI",
+    "WPF",
+    "Windows Forms",
+    "ASP.NET",
+    "React",
+    "xUnit",
+    "MSTest",
+    "GoogleTest"
+  ]
+}

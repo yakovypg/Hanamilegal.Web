@@ -1,0 +1,108 @@
+{
+  "name": "English",
+  "shortName": "EN",
+  "organization": {
+    "name": "LLC Infra+",
+    "activity": "Internet solutions development",
+    "activityNote": "Consulting, turnkey development and support",
+    "address": "191014, St. Petersburg, Paradnaya St., building 7, letter A, office 6-N, room 22",
+    "workingHoursStart": "9:00 AM",
+    "workingHoursEnd": "9:00 PM"
+  },
+  "title": {
+    "services": "Services",
+    "pageNotFound": "Page not found",
+    "projects": "Projects",
+    "reviews": "Reviews",
+    "contacts": "Contacts",
+    "error": "Error",
+    "example": "Example"
+  },
+  "action": {
+    "backHome": "Home",
+    "contact": "Contact"
+  },
+  "error": {
+    "internal": "An internal error occured",
+    "loadData": "An error occured while loading data"
+  },
+  "phrase": {
+    "officialSite": "Official site",
+    "email": "Email",
+    "phone": "Phone number"
+  },
+  "word": {
+    "from": "from",
+    "to": "to",
+    "withUs": "with us"
+  },
+  "sentense": {
+    "followSocialMedia": "Follow us on social media",
+    "refineProjects": "We can also refine your projects of the above types",
+    "languageStack": "Our language stack",
+    "techStack": "Our core tech stack",
+    "anyQuestions": "Any questions",
+    "waitCall": "We look forward to your call daily",
+    "openInMap": "Open in the map"
+  },
+  "service": {
+    "desktopDevelopment": {
+      "name": "Desktop application development",
+      "description": "Desktop applications are standalone programs installed on users' computers. They provide a rich, responsive interface and direct access to system resources — ideal for performance‑sensitive tools, offline work, and deep OS integration."
+    },
+    "cliDevelopment": {
+      "name": "CLI application development",
+      "description": "Command‑line applications offer fast, scriptable interaction via terminal interfaces. They are suited for automation, developer tools, batch processing, and power‑user workflows requiring efficiency and composability."
+    },
+    "webDevelopment": {
+      "name": "Web application (site) development",
+      "description": "Web applications and sites deliver accessible, cross‑platform experiences through browsers. They are perfect for public services, dashboards, online stores and interactive apps that require wide reach and easy updates."
+    },
+    "apiDevelopment": {
+      "name": "API development",
+      "description": "APIs provide programmatic access to data and business logic, enabling integration between services, mobile apps, and third‑party systems. They ensure scalable, secure and well‑documented interfaces for developers."
+    },
+    "automationScriptsDevelopment": {
+      "name": "Automation scripts development",
+      "description": "Automation scripts automate repetitive tasks and data transformations. They save time, reduce human error and streamline workflows across development, testing and operations."
+    },
+    "testsDevelopment": {
+      "name": "Test development",
+      "description": "Test development includes unit and integration tests that verify functionality and prevent regressions. Robust test suites improve reliability, speed up delivery and increase confidence in releases."
+    },
+    "databaseCreation": {
+      "name": "Databases creation",
+      "description": "Database creation covers schema design and data modeling to store information efficiently. Well‑designed databases support performance, consistency and future scalability of applications."
+    },
+    "serverConfiguration": {
+      "name": "Server and repository configuration",
+      "description": "Server and repository configuration ensures reliable hosting, CI/CD pipelines and source control setup. Proper configuration enables secure deployments, automated builds and maintainable development workflows."
+    },
+    "dockerDeployment": {
+      "name": "Docker deployment",
+      "description": "Docker deployment packages applications into portable containers for consistent environments across development and production. Containers simplify scaling, isolation and repeatable deployments."
+    },
+    "httpsConfiguration": {
+      "name": "Domain registration and TLS configuration",
+      "description": "Domain registration and TLS configuration secure websites with proper DNS setup and HTTPS certificates. This protects user data, builds trust and ensures encrypted, standards‑compliant connections."
+    }
+  },
+  "project": {
+    "ypdfWeb": {
+      "name": "Ypdf.Web",
+      "description": "Web application for processing PDF documents"
+    },
+    "ypdfDesktop": {
+      "name": "Ypdf.Desktop",
+      "description": "Desktop application for processing PDF documents"
+    },
+    "ypdfCommandLine": {
+      "name": "Ypdf.CommandLine",
+      "description": "CLI tool for processing PDF documents"
+    },
+    "netArgumentParser": {
+      "name": "NetArgumentParser",
+      "description": "Library for parsing command-line options and arguments"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+.reviews-row {
+  gap: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}

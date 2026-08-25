@@ -1,0 +1,32 @@
+.contacts-menu-wrapper {
+  display: grid;
+  place-items: center;
+}
+
+.contacts-menu {
+  gap: 16px;
+  max-width: 560px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.contacts-menu-2-col-grid {
+  gap: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.contacts-menu-box {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.contacts-menu-box-title {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}

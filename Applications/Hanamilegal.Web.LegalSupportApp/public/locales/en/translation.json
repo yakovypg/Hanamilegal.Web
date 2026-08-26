@@ -93,8 +93,14 @@
   },
   "application": {
     "type": {
-      "legalSupport": "Legal support",
-      "softwareDevelopment": "Software development"
+      "legalSupportForBusiness": "Legal support for businesses",
+      "generalQuestion": "General question",
+      "commercialDispute": "Commercial dispute",
+      "corporateDispute": "Corporate dispute",
+      "transactionStructuring": "Transaction structuring",
+      "compliance": "Compliance",
+      "itIpPd": "IT / IP / PD",
+      "otherQuestion": "Other"
     }
   },
   "sentense": {

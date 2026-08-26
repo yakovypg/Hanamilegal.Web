@@ -40,3 +40,5 @@ dotnet_diagnostic.SA1649.severity = none  # SA1649: File name should match first
 [Api/**/Migrations/*.cs]
 dotnet_analyzer_diagnostic.severity = none
 dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.SA1505.severity = none
+dotnet_diagnostic.SA1508.severity = none

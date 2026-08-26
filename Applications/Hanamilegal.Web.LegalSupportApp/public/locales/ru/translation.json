@@ -93,8 +93,14 @@
   },
   "application": {
     "type": {
-      "legalSupport": "Юридическая помощь",
-      "softwareDevelopment": "Разработка ПО"
+      "legalSupportForBusiness": "Правовое сопровождение бизнеса",
+      "generalQuestion": "Общий вопрос",
+      "commercialDispute": "Коммерческий спор",
+      "corporateDispute": "Корпоративный спор",
+      "transactionStructuring": "Структурирование сделок",
+      "compliance": "Комплаенс",
+      "itIpPd": "IT / IP / PD",
+      "otherQuestion": "Другое"
     }
   },
   "sentense": {

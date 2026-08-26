@@ -5,12 +5,6 @@ namespace Hanamilegal.Web.InternalApp.Infrastructure.Extensions;
 
 internal static class ApplicationBuilderExtensions
 {
-    internal static IApplicationBuilder SetupHeaders(this IApplicationBuilder appBuilder)
-    {
-        ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
-        return appBuilder.UseForwardedHeaders();
-    }
-
     internal static IApplicationBuilder SetupStandardMiddlewares(this IApplicationBuilder appBuilder)
     {
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));

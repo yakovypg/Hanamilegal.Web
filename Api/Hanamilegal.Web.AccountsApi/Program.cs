@@ -9,6 +9,7 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
     environmentName: appBuilder.Environment.EnvironmentName);
 
 _ = appBuilder.Services
+    .SetupForwardedHeaders()
     .SetupStandardApiServices()
     .SetupOptions()
     .SetupCors(appBuilder.Configuration)
@@ -25,6 +26,7 @@ WebApplication app = appBuilder.Build();
 
 _ = app
     .SetupApiExceptionHandler()
+    .SetupForwardedHeaders()
     .SetupStandardApiMiddlewares()
     .SetupSwagger();
 

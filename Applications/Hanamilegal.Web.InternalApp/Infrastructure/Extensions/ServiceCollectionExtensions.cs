@@ -8,9 +8,7 @@ using Hanamilegal.Web.InternalApp.Api.Applications;
 using Hanamilegal.Web.InternalApp.Configuration;
 using Hanamilegal.Web.InternalApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -19,18 +17,6 @@ namespace Hanamilegal.Web.InternalApp.Infrastructure.Extensions;
 
 internal static class ServiceCollectionExtensions
 {
-    internal static IServiceCollection SetupHeaders(this IServiceCollection services)
-    {
-        ArgumentNullException.ThrowIfNull(services, nameof(services));
-
-        return services.Configure<ForwardedHeadersOptions>(options =>
-        {
-            options.ForwardedHeaders =
-                ForwardedHeaders.XForwardedFor |
-                ForwardedHeaders.XForwardedProto;
-        });
-    }
-
     internal static IServiceCollection SetupStandardServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));

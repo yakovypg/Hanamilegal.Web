@@ -1,5 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /app/src
+WORKDIR /src
+
+# Configure environment
+ARG APPLICATIONS_DB_CONNECTION_STRING
+ENV APPLICATIONS_DB_CONNECTION_STRING="$APPLICATIONS_DB_CONNECTION_STRING"
 
 # Copy configuration files
 COPY Directory.Build.props ./
@@ -24,18 +28,25 @@ COPY Shared/Hanamilegal.Web.ApiConfiguration/. Shared/Hanamilegal.Web.ApiConfigu
 COPY Shared/Hanamilegal.Web.Auth/. Shared/Hanamilegal.Web.Auth/
 COPY Shared/Hanamilegal.Web.Contracts/. Shared/Hanamilegal.Web.Contracts/
 
-# Publish application
-RUN dotnet publish \
-    Api/Hanamilegal.Web.ApplicationsApi/Hanamilegal.Web.ApplicationsApi.csproj \
-    -c Release \
-    -o /app/publish
+# Install dotnet-ef
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Create executable that applies pending migrations
+RUN dotnet ef migrations bundle \
+    --project Api/Hanamilegal.Web.ApplicationsApi \
+    --startup-project Api/Hanamilegal.Web.ApplicationsApi \
+    --context ApplicationsDbContext \
+    --configuration Release \
+    --output /out/efbundle
 
 # Use runtime
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
-
-# Create final image
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
-COPY --from=build /app/publish ./
 
-# Run application
-ENTRYPOINT ["dotnet", "Hanamilegal.Web.ApplicationsApi.dll"]
+# Copy migration artifacts
+COPY --from=build /out/efbundle /app/efbundle
+RUN chmod +x /app/efbundle
+
+# Apply migration
+ENTRYPOINT ["/app/efbundle"]

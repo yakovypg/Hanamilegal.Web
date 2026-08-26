@@ -32,6 +32,7 @@ COPY Shared/Hanamilegal.Web.ApiConfiguration/. Shared/Hanamilegal.Web.ApiConfigu
 COPY Shared/Hanamilegal.Web.Auth/. Shared/Hanamilegal.Web.Auth/
 COPY Shared/Hanamilegal.Web.Contracts/. Shared/Hanamilegal.Web.Contracts/
 
+# Install dotnet-ef
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 

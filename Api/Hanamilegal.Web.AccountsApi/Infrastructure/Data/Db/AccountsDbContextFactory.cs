@@ -10,6 +10,7 @@ public sealed class AccountsDbContextFactory
     public AccountsDbContext CreateDbContext(string[] args)
     {
         var connectionString = Environment.GetEnvironmentVariable("ACCOUNTS_DB_CONNECTION_STRING")
+            ?? Environment.GetEnvironmentVariable("ConnectionStrings__AccountsDb")
             ?? throw new InvalidOperationException("Connection string not found");
 
         var optionsBuilder = new DbContextOptionsBuilder<AccountsDbContext>();

@@ -30,8 +30,11 @@ RUN dotnet publish \
     -c Release \
     -o /app/publish
 
-# Use runtime
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+# Use SDK as runtime for using dotnet-ef
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS runtime
+
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Create final image
 WORKDIR /app

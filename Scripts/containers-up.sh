@@ -2,11 +2,18 @@
 
 set -euo pipefail
 
-SPECIFIED_MODE="${1:-}"
-MODE="production"
+MODE="${1:-production}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [ "$SPECIFIED_MODE" = "dev" ] || [ "$SPECIFIED_MODE" = "development" ]; then
+if [ "$MODE" != "prod" ] && \
+   [ "$MODE" != "production" ] && \
+   [ "$MODE" != "dev" ] && \
+   [ "$MODE" != "development" ]; then
+  echo "error: mode is unknown" >&2
+  exit 1
+fi
+
+if [ "$MODE" = "dev" ] || [ "$MODE" = "development" ]; then
   MODE="development"
 fi
 

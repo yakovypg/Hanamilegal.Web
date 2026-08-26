@@ -54,8 +54,8 @@ Update the `.env` file if necessary.
 Apply any pending database migrations:
 
 ```bash
-./Scripts/migrations-apply.sh Api/Hanamilegal.Web.AccountsApi AccountsDbContext
-./Scripts/migrations-apply.sh Api/Hanamilegal.Web.ApplicationsApi ApplicationsDbContext
+./Scripts/migrations-apply-accounts-api.sh
+./Scripts/migrations-apply-applications-api.sh
 ```
 
 Finally, rebuild and restart the Docker containers:

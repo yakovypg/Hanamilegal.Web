@@ -66,13 +66,10 @@ services:
     depends_on:
       - accounts-db
     expose:
-      - 443
+      - 80
     environment:
-      ASPNETCORE_URLS: https://+:443
+      ASPNETCORE_URLS: http://+:80
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
-      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
-      # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
       ConnectionStrings__AccountsDb: >-
         Host=accounts-db;
         Port=5432;
@@ -93,9 +90,6 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
-    volumes:
-      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
-      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
 
   applications-api:
     container_name: Hanamilegal.Web.ApplicationsApi
@@ -107,13 +101,10 @@ services:
     depends_on:
       - applications-db
     expose:
-      - 443
+      - 80
     environment:
-      ASPNETCORE_URLS: https://+:443
+      ASPNETCORE_URLS: http://+:80
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /etc/ssl/certs/fullchain.pem
-      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /etc/ssl/private/privkey.pem
-      # ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERT_PASSWORD}
       ConnectionStrings__ApplicationsDb: >-
         Host=applications-db;
         Port=5432;
@@ -125,9 +116,6 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
-    volumes:
-      - ./Certs/fullchain.pem:/etc/ssl/certs/fullchain.pem:ro
-      - ./Certs/privkey.pem:/etc/ssl/private/privkey.pem:ro
 
   accounts-db:
     container_name: AccountsDb

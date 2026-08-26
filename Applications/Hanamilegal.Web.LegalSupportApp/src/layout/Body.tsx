@@ -8,9 +8,7 @@ interface Props {
 export const Body: React.FC<Props> = ({ children }: Props) => {
   return (
     <PageTransition className="flex-grow-1">
-      <main>
-        <div>{children}</div>
-      </main>
+      <main>{children}</main>
     </PageTransition>
   );
 };

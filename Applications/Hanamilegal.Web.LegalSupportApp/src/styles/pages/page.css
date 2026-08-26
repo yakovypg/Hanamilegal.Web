@@ -1,3 +1,13 @@
+.page-container {
+  width: 100%;
+  min-height: 90dvh;
+  padding: 0px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .page-center-container {
   width: 100%;
   min-height: 90dvh;
@@ -9,7 +19,7 @@
 }
 
 .page-center-left-subcontainer {
-  max-width: 85%;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -32,7 +32,7 @@ export const HomePage: React.FC = () => {
     : [];
 
   return (
-    <div className="page-center-container">
+    <div className="page-container">
       <div className="page-center-left-subcontainer">
         <OrganizationTitle />
 

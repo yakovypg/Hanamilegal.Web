@@ -27,6 +27,7 @@ WebApplication app = appBuilder.Build();
 _ = app
     .SetupApiExceptionHandler()
     .SetupForwardedHeaders()
+    .SetupCors()
     .SetupStandardApiMiddlewares()
     .SetupSwagger();
 

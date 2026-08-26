@@ -1,4 +1,4 @@
-import projectImage from "assets/example-desktop.png";
+import projectImage from "/example-desktop.png";
 
 export interface ProjectConfig {
   readonly id: string | number;

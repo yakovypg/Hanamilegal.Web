@@ -1,7 +1,6 @@
 import "styles/icon.css";
 import "styles/layout/header.css";
 
-import favicon from "assets/favicon.ico";
 import { LocaleToggle } from "components";
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
@@ -10,6 +9,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { VIEW_PANELS } from "types";
 import { getRoutePath, removeNavLinkActive } from "utils";
+
+import favicon from "/favicon.ico";
 
 export const HeaderMobile: React.FC = () => {
   const { t } = useTranslation();

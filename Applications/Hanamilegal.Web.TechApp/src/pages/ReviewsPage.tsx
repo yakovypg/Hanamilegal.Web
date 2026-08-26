@@ -1,9 +1,10 @@
 import "styles/pages/reviews-page.css";
 
-import avatar from "assets/example-desktop.png";
 import { Review } from "components";
 import React from "react";
 import { useTranslation } from "react-i18next";
+
+import avatar from "/example-desktop.png";
 
 export const ReviewsPage: React.FC = () => {
   const { t } = useTranslation();

@@ -13,7 +13,7 @@
   --circle-backgroud: white;
   --circle-border-color: white;
   --circle-border-hover-color: rgba(13, 110, 253, 0.14);
-  --cirle-shadow-color: rgba(8, 20, 40, 0.08);
+  --circle-shadow-color: rgba(8, 20, 40, 0.08);
   --circle-grad-start: rgba(13, 110, 253, 0.06);
   --circle-grad-end: transparent;
   --circle-grad-hover-start: rgba(255, 182, 193, 0.14);
@@ -74,7 +74,7 @@
   color: var(--icon-color);
   width: var(--circle-size);
   height: var(--circle-size);
-  box-shadow: 0 6px 18px var(--cirle-shadow-color);
+  box-shadow: 0 6px 18px var(--circle-shadow-color);
   transition:
     transform 0.2s ease,
     background 0.2s ease,

@@ -34,6 +34,7 @@ body,
   --color-highlight-secondary: #0d6efd;
   --color-shadow-highlight-primary: rgba(253, 48, 5, 0.25);
   --color-shadow-highlight-secondary: rgba(13, 110, 253, 0.25);
+  --color-shadow-highlight-black: rgba(0 0 0 0.2);
   --color-success: #00ff00;
   --color-error: #fd3005;
 
@@ -78,6 +79,10 @@ body,
 
 .color-shadow-highlight-secondary {
   color: var(--color-shadow-highlight-secondary) !important;
+}
+
+.color-shadow-highlight-black {
+  color: var(--color-shadow-highlight-black) !important;
 }
 
 .color-success {

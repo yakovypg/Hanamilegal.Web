@@ -9,6 +9,7 @@ import {
   type ComboBoxOption,
   NoticeMessage
 } from "components";
+import { PRIVACY_POLICY } from "config";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Application, APPLICATION_TYPES, type ApplicationType, Notice } from "types";
@@ -100,8 +101,8 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
 
   const processPersonalDataLabel: React.ReactNode = (
     <div>
-      {t("sentense.personalData.consent")}
-      <a className="color-primary" href="/docs/privacy-policy.pdf" target="_blank" rel="noreferrer">
+      {t("sentense.personalData.consent")}{" "}
+      <a className="color-primary" href={PRIVACY_POLICY} target="_blank" rel="noreferrer">
         {t("sentense.personalData.privacyPolicy")}
       </a>
     </div>

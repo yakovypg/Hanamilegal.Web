@@ -65,7 +65,8 @@
   },
   "phrase": {
     "aboutUs": "About us",
-    "sendRequest": "Send request"
+    "sendRequest": "Send request",
+    "understand": "Understand"
   },
   "general": {
     "services": [
@@ -106,8 +107,12 @@
   "sentense": {
     "applicationSent": "Application has been successfully sent",
     "personalData": {
-      "consent": "I consent to the processing of personal data specified in the form to consider the application and check for conflicts of interest in accordance with the ",
+      "consent": "I consent to the processing of personal data specified in the form to consider the application and check for conflicts of interest in accordance with the",
       "privacyPolicy": "privacy policy"
+    },
+    "cookieBanner": {
+      "consent": "By continuing to use this website, you consent to the use of cookies in accordance with our",
+      "cookiePolicy": "cookie policy"
     }
   }
 }

@@ -12,12 +12,16 @@ _ = appBuilder.Services
     .SetupForwardedHeaders()
     .SetupStandardApiServices()
     .SetupCors(appBuilder.Configuration)
+    .SetupSession()
+    .SetupPaths()
+    .SetupFileNames()
     .SetupAuthentication(appBuilder.Configuration)
     .SetupAuthorization()
     .SetupProviders()
     .SetupServices()
     .SetupRepositories()
     .SetupApplicationsDb(appBuilder.Configuration)
+    .SetupConsentsDb(appBuilder.Configuration)
     .SetupMapper()
     .SetupSwagger(appBuilder.Configuration)
     .SetupApiExceptionHandler();
@@ -28,6 +32,7 @@ _ = app
     .SetupApiExceptionHandler()
     .SetupForwardedHeaders()
     .SetupCors()
+    .SetupSession()
     .SetupStandardApiMiddlewares()
     .SetupSwagger();
 

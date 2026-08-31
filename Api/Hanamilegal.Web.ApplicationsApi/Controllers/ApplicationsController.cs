@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Hanamilegal.Web.ApiConfiguration.Requests;
 using Hanamilegal.Web.ApplicationsApi.Services;
 using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Contracts.Applications;
@@ -14,11 +16,17 @@ namespace Hanamilegal.Web.ApplicationsApi.Controllers;
 [Route("api/[controller]")]
 public class ApplicationsController : ControllerBase
 {
+    private readonly IConsentsService _consentsService;
     private readonly IApplicationsService _applicationsService;
 
-    public ApplicationsController(IApplicationsService applicationsService)
+    public ApplicationsController(
+        IConsentsService consentsService,
+        IApplicationsService applicationsService)
     {
+        ArgumentNullException.ThrowIfNull(consentsService, nameof(consentsService));
         ArgumentNullException.ThrowIfNull(applicationsService, nameof(applicationsService));
+
+        _consentsService = consentsService;
         _applicationsService = applicationsService;
     }
 
@@ -28,12 +36,26 @@ public class ApplicationsController : ControllerBase
     [ProducesResponseType(typeof(ApplicationResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ApplicationResponseDto>> Create(
-        [FromBody] CreateApplicationRequestDto dto)
+        [FromBody] CreateApplicationRequestDto dto,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        ApplicationResponseDto createdApplicationDto =
-            await _applicationsService.CreateAsync(dto);
+        if (HasConsentValidationErrors(dto))
+            return ValidationProblem(ModelState);
+
+        RequestContext requestContext = RequestContext.Create(Request.HttpContext);
+
+        ConsentAuditDto createdConsentAudit = await _consentsService.CreatePersonalDataConsentAuditAsync(
+            requestContext,
+            cancellationToken);
+
+        ApplicationResponseDto createdApplicationDto = await _applicationsService.CreateAsync(dto);
+
+        _ = await _consentsService.AddExternalEntityIdToPersonalDataConsentAuditAsync(
+            createdConsentAudit.Id,
+            createdApplicationDto.Id,
+            cancellationToken);
 
         return CreatedAtAction(
             nameof(GetById),
@@ -70,5 +92,23 @@ public class ApplicationsController : ControllerBase
             await _applicationsService.SearchAllAsync(filter);
 
         return Ok(foundApplications);
+    }
+
+    private bool HasConsentValidationErrors(CreateApplicationRequestDto dto)
+    {
+        ArgumentNullException.ThrowIfNull(dto, nameof(dto));
+
+        bool hasErrors = false;
+
+        if (!dto.HasPersonalDataProcessingConsent)
+        {
+            ModelState.AddModelError(
+                nameof(dto.HasPersonalDataProcessingConsent),
+                "Consent to the processing of personal data has not been given");
+
+            hasErrors = true;
+        }
+
+        return hasErrors;
     }
 }

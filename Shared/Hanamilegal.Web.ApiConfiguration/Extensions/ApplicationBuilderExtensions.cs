@@ -22,4 +22,10 @@ public static class ApplicationBuilderExtensions
         ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
         return appBuilder.UseCors(nameof(CorsOptions.Frontend));
     }
+
+    public static IApplicationBuilder SetupSession(this IApplicationBuilder appBuilder)
+    {
+        ArgumentNullException.ThrowIfNull(appBuilder, nameof(appBuilder));
+        return appBuilder.UseSession();
+    }
 }

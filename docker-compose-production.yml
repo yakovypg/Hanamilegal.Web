@@ -9,6 +9,8 @@ services:
       context: ./Applications/Hanamilegal.Web.LegalSupportApp
       dockerfile: Dockerfile
       args:
+        VITE_COOKIE_POLICY_NAME: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_NAME}
+        VITE_PRIVACY_POLICY_NAME: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_NAME}
         VITE_APPLICATIONS_API_BASE_URL: ${APPLICATIONS_API_BASE_URL}
     depends_on:
       - applications-api
@@ -19,6 +21,8 @@ services:
         limits:
           cpus: 0.4
           memory: 256M
+    volumes:
+      - ${LEGAL_SUPPORT_APP_DOCS_HOST_PATH}:/usr/share/nginx/html/docs:ro
 
   internal-app:
     container_name: Hanamilegal.Web.InternalApp
@@ -144,16 +148,24 @@ services:
         Database=${APPLICATIONS_DB_NAME};
         Username=${APPLICATIONS_DB_USER};
         Password=${APPLICATIONS_DB_PASSWORD}
+      ConnectionStrings__ConsentsDb: mongodb://${CONSENTS_DB_USER}:${CONSENTS_DB_PASSWORD}@consents-db:27017/${CONSENTS_DB_NAME}?authSource=admin
       Jwt__Key: ${JWT_KEY}
       Jwt__Issuer: ${JWT_ISSUER}
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
+      Path__Documents: ${LEGAL_SUPPORT_APP_DOCS_CONTAINER_PATH}
+      FileName__CookiePolicyName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_NAME}
+      FileName__CookiePolicyManifestName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_MANIFEST_NAME}
+      FileName__PrivacyPolicyName: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_NAME}
+      FileName__PrivacyPolicyManifestName: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_MANIFEST_NAME}
     deploy:
       resources:
         limits:
           cpus: 0.2
           memory: 128M
+    volumes:
+      - ${LEGAL_SUPPORT_APP_DOCS_HOST_PATH}:${LEGAL_SUPPORT_APP_DOCS_CONTAINER_PATH}:ro
 
   accounts-db:
     container_name: AccountsDb
@@ -193,7 +205,26 @@ services:
       # In postgres 18+ /var/lib/postgresql/data moved to /var/lib/postgresql
       - applications-db-data:/var/lib/postgresql
 
+  consents-db:
+    container_name: ConsentsDb
+    image: mongo:8
+    restart: on-failure
+    expose:
+      - 27017
+    environment:
+      MONGO_INITDB_DATABASE: ${CONSENTS_DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${CONSENTS_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${CONSENTS_DB_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          cpus: 0.2
+          memory: 128M
+    volumes:
+      - consents-db-data:/data/db
+
 volumes:
   accounts-db-data:
   applications-db-data:
+  consents-db-data:
   internal-app-keys:

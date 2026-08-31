@@ -32,4 +32,7 @@ public sealed class CreateApplicationRequestDto
     [Required]
     [MaxLength(DtoLimits.LongTextMaxLength)]
     public string Text { get; set; }
+
+    [Required]
+    public bool HasPersonalDataProcessingConsent { get; set; }
 }

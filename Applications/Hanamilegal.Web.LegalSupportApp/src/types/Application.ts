@@ -4,4 +4,5 @@ export interface Application {
   readonly organization: string;
   readonly email: string;
   readonly text: string;
+  readonly hasPersonalDataProcessingConsent: boolean;
 }

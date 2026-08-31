@@ -110,6 +110,13 @@ public static class ServiceCollectionExtensions
         });
     }
 
+    public static IServiceCollection SetupSession(this IServiceCollection services)
+    {
+        return services
+            .AddDistributedMemoryCache()
+            .AddSession();
+    }
+
     public static IServiceCollection AddJwtTokenService(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
@@ -124,5 +131,34 @@ public static class ServiceCollectionExtensions
             .ValidateOnStart();
 
         return services.AddScoped<ITokenService, JwtTokenService>();
+    }
+
+    public static IServiceCollection SetupPaths(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+        _ = services
+            .AddOptions<PathOptions>()
+            .BindConfiguration(PathOptions.SectionName)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Documents))
+            .ValidateOnStart();
+
+        return services;
+    }
+
+    public static IServiceCollection SetupFileNames(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+        _ = services
+            .AddOptions<FileNameOptions>()
+            .BindConfiguration(FileNameOptions.SectionName)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.CookiePolicyName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.CookiePolicyManifestName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.PrivacyPolicyName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.PrivacyPolicyManifestName))
+            .ValidateOnStart();
+
+        return services;
     }
 }

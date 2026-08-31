@@ -18,18 +18,28 @@ interface Props {
   readonly className?: string;
 }
 
-const applicationFieldNames: Application = {
+interface ApplicationFieldNames {
+  readonly type: string;
+  readonly senderName: string;
+  readonly organization: string;
+  readonly email: string;
+  readonly text: string;
+  readonly hasPersonalDataProcessingConsent: string;
+}
+
+const applicationFieldNames: ApplicationFieldNames = {
   type: "applicationType",
   senderName: "senderName",
   email: "email",
   organization: "organization",
-  text: "applicationDescription"
+  text: "applicationDescription",
+  hasPersonalDataProcessingConsent: "hasPersonalDataProcessingConsent"
 };
 
 export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
   const { t } = useTranslation();
 
-  const [hasConsentWithProcessingPersonalData, setHasConsentWithProcessingPersonalData] =
+  const [hasPersonalDataProcessingConsent, setHasPersonalDataProcessingConsent] =
     useState<boolean>(false);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -62,12 +72,25 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
       senderName: String(formData.get(applicationFieldNames.senderName) ?? ""),
       email: String(formData.get(applicationFieldNames.email) ?? ""),
       organization: String(formData.get(applicationFieldNames.organization) ?? ""),
-      text: String(formData.get(applicationFieldNames.text) ?? "")
+      text: String(formData.get(applicationFieldNames.text) ?? ""),
+      hasPersonalDataProcessingConsent: formData.has(applicationFieldNames.hasPersonalDataProcessingConsent),
     };
 
-    const allRequiredFieldsSpecified: boolean = Object.values(application).every(
-      (value: string) => value.trim() !== ""
-    );
+    function isRequiredFieldSpecified(value: unknown): boolean {
+      if (typeof value === "string") {
+        return value.trim() !== "";
+      }
+
+      if (typeof value === "boolean") {
+        return value === true;
+      }
+
+      return value != null;
+    };
+
+    const allRequiredFieldsSpecified: boolean = Object
+      .values(application)
+      .every(isRequiredFieldSpecified);
 
     if (!allRequiredFieldsSpecified) {
       setNotice(new Notice(t("error.requiredFieldsNotSpecified"), true));
@@ -147,15 +170,15 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
         <ApplicationCheckBox
           required
           className="span2"
-          name="consentWithProcessingPersonalData"
+          name={applicationFieldNames.hasPersonalDataProcessingConsent}
           label={processPersonalDataLabel}
-          onChange={(checked: boolean) => setHasConsentWithProcessingPersonalData(checked)}
+          onChange={(checked: boolean) => setHasPersonalDataProcessingConsent(checked)}
         />
 
         <button
           className="mt-2 send-request-button span2"
           type="submit"
-          disabled={isSubmitting || !hasConsentWithProcessingPersonalData}>
+          disabled={isSubmitting || !hasPersonalDataProcessingConsent}>
           {isSubmitting ? "..." : t("phrase.sendRequest")}
         </button>
 

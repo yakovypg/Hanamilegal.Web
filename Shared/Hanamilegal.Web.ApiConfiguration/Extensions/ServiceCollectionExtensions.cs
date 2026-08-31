@@ -133,7 +133,7 @@ public static class ServiceCollectionExtensions
         return services.AddScoped<ITokenService, JwtTokenService>();
     }
 
-    public static IServiceCollection SetupPaths(this IServiceCollection services)
+    public static IServiceCollection SetupPathOptions(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
@@ -146,7 +146,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection SetupFileNames(this IServiceCollection services)
+    public static IServiceCollection SetupFileNameOptions(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
@@ -157,6 +157,20 @@ public static class ServiceCollectionExtensions
             .Validate(o => !string.IsNullOrWhiteSpace(o.CookiePolicyManifestName))
             .Validate(o => !string.IsNullOrWhiteSpace(o.PrivacyPolicyName))
             .Validate(o => !string.IsNullOrWhiteSpace(o.PrivacyPolicyManifestName))
+            .ValidateOnStart();
+
+        return services;
+    }
+
+    public static IServiceCollection SetupDockerOptions(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+        _ = services
+            .AddOptions<DockerOptions>()
+            .BindConfiguration(DockerOptions.SectionName)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Network.Subnet))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.Network.Gateway))
             .ValidateOnStart();
 
         return services;

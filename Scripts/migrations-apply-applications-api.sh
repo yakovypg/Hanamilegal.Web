@@ -25,7 +25,7 @@ MODE="${MODE^}"
 source "$SCRIPT_DIR/migrations-load-env.sh"
 
 IMAGE_NAME="hanamilegal-applications-api-migrations:latest"
-NETWORK_NAME="hanamilegal-web_default"
+NETWORK_NAME="hanamilegal-web_hanamilegal-web"
 
 docker build \
   --file "$PROJECT_ROOT/Api/Hanamilegal.Web.ApplicationsApi/Dockerfile.migrations" \

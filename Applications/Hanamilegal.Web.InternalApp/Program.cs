@@ -10,7 +10,8 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
     environmentName: appBuilder.Environment.EnvironmentName);
 
 _ = appBuilder.Services
-    .SetupForwardedHeaders()
+    .SetupDockerOptions()
+    .SetupForwardedHeaders(appBuilder.Configuration)
     .SetupStandardServices()
     .SetupOptions()
     .SetupServices()

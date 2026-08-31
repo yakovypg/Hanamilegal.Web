@@ -1,5 +1,6 @@
 import basicSsl from "@vitejs/plugin-basic-ssl";
 import react from "@vitejs/plugin-react";
+import type { ClientRequest, IncomingMessage } from "http";
 import { type ConfigEnv, defineConfig, loadEnv, type PluginOption } from "vite";
 import packageVersion from "vite-plugin-package-version";
 
@@ -24,7 +25,18 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           target: "http://applications-api",
           changeOrigin: true,
           secure: false,
-          rewrite: (path: string) => path.replace(/^\/applications-api(?=\/|$)/, "")
+          rewrite: (path: string) => path.replace(/^\/applications-api(?=\/|$)/, ""),
+          // eslint-disable-next-line @typescript-eslint/typedef
+          configure: (proxy) => {
+            proxy.on("proxyReq", (proxyReq: ClientRequest, req: IncomingMessage) => {
+              const clientIp: string | undefined = req.socket.remoteAddress;
+
+              if (clientIp) {
+                proxyReq.setHeader("X-Real-IP", clientIp);
+                proxyReq.setHeader("X-Forwarded-For", clientIp);
+              }
+            });
+          }
         }
       }
     },

@@ -9,7 +9,8 @@ _ = appBuilder.Configuration.AddAppSettingsJson(
     environmentName: appBuilder.Environment.EnvironmentName);
 
 _ = appBuilder.Services
-    .SetupForwardedHeaders()
+    .SetupDockerOptions()
+    .SetupForwardedHeaders(appBuilder.Configuration)
     .SetupStandardApiServices()
     .SetupOptions()
     .SetupCors(appBuilder.Configuration)

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.Auth.Services;
 using Hanamilegal.Web.Contracts.Accounts;
@@ -60,7 +61,9 @@ public class LoginModel : PageModel
         ReturnUrl = returnUrl;
     }
 
-    public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+    public async Task<IActionResult> OnPostAsync(
+        string? returnUrl = null,
+        CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid)
             return Page();
@@ -75,7 +78,7 @@ public class LoginModel : PageModel
                 Password = Password
             };
 
-            loginResponse = await _accountsApiClient.LoginAsync(loginData);
+            loginResponse = await _accountsApiClient.LoginAsync(loginData, cancellationToken);
         }
         catch (HttpRequestException ex)
         {

@@ -28,6 +28,9 @@ COPY Shared/Hanamilegal.Web.ApiConfiguration/. Shared/Hanamilegal.Web.ApiConfigu
 COPY Shared/Hanamilegal.Web.Auth/. Shared/Hanamilegal.Web.Auth/
 COPY Shared/Hanamilegal.Web.Contracts/. Shared/Hanamilegal.Web.Contracts/
 
+# It fixes errors that occur when executing `dotnet ef migrations bundle`
+RUN dotnet restore Api/Hanamilegal.Web.ApplicationsApi/Hanamilegal.Web.ApplicationsApi.csproj --verbosity normal
+
 # Install dotnet-ef
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"

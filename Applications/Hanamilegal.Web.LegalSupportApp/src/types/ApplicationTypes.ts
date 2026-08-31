@@ -17,7 +17,7 @@ export const APPLICATION_TYPES: ApplicationTypes = {
   transactionStructuring: "transactionStructuring",
   compliance: "compliance",
   itIpPd: "itIpPd",
-  otherQuestion: "otherQuestion",
+  otherQuestion: "otherQuestion"
 };
 
 export type ApplicationType = (typeof APPLICATION_TYPES)[keyof typeof APPLICATION_TYPES];

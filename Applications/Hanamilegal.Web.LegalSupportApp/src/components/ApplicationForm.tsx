@@ -73,7 +73,9 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
       email: String(formData.get(applicationFieldNames.email) ?? ""),
       organization: String(formData.get(applicationFieldNames.organization) ?? ""),
       text: String(formData.get(applicationFieldNames.text) ?? ""),
-      hasPersonalDataProcessingConsent: formData.has(applicationFieldNames.hasPersonalDataProcessingConsent),
+      hasPersonalDataProcessingConsent: formData.has(
+        applicationFieldNames.hasPersonalDataProcessingConsent
+      )
     };
 
     function isRequiredFieldSpecified(value: unknown): boolean {
@@ -86,11 +88,10 @@ export const ApplicationForm: React.FC<Props> = ({ className }: Props) => {
       }
 
       return value != null;
-    };
+    }
 
-    const allRequiredFieldsSpecified: boolean = Object
-      .values(application)
-      .every(isRequiredFieldSpecified);
+    const allRequiredFieldsSpecified: boolean =
+      Object.values(application).every(isRequiredFieldSpecified);
 
     if (!allRequiredFieldsSpecified) {
       setNotice(new Notice(t("error.requiredFieldsNotSpecified"), true));

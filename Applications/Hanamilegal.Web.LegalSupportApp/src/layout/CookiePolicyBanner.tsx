@@ -12,7 +12,7 @@ export const CookiePolicyBanner: React.FC<Props> = ({ onAccept }: Props) => {
   const { t } = useTranslation();
 
   const [isVisible, setIsVisible] = useState<boolean>(
-    () => localStorage.getItem(COOKIE_CONSENT_KEY) !== "true",
+    () => localStorage.getItem(COOKIE_CONSENT_KEY) !== "true"
   );
 
   const handleAccept = (): void => {
@@ -28,7 +28,11 @@ export const CookiePolicyBanner: React.FC<Props> = ({ onAccept }: Props) => {
   const processCookieLabel: React.ReactNode = (
     <p className="cookie-policy-banner-text">
       {t("sentense.cookieBanner.consent")}{" "}
-      <a className="cookie-policy-banner-link" href={COOKIE_POLICY} target="_blank" rel="noreferrer">
+      <a
+        className="cookie-policy-banner-link"
+        href={COOKIE_POLICY}
+        target="_blank"
+        rel="noreferrer">
         {t("sentense.cookieBanner.cookiePolicy")}
       </a>
     </p>

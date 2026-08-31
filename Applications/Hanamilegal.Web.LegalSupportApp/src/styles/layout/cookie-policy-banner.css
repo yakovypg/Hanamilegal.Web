@@ -14,9 +14,9 @@
   padding: 1rem 1.25rem;
 
   border-radius: 12px;
-  border: 1px solid var(--color-shadow-highlight-primary);
+  border: 1px solid var(--color-secondary);
   box-shadow: 0 12px 30px var(--color-shadow-highlight-black);
-  background: var(--color-highlight-primary);
+  background: var(--color-common);
 
   transform: translateX(-50%);
 }
@@ -24,7 +24,7 @@
 .cookie-policy-banner-text {
   margin: 0;
   line-height: 1.45;
-  color: var(--color-text-primary);
+  color: var(--color-background);
   font-size: var(--font-size-normal);
 }
 
@@ -36,7 +36,7 @@
 .cookie-policy-banner-button {
   cursor: pointer;
   padding: 0.55rem 1rem;
-  color: var(--color-text-primary);
+  color: var(--color-common);
   font-size: var(--font-size-normal);
   border-radius: 12px;
   border: 1px solid var(--color-shadow-highlight-primary);

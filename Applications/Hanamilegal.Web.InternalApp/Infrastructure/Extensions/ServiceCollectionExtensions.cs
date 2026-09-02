@@ -83,6 +83,7 @@ internal static class ServiceCollectionExtensions
 
         return services
             .AddHttpContextAccessor()
+            .AddSingleton<ITokenRefreshCoordinator, TokenRefreshCoordinator>()
             .AddTransient<ApiAuthorizationHandler>()
             .AddTransient<IJsonContentService, JsonContentService>()
             .AddTokenServices();
@@ -92,12 +93,14 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
+        // Do not use ApiAuthorizationHandler
         _ = services.AddHttpClient<AccountsApiClient>((serviceProvider, client) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<AccountsApiOptions>>();
             client.BaseAddress = new Uri(options.Value.BaseUrl);
         });
 
+        // Use ApiAuthorizationHandler
         _ = services.AddHttpClient<ApplicationsApiClient>((serviceProvider, client) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<ApplicationsApiOptions>>();
@@ -118,7 +121,7 @@ internal static class ServiceCollectionExtensions
             .AddOptions<PersistentKeyStorageOptions>()
             .BindConfiguration(PersistentKeyStorageOptions.SectionName)
             .Validate(o => !string.IsNullOrWhiteSpace(o.Path))
-            .Validate(o => o.LifetimeDays > 0)
+            .Validate(o => o.Lifetime > TimeSpan.Zero)
             .ValidateOnStart();
 
         PersistentKeyStorageOptions options = configuration
@@ -126,7 +129,6 @@ internal static class ServiceCollectionExtensions
 
         string applicationName = nameof(InternalApp);
         DirectoryInfo keysDirectory = new(options.Path);
-        TimeSpan lifetime = TimeSpan.FromDays(options.LifetimeDays);
 
         if (!keysDirectory.Exists)
             keysDirectory.Create();
@@ -135,6 +137,6 @@ internal static class ServiceCollectionExtensions
             .AddDataProtection()
             .SetApplicationName(applicationName)
             .PersistKeysToFileSystem(keysDirectory)
-            .SetDefaultKeyLifetime(lifetime);
+            .SetDefaultKeyLifetime(options.Lifetime);
     }
 }

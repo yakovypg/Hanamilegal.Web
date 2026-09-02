@@ -1,10 +1,12 @@
+using System;
+
 namespace Hanamilegal.Web.InternalApp.Configuration;
 
-public sealed record PersistentKeyStorageOptions(string Path, int LifetimeDays)
+public sealed record PersistentKeyStorageOptions(string Path, TimeSpan Lifetime)
 {
     public const string SectionName = "PersistentKeyStorage";
 
     public PersistentKeyStorageOptions()
-        : this(string.Empty, default)
+        : this(string.Empty, TimeSpan.FromDays(14))
     { }
 }

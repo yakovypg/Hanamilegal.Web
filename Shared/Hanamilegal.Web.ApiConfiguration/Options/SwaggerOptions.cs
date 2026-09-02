@@ -1,10 +1,7 @@
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-public sealed record SwaggerOptions(string ApiVersion)
+public sealed class SwaggerOptions
 {
     public const string SectionName = "Swagger";
-
-    public SwaggerOptions()
-        : this(string.Empty)
-    { }
+    public string ApiVersion { get; init; } = string.Empty;
 }

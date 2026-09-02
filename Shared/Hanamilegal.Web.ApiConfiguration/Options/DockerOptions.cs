@@ -1,10 +1,7 @@
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-public sealed record DockerOptions(DockerNetworkOptions Network)
+public sealed class DockerOptions
 {
     public const string SectionName = "Docker";
-
-    public DockerOptions()
-        : this(new DockerNetworkOptions())
-    { }
+    public DockerNetworkOptions Network { get; init; } = new();
 }

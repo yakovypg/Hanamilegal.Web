@@ -1,14 +1,11 @@
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-public sealed record FileNameOptions(
-    string CookiePolicyName,
-    string CookiePolicyManifestName,
-    string PrivacyPolicyName,
-    string PrivacyPolicyManifestName)
+public sealed class FileNameOptions
 {
     public const string SectionName = "FileName";
 
-    public FileNameOptions()
-        : this(string.Empty, string.Empty, string.Empty, string.Empty)
-    { }
+    public string CookiePolicyName { get; init; } = string.Empty;
+    public string CookiePolicyManifestName { get; init; } = string.Empty;
+    public string PrivacyPolicyName { get; init; } = string.Empty;
+    public string PrivacyPolicyManifestName { get; init; } = string.Empty;
 }

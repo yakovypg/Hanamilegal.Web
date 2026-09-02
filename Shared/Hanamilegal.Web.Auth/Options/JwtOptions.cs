@@ -1,15 +1,12 @@
 namespace Hanamilegal.Web.Auth.Options;
 
-public sealed record JwtOptions(
-    string Key,
-    string Issuer,
-    string Audience,
-    int ExpireMinutes,
-    int ClockSkewSeconds)
+public sealed class JwtOptions
 {
     public const string SectionName = "Jwt";
 
-    public JwtOptions()
-        : this(string.Empty, string.Empty, string.Empty, default, default)
-    { }
+    public string Key { get; init; } = string.Empty;
+    public string Issuer { get; init; } = string.Empty;
+    public string Audience { get; init; } = string.Empty;
+    public int ExpireMinutes { get; init; }
+    public int ClockSkewSeconds { get; init; }
 }

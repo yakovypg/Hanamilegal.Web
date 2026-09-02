@@ -1,10 +1,7 @@
 namespace Hanamilegal.Web.InternalApp.Configuration;
 
-public sealed record AccountsApiOptions(string BaseUrl)
+public sealed class AccountsApiOptions
 {
     public const string SectionName = "AccountsApi";
-
-    public AccountsApiOptions()
-        : this(string.Empty)
-    { }
+    public string BaseUrl { get; init; } = string.Empty;
 }

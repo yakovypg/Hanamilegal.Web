@@ -196,7 +196,10 @@ public sealed class ApiAuthorizationHandler : DelegatingHandler
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(refreshToken, nameof(refreshToken));
 
-        var refreshAccessTokenRequest = new RefreshAccessTokenRequestDto(refreshToken);
+        var refreshAccessTokenRequest = new RefreshAccessTokenRequestDto()
+        {
+            RefreshToken = refreshToken
+        };
 
         try
         {

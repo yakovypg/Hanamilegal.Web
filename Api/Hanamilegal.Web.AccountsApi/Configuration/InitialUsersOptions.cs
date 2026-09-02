@@ -2,11 +2,8 @@ using System.Collections.Generic;
 
 namespace Hanamilegal.Web.AccountsApi.Configuration;
 
-public sealed record InitialUsersOptions(IEnumerable<InitialUser> Users)
+public sealed class InitialUsersOptions
 {
     public const string SectionName = "InitialUsers";
-
-    public InitialUsersOptions()
-        : this([])
-    { }
+    public IEnumerable<InitialUser> Users { get; init; } = [];
 }

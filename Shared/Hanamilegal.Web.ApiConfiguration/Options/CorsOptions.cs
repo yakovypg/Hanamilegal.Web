@@ -1,10 +1,7 @@
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-public sealed record CorsOptions(CorsPolicyOptions Frontend)
+public sealed class CorsOptions
 {
     public const string SectionName = "Cors";
-
-    public CorsOptions()
-        : this(new CorsPolicyOptions())
-    { }
+    public CorsPolicyOptions Frontend { get; init; } = new();
 }

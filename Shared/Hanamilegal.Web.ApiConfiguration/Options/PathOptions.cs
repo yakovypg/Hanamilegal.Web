@@ -1,10 +1,7 @@
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-public sealed record PathOptions(string Documents)
+public sealed class PathOptions
 {
     public const string SectionName = "Path";
-
-    public PathOptions()
-        : this(string.Empty)
-    { }
+    public string Documents { get; init; } = string.Empty;
 }

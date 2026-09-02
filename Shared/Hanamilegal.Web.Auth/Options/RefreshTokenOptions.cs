@@ -2,11 +2,10 @@ using System;
 
 namespace Hanamilegal.Web.Auth.Options;
 
-public sealed record RefreshTokenOptions(int BytesNumber, TimeSpan Lifetime)
+public sealed class RefreshTokenOptions
 {
     public const string SectionName = "RefreshToken";
 
-    public RefreshTokenOptions()
-        : this(32, TimeSpan.FromDays(30))
-    { }
+    public int BytesNumber { get; init; }
+    public TimeSpan Lifetime { get; init; }
 }

@@ -1,8 +1,7 @@
 namespace Hanamilegal.Web.ApiConfiguration.Options;
 
-public sealed record DockerNetworkOptions(string Subnet, string Gateway)
+public sealed class DockerNetworkOptions
 {
-    public DockerNetworkOptions()
-        : this(string.Empty, string.Empty)
-    { }
+    public string Subnet { get; init; } = string.Empty;
+    public string Gateway { get; init; } = string.Empty;
 }

@@ -25,6 +25,8 @@ public class JwtTokenService : IAccessTokenService
 
     public AccessToken CreateAccessToken(AuthenticationResult authenticationResult)
     {
+        ArgumentNullException.ThrowIfNull(authenticationResult, nameof(authenticationResult));
+
         DateTime expireDateUtc = DateTime.UtcNow.AddMinutes(_options.Value.ExpireMinutes);
         SigningCredentials signingCredentials = CreateSigningCredentials(_options.Value.Key);
         IEnumerable<Claim> claims = CreateClaims(authenticationResult);
@@ -88,6 +90,8 @@ public class JwtTokenService : IAccessTokenService
 
     private static List<Claim> CreateClaims(AuthenticationResult authenticationResult)
     {
+        ArgumentNullException.ThrowIfNull(authenticationResult, nameof(authenticationResult));
+
         string jti = Guid.NewGuid().ToString();
 
         List<Claim> claims =

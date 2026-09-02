@@ -31,6 +31,13 @@ internal static class ServiceCollectionExtensions
             })
             .ValidateOnStart();
 
+        _ = services
+            .AddOptions<RefreshTokenCleanupOptions>()
+            .BindConfiguration(RefreshTokenCleanupOptions.SectionName)
+            .Validate(options => options.Interval > TimeSpan.Zero)
+            .Validate(options => options.RevokedTokenRetention >= TimeSpan.Zero)
+            .ValidateOnStart();
+
         return services;
     }
 
@@ -47,7 +54,8 @@ internal static class ServiceCollectionExtensions
         return services
             .AddTokenServices()
             .AddScoped<IAuthenticationService, AuthenticationService>()
-            .AddScoped<IAccountsService, AccountsService>();
+            .AddScoped<IAccountsService, AccountsService>()
+            .AddHostedService<RefreshTokenCleanupService>();
     }
 
     internal static IServiceCollection SetupRepositories(this IServiceCollection services)

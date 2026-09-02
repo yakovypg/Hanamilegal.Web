@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.AccountsApi.Domain.Entities;
 using Hanamilegal.Web.AccountsApi.Infrastructure.Data.Db;
@@ -41,5 +43,16 @@ public class RefreshTokenRepository : IRefreshTokenRepository
 
         return await _context.RefreshTokens
             .FirstOrDefaultAsync(t => t.TokenHash == refreshTokenHash);
+    }
+
+    public async Task DeleteObsoleteAsync(
+        DateTimeOffset revokedBeforeUtc,
+        CancellationToken cancellationToken = default)
+    {
+        await _context.RefreshTokens
+            .Where(t =>
+                t.ExpiresAtUtc <= DateTimeOffset.UtcNow ||
+                t.RevokedAtUtc <= revokedBeforeUtc)
+            .ExecuteDeleteAsync(cancellationToken);
     }
 }

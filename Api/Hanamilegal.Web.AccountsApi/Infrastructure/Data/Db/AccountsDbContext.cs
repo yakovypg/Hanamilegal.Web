@@ -1,4 +1,5 @@
 using System;
+using Hanamilegal.Web.AccountsApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,4 +11,6 @@ public sealed class AccountsDbContext : IdentityDbContext
         : base(options ?? throw new ArgumentNullException(nameof(options)))
     {
     }
+
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 }

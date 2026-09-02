@@ -54,6 +54,8 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
+      RefreshToken__BytesNumber: ${REFRESH_TOKEN_BYTES_NUMBER}
+      RefreshToken__Lifetime: ${REFRESH_TOKEN_LIFETIME}
       Docker__Network__Subnet: ${DOCKER_NETWORK_SUBNET}
       Docker__Network__Gateway: ${DOCKER_NETWORK_GATEWAY}
     deploy:
@@ -140,6 +142,8 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
+      RefreshToken__BytesNumber: ${REFRESH_TOKEN_BYTES_NUMBER}
+      RefreshToken__Lifetime: ${REFRESH_TOKEN_LIFETIME}
       Docker__Network__Subnet: ${DOCKER_NETWORK_SUBNET}
       Docker__Network__Gateway: ${DOCKER_NETWORK_GATEWAY}
     deploy:
@@ -176,6 +180,8 @@ services:
       Jwt__Audience: ${JWT_AUDIENCE}
       Jwt__ExpireMinutes: ${JWT_EXPIRE_MINUTES}
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
+      RefreshToken__BytesNumber: ${REFRESH_TOKEN_BYTES_NUMBER}
+      RefreshToken__Lifetime: ${REFRESH_TOKEN_LIFETIME}
       Path__Documents: ${LEGAL_SUPPORT_APP_DOCS_CONTAINER_PATH}
       FileName__CookiePolicyName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_NAME}
       FileName__CookiePolicyManifestName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_MANIFEST_NAME}

@@ -95,6 +95,19 @@ internal sealed class UserRepository : IUserRepository
         _logger.LogInformation("User deleted");
     }
 
+    public async Task<IdentityUser?> FindByIdAsync(string id)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(id, nameof(id));
+
+        _logger.LogInformation("Trying to find user");
+
+        IdentityUser? foundUser = await _userManager.FindByIdAsync(id);
+
+        _logger.LogInformation("User found: {Found}", foundUser is not null);
+
+        return foundUser;
+    }
+
     public async Task<IdentityUser?> FindByEmailAsync(string email)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(email, nameof(email));

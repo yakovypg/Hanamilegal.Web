@@ -10,23 +10,28 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace Hanamilegal.Web.InternalApp.Api.Applications;
 
-public sealed class ApplicationsApiClient
+public sealed class ApplicationsApiClient : ApiClient
 {
-    private readonly HttpClient _httpClient;
-    private readonly IJsonContentService _jsonContentService;
-
     public ApplicationsApiClient(HttpClient httpClient, IJsonContentService jsonContentService)
+        : base(
+            httpClient ?? throw new ArgumentNullException(nameof(httpClient)),
+            jsonContentService ?? throw new ArgumentNullException(nameof(jsonContentService)))
     {
-        ArgumentNullException.ThrowIfNull(httpClient, nameof(httpClient));
-        ArgumentNullException.ThrowIfNull(jsonContentService, nameof(jsonContentService));
-
-        _httpClient = httpClient;
-        _jsonContentService = jsonContentService;
     }
 
     public async Task<IReadOnlyList<ApplicationResponseDto>> SearchAsync(
         ApplicationSearchRequestDto filter,
         CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+
+        Dictionary<string, string?> queryParameters = CreateQueryParameters(filter);
+        string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, queryParameters);
+
+        return await GetAsync<IReadOnlyList<ApplicationResponseDto>>(url, cancellationToken);
+    }
+
+    private static Dictionary<string, string?> CreateQueryParameters(ApplicationSearchRequestDto filter)
     {
         ArgumentNullException.ThrowIfNull(filter, nameof(filter));
 
@@ -68,12 +73,6 @@ public sealed class ApplicationsApiClient
                 filter.SortParameters.Direction.ToString();
         }
 
-        string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, query);
-
-        HttpResponseMessage response = await _httpClient.GetAsync(url, cancellationToken);
-        response.EnsureSuccessStatusCode();
-
-        return await _jsonContentService
-            .ReadAsync<IReadOnlyList<ApplicationResponseDto>>(response.Content, cancellationToken);
+        return query;
     }
 }

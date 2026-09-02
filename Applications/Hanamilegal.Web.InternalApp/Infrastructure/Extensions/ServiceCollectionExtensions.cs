@@ -66,6 +66,14 @@ internal static class ServiceCollectionExtensions
             .Validate(o => !string.IsNullOrWhiteSpace(o.BaseUrl))
             .ValidateOnStart();
 
+        _ = services
+            .AddOptions<TokenLifetimeOptions>()
+            .BindConfiguration(TokenLifetimeOptions.SectionName)
+            .Validate(o =>
+                o.DefaultLifetime > TimeSpan.Zero &&
+                o.RememberMeLifetime > TimeSpan.Zero)
+            .ValidateOnStart();
+
         return services;
     }
 
@@ -77,7 +85,7 @@ internal static class ServiceCollectionExtensions
             .AddHttpContextAccessor()
             .AddTransient<ApiAuthorizationHandler>()
             .AddTransient<IJsonContentService, JsonContentService>()
-            .AddJwtTokenService();
+            .AddTokenServices();
     }
 
     internal static IServiceCollection SetupHttpClients(this IServiceCollection services)

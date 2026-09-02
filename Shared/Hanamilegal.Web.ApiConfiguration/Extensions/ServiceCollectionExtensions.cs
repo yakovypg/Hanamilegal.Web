@@ -117,7 +117,7 @@ public static class ServiceCollectionExtensions
             .AddSession();
     }
 
-    public static IServiceCollection AddJwtTokenService(this IServiceCollection services)
+    public static IServiceCollection AddTokenServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
@@ -130,7 +130,17 @@ public static class ServiceCollectionExtensions
             .Validate(o => !string.IsNullOrWhiteSpace(o.Audience))
             .ValidateOnStart();
 
-        return services.AddScoped<ITokenService, JwtTokenService>();
+        _ = services
+            .AddOptions<RefreshTokenOptions>()
+            .BindConfiguration(RefreshTokenOptions.SectionName)
+            .Validate(o => o.BytesNumber > 0)
+            .Validate(o => o.Lifetime > TimeSpan.Zero)
+            .ValidateOnStart();
+
+        return services
+            .AddScoped<IAccessTokenService, JwtTokenService>()
+            .AddScoped<IRefreshTokenService, RefreshTokenService>()
+            .AddTransient<IRefreshTokenHasher, Sha256RefreshTokenHasher>();
     }
 
     public static IServiceCollection SetupPathOptions(this IServiceCollection services)

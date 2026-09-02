@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Hanamilegal.Web.Auth.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ public interface IUserRepository
 {
     Task<IdentityUser> AddAsync(string email, string password, UserRole role);
     Task DeleteByEmailAsync(string email);
+    Task<IdentityUser?> FindByIdAsync(string id);
     Task<IdentityUser?> FindByEmailAsync(string email);
     Task<bool> ExistsByEmailAsync(string email);
 }

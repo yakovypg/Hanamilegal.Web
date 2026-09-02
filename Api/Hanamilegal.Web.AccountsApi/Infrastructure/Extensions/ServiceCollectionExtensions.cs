@@ -45,7 +45,7 @@ internal static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
         return services
-            .AddJwtTokenService()
+            .AddTokenServices()
             .AddScoped<IAuthenticationService, AuthenticationService>()
             .AddScoped<IAccountsService, AccountsService>();
     }
@@ -56,7 +56,8 @@ internal static class ServiceCollectionExtensions
 
         return services
             .AddScoped<IUserRepository, UserRepository>()
-            .AddScoped<IUserRoleRepository, UserRoleRepository>();
+            .AddScoped<IUserRoleRepository, UserRoleRepository>()
+            .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
     }
 
     internal static IServiceCollection SetupAccountsDb(

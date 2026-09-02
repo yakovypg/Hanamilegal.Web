@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Hanamilegal.Web.Auth.Services;
 
-public class JwtTokenService : ITokenService
+public class JwtTokenService : IAccessTokenService
 {
     public const int MinJwtKeyBits = 32 * 8;
     public const string SecurityAlgorithm = SecurityAlgorithms.HmacSha256;

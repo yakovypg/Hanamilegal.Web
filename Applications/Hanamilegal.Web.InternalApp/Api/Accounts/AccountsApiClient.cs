@@ -1,6 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.Contracts.Accounts;
@@ -8,18 +7,13 @@ using Hanamilegal.Web.InternalApp.Services;
 
 namespace Hanamilegal.Web.InternalApp.Api.Accounts;
 
-public sealed class AccountsApiClient
+public sealed class AccountsApiClient : ApiClient
 {
-    private readonly HttpClient _httpClient;
-    private readonly IJsonContentService _jsonContentService;
-
     public AccountsApiClient(HttpClient httpClient, IJsonContentService jsonContentService)
+        : base(
+            httpClient ?? throw new ArgumentNullException(nameof(httpClient)),
+            jsonContentService ?? throw new ArgumentNullException(nameof(jsonContentService)))
     {
-        ArgumentNullException.ThrowIfNull(httpClient, nameof(httpClient));
-        ArgumentNullException.ThrowIfNull(jsonContentService, nameof(jsonContentService));
-
-        _httpClient = httpClient;
-        _jsonContentService = jsonContentService;
     }
 
     public async Task<LoginResponseDto> LoginAsync(
@@ -27,12 +21,22 @@ public sealed class AccountsApiClient
         CancellationToken cancellationToken = default)
     {
         string url = AccountsApiRoutes.Login;
-        using JsonContent content = JsonContent.Create(loginData);
 
-        HttpResponseMessage response = await _httpClient.PostAsync(url, content, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        return await PostAsync<LoginRequestDto, LoginResponseDto>(
+            url: url,
+            content: loginData,
+            cancellationToken: cancellationToken);
+    }
 
-        return await _jsonContentService
-            .ReadAsync<LoginResponseDto>(response.Content, cancellationToken);
+    public async Task<LoginResponseDto> RefreshAccessTokenAsync(
+        RefreshAccessTokenRequestDto refreshAccessTokenData,
+        CancellationToken cancellationToken = default)
+    {
+        string url = AccountsApiRoutes.RefreshAccessToken;
+
+        return await PostAsync<RefreshAccessTokenRequestDto, LoginResponseDto>(
+            url: url,
+            content: refreshAccessTokenData,
+            cancellationToken: cancellationToken);
     }
 }

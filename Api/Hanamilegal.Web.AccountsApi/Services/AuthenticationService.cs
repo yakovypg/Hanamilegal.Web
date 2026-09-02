@@ -64,4 +64,25 @@ public sealed class AuthenticationService : IAuthenticationService
 
         return new AuthenticationResult(user.Id, user.Email, roles);
     }
+
+    public async Task<AuthenticationResult> GetAuthenticationResultAsync(string userId)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(userId, nameof(userId));
+
+        _logger.LogInformation("Trying to get authentication result for user {UserId}", userId);
+
+        IdentityUser? user = await _userRepository.FindByIdAsync(userId);
+
+        if (user is null)
+        {
+            _logger.LogWarning("User {UserId} not found", userId);
+            throw new NotFoundException("User not found");
+        }
+
+        _logger.LogInformation("Authentication result for user {UserId} received", userId);
+
+        IReadOnlyList<string> roles = [.. await _userManager.GetRolesAsync(user)];
+
+        return new AuthenticationResult(user.Id, user.Email, roles);
+    }
 }

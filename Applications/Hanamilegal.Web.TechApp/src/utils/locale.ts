@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import { type i18n } from "i18next";
 
 interface Language {
   readonly english: string;
@@ -12,31 +12,35 @@ export const DEFAULT_LANGUAGES: Language = {
 
 export type DefaultLanguages = (typeof DEFAULT_LANGUAGES)[keyof typeof DEFAULT_LANGUAGES];
 
-export function currentLanguageFullName(): string {
-  return i18n.language;
+export function currentLanguageCode(i18nInstance: i18n): string {
+  return i18nInstance.resolvedLanguage ?? i18nInstance.language;
 }
 
-export function currentLanguage(): string {
-  return i18n.resolvedLanguage ?? i18n.language;
+export function currentLanguage(i18nInstance: i18n): string {
+  const languageCode: string = currentLanguageCode(i18nInstance);
+  return languageCode ? languageCode.split(/[-_]/)[0].toLowerCase() : languageCode;
 }
 
-export function isCurrentLanguageEnglish(): boolean {
-  return currentLanguage() == DEFAULT_LANGUAGES.english;
+export function isCurrentLanguageEnglish(i18nInstance: i18n): boolean {
+  return currentLanguage(i18nInstance) == DEFAULT_LANGUAGES.english;
 }
 
-export function isCurrentLanguageRussian(): boolean {
-  return currentLanguage() == DEFAULT_LANGUAGES.russian;
+export function isCurrentLanguageRussian(i18nInstance: i18n): boolean {
+  return currentLanguage(i18nInstance) == DEFAULT_LANGUAGES.russian;
 }
 
-export function changeLanguage(newLanguage: DefaultLanguages): void {
-  i18n.changeLanguage(newLanguage);
+export async function changeLanguage(
+  i18nInstance: i18n,
+  newLanguage: DefaultLanguages
+): Promise<void> {
+  await i18nInstance.changeLanguage(newLanguage);
 }
 
-export function switchLanguage(): void {
+export async function switchLanguage(i18nInstance: i18n): Promise<void> {
   const next: string =
-    currentLanguage() === DEFAULT_LANGUAGES.russian
+    currentLanguage(i18nInstance) === DEFAULT_LANGUAGES.russian
       ? DEFAULT_LANGUAGES.english
       : DEFAULT_LANGUAGES.russian;
 
-  i18n.changeLanguage(next);
+  await i18nInstance.changeLanguage(next);
 }

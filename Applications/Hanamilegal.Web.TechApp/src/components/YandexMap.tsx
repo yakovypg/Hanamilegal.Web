@@ -1,7 +1,8 @@
 import "styles/components/yandex-map.css";
 
 import React, { type RefObject, useEffect, useRef } from "react";
-import { currentLanguageFullName } from "utils";
+import { useTranslation } from "react-i18next";
+import { currentLanguage } from "utils";
 
 interface Props {
   readonly address: string;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export const YandexMap: React.FC<Props> = ({ address, className }: Props) => {
+  const { i18n } = useTranslation();
+
   const ymapsScriptId: string = "ymaps-api-script";
   const mapContainerRef: RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
 
@@ -21,7 +24,7 @@ export const YandexMap: React.FC<Props> = ({ address, className }: Props) => {
         return Promise.resolve();
       }
 
-      const language = currentLanguageFullName();
+      const language = currentLanguage(i18n);
 
       return new Promise<void>((resolve, reject) => {
         const script = document.createElement("script");

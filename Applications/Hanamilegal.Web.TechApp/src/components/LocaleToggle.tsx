@@ -1,6 +1,7 @@
 import "styles/components/locale-toggle.css";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { currentLanguage, isCurrentLanguageRussian, switchLanguage } from "utils";
 
 interface Props {
@@ -8,7 +9,13 @@ interface Props {
 }
 
 export const LocaleToggle: React.FC<Props> = ({ className }: Props) => {
-  const isCurrentLanguageRu: boolean = isCurrentLanguageRussian();
+  const { i18n } = useTranslation();
+
+  function handleSwitchLanguage(): void {
+    void switchLanguage(i18n);
+  }
+
+  const isCurrentLanguageRu: boolean = isCurrentLanguageRussian(i18n);
   const localeClass: string = isCurrentLanguageRu ? "locale-ru" : "locale-en";
 
   return (
@@ -17,11 +24,11 @@ export const LocaleToggle: React.FC<Props> = ({ className }: Props) => {
       type="button"
       role="switch"
       aria-checked={isCurrentLanguageRu}
-      onClick={switchLanguage}>
+      onClick={handleSwitchLanguage}>
       <div className={`locale-toggle ${localeClass}`} aria-hidden="true">
         <div className="locale-track">
           <div className="locale-thumb">
-            <span className="locale-thumb-label">{currentLanguage()}</span>
+            <span className="locale-thumb-label">{currentLanguage(i18n)}</span>
           </div>
         </div>
       </div>

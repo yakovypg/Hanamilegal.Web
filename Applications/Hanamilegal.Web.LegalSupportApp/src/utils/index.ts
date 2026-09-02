@@ -3,7 +3,7 @@ export { formatPhone } from "./format";
 export {
   changeLanguage,
   currentLanguage,
-  currentLanguageFullName,
+  currentLanguageCode,
   DEFAULT_LANGUAGES,
   type DefaultLanguages,
   isCurrentLanguageEnglish,

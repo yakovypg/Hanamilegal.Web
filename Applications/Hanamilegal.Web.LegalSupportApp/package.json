@@ -1,7 +1,7 @@
 {
   "name": "hanamilegal.web.legal-support-app",
   "author": "infra+",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "private": true,
   "scripts": {

@@ -15,7 +15,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "yarn format-eslint && yarn format-prettier",
     "format-eslint": "yarn eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
-    "format-prettier": "yarn prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss}\""
+    "format-prettier": "yarn prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss}\"",
+    "check-licenses": "yarn license-checker --json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -52,6 +53,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "globals": "^17.4.0",
+    "license-checker": "^25.0.1",
     "prettier": "^3.8.3",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.0",

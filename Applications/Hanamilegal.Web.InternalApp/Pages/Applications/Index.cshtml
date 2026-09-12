@@ -96,11 +96,11 @@
                 </label>
 
                 <select asp-for="SortFilter.SortBy" class="form-select">
-                    <option value="@ApplicationSortFieldDto.CreatedAtUtc">
-                        Created date
-                    </option>
                     <option value="@ApplicationSortFieldDto.Id">
                         Application ID
+                    </option>
+                    <option value="@ApplicationSortFieldDto.CreatedAtUtc">
+                        Created date
                     </option>
                     <option value="@ApplicationSortFieldDto.Type">
                         Application type
@@ -167,6 +167,7 @@ else
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-light text-center align-middle">
                 <tr>
+                    <th>ID</th>
                     <th>Created At (UTC)</th>
                     <th>Type</th>
                     <th>Sender Name</th>
@@ -180,6 +181,7 @@ else
                 @foreach (ApplicationDto application in Model.PaginationResult.Items)
                 {
                     <tr>
+                        <td>@application.Id</td>
                         <td>@application.CreatedAtUtc</td>
                         <td>@application.Type</td>
                         <td>@application.SenderName</td>

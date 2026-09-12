@@ -1,4 +1,4 @@
-namespace Hanamilegal.Web.Contracts.Applications;
+namespace Hanamilegal.Web.Contracts.Filters;
 
 public enum SortDirectionDto
 {

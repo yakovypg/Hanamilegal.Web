@@ -5,6 +5,7 @@ using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.InternalApp.Api;
 using Hanamilegal.Web.InternalApp.Api.Accounts;
 using Hanamilegal.Web.InternalApp.Api.Applications;
+using Hanamilegal.Web.InternalApp.Api.Consents;
 using Hanamilegal.Web.InternalApp.Configuration;
 using Hanamilegal.Web.InternalApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -102,6 +103,13 @@ internal static class ServiceCollectionExtensions
 
         // Use ApiAuthorizationHandler
         _ = services.AddHttpClient<ApplicationsApiClient>((serviceProvider, client) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<ApplicationsApiOptions>>();
+            client.BaseAddress = new Uri(options.Value.BaseUrl);
+        }).AddHttpMessageHandler<ApiAuthorizationHandler>();
+
+        // Use ApiAuthorizationHandler
+        _ = services.AddHttpClient<ConsentsApiClient>((serviceProvider, client) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<ApplicationsApiOptions>>();
             client.BaseAddress = new Uri(options.Value.BaseUrl);

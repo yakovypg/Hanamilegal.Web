@@ -27,6 +27,15 @@
                             </a>
                         </li>
                     }
+
+                    @if (User.IsInRole(UserRole.Admin.ToString()))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Consents/Index">
+                                Consents
+                            </a>
+                        </li>
+                    }
                 </ul>
 
                 @if (User.Identity?.IsAuthenticated == true)

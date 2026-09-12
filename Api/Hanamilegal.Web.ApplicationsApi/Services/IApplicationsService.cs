@@ -7,7 +7,7 @@ namespace Hanamilegal.Web.ApplicationsApi.Services;
 
 public interface IApplicationsService
 {
-    Task<ApplicationResponseDto> CreateAsync(CreateApplicationRequestDto dto);
-    Task<ApplicationResponseDto?> GetByIdAsync(Guid id);
-    Task<PaginationResult<ApplicationResponseDto>> SearchAllAsync(ApplicationSearchRequestDto dto);
+    Task<ApplicationDto> CreateAsync(CreateApplicationRequestDto dto);
+    Task<ApplicationDto?> GetByIdAsync(Guid id);
+    Task<PaginationResult<ApplicationDto>> SearchAllAsync(ApplicationSearchRequestDto dto);
 }

@@ -6,29 +6,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.Auth.Authorization;
-using Hanamilegal.Web.Contracts.Applications;
+using Hanamilegal.Web.Contracts.Consents;
 using Hanamilegal.Web.Contracts.Filters;
-using Hanamilegal.Web.InternalApp.Api.Applications;
+using Hanamilegal.Web.InternalApp.Api.Consents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-namespace Hanamilegal.Web.InternalApp.Pages.Applications;
+namespace Hanamilegal.Web.InternalApp.Pages.Consents;
 
-[Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
+[Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastAdmin))]
 public class IndexModel : PageModel
 {
-    private readonly ApplicationsApiClient _applicationsApiClient;
+    private readonly ConsentsApiClient _consentsApiClient;
     private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(ApplicationsApiClient applicationsApiClient, ILogger<IndexModel> logger)
+    public IndexModel(ConsentsApiClient consentsApiClient, ILogger<IndexModel> logger)
     {
-        ArgumentNullException.ThrowIfNull(applicationsApiClient, nameof(applicationsApiClient));
+        ArgumentNullException.ThrowIfNull(consentsApiClient, nameof(consentsApiClient));
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
 
-        _applicationsApiClient = applicationsApiClient;
+        _consentsApiClient = consentsApiClient;
         _logger = logger;
 
         SearchFilter = new();
@@ -38,15 +38,16 @@ public class IndexModel : PageModel
     }
 
     [BindProperty(SupportsGet = true)]
-    public ApplicationSearchFilterDto SearchFilter { get; set; }
+    public ConsentAuditSearchFilterDto SearchFilter { get; set; }
 
     [BindProperty(SupportsGet = true)]
-    public ApplicationSortFilterDto SortFilter { get; set; }
+    public ConsentAuditSortFilterDto SortFilter { get; set; }
 
     [BindProperty(SupportsGet = true)]
     public PaginationFilterDto PaginationFilter { get; set; }
 
-    public PaginationResult<ApplicationDto> PaginationResult { get; private set; }
+    public PaginationResult<ConsentAuditDto> PaginationResult { get; private set; }
+
     public string? ErrorMessage { get; private set; }
 
     public async Task OnGetAsync(CancellationToken cancellationToken)
@@ -58,7 +59,7 @@ public class IndexModel : PageModel
         if (!IsSearchFilterValid() || !ModelState.IsValid)
             return;
 
-        var request = new ApplicationSearchRequestDto()
+        var request = new ConsentAuditSearchRequestDto()
         {
             SearchFilter = SearchFilter,
             SortFilter = SortFilter,
@@ -67,7 +68,7 @@ public class IndexModel : PageModel
 
         try
         {
-            PaginationResult = await _applicationsApiClient.SearchAsync(request, cancellationToken);
+            PaginationResult = await _consentsApiClient.SearchAsync(request, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -122,7 +123,7 @@ public class IndexModel : PageModel
         SortFilter ??= new();
 
         if (!Request.Query.ContainsKey(sortByKey))
-            SortFilter.SortBy = ApplicationSortFieldDto.CreatedAtUtc;
+            SortFilter.SortBy = ConsentAuditSortFieldDto.CreatedAtUtc;
 
         if (!Request.Query.ContainsKey(directionKey))
             SortFilter.Direction = SortDirectionDto.Descending;

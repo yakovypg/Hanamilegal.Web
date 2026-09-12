@@ -7,6 +7,7 @@
     ViewData["Title"] = "Applications";
 }
 @using Hanamilegal.Web.Contracts.Applications
+@using Hanamilegal.Web.Contracts.Filters
 @using Hanamilegal.Web.InternalApp.ViewModels
 
 <div class="text-center title-text mb-2">
@@ -176,7 +177,7 @@ else
             </thead>
 
             <tbody>
-                @foreach (ApplicationResponseDto application in Model.PaginationResult.Items)
+                @foreach (ApplicationDto application in Model.PaginationResult.Items)
                 {
                     <tr>
                         <td>@application.CreatedAtUtc</td>

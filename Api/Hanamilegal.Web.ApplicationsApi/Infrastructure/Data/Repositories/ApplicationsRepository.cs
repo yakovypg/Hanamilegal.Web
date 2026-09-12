@@ -69,11 +69,19 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
 
     public async Task<Application?> FindByIdAsync(Guid id)
     {
-        return await _context.Applications.SingleAsync(t => t.Id == id);
+        _logger.LogInformation("Trying to find application {ApplicationId}", id);
+
+        Application? foundApplication = await _context.Applications.SingleAsync(t => t.Id == id);
+
+        _logger.LogInformation("Application found: {Found}", foundApplication is not null);
+
+        return foundApplication;
     }
 
     public async Task<IEnumerable<Application>> FindAsync(IEnumerable<IFilter<Application>>? filters = null)
     {
+        _logger.LogInformation("Trying to find applications");
+
         IQueryable<Application> query = _context.Applications;
 
         foreach (IFilter<Application> filter in filters ?? [])
@@ -81,6 +89,10 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
             query = filter.Apply(query);
         }
 
-        return await query.ToListAsync();
+        List<Application> foundApplications = await query.ToListAsync();
+
+        _logger.LogInformation("Applications found: {Found}", foundApplications.Count > 0);
+
+        return foundApplications;
     }
 }

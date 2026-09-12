@@ -5,35 +5,35 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Pagination;
-using Hanamilegal.Web.Contracts.Applications;
+using Hanamilegal.Web.Contracts.Consents;
 using Hanamilegal.Web.Contracts.Filters;
 using Hanamilegal.Web.InternalApp.Services;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Hanamilegal.Web.InternalApp.Api.Applications;
+namespace Hanamilegal.Web.InternalApp.Api.Consents;
 
-public sealed class ApplicationsApiClient : ApiClient
+public sealed class ConsentsApiClient : ApiClient
 {
-    public ApplicationsApiClient(HttpClient httpClient, IJsonContentService jsonContentService)
+    public ConsentsApiClient(HttpClient httpClient, IJsonContentService jsonContentService)
         : base(
             httpClient ?? throw new ArgumentNullException(nameof(httpClient)),
             jsonContentService ?? throw new ArgumentNullException(nameof(jsonContentService)))
     {
     }
 
-    public async Task<PaginationResult<ApplicationDto>> SearchAsync(
-        ApplicationSearchRequestDto request,
+    public async Task<PaginationResult<ConsentAuditDto>> SearchAsync(
+        ConsentAuditSearchRequestDto request,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request, nameof(request));
 
         Dictionary<string, string?> queryParameters = CreateQueryParameters(request);
-        string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, queryParameters);
+        string url = QueryHelpers.AddQueryString(ConsentsApiRoutes.Search, queryParameters);
 
-        return await GetAsync<PaginationResult<ApplicationDto>>(url, cancellationToken);
+        return await GetAsync<PaginationResult<ConsentAuditDto>>(url, cancellationToken);
     }
 
-    private static Dictionary<string, string?> CreateQueryParameters(ApplicationSearchRequestDto searchRequest)
+    private static Dictionary<string, string?> CreateQueryParameters(ConsentAuditSearchRequestDto searchRequest)
     {
         ArgumentNullException.ThrowIfNull(searchRequest, nameof(searchRequest));
 
@@ -53,17 +53,23 @@ public sealed class ApplicationsApiClient : ApiClient
 
     private static void AddSearchQueryParameters(
         Dictionary<string, string?> queryParameters,
-        ApplicationSearchFilterDto searchFilter)
+        ConsentAuditSearchFilterDto searchFilter)
     {
         ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
         ArgumentNullException.ThrowIfNull(searchFilter, nameof(searchFilter));
 
-        const string searchFilterKey = nameof(ApplicationSearchRequestDto.SearchFilter);
+        const string searchFilterKey = nameof(ConsentAuditSearchRequestDto.SearchFilter);
 
         if (searchFilter.Id.HasValue)
         {
             queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Id)}"] =
                 searchFilter.Id.Value.ToString();
+        }
+
+        if (searchFilter.ExternalEntityId.HasValue)
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.ExternalEntityId)}"] =
+                searchFilter.ExternalEntityId.Value.ToString();
         }
 
         if (searchFilter.FromDateUtc.HasValue)
@@ -78,39 +84,57 @@ public sealed class ApplicationsApiClient : ApiClient
                 searchFilter.ToDateUtc.Value.ToString("O", CultureInfo.InvariantCulture);
         }
 
-        if (searchFilter.Type.HasValue)
+        if (!string.IsNullOrWhiteSpace(searchFilter.SessionId))
         {
-            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Type)}"] =
-                searchFilter.Type.Value.ToString();
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.SessionId)}"] =
+                searchFilter.SessionId;
         }
 
-        if (!string.IsNullOrWhiteSpace(searchFilter.SenderName))
+        if (!string.IsNullOrWhiteSpace(searchFilter.IpAddress))
         {
-            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.SenderName)}"] =
-                searchFilter.SenderName;
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.IpAddress)}"] =
+                searchFilter.IpAddress;
         }
 
-        if (!string.IsNullOrWhiteSpace(searchFilter.Organization))
+        if (!string.IsNullOrWhiteSpace(searchFilter.UserAgent))
         {
-            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Organization)}"] =
-                searchFilter.Organization;
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.UserAgent)}"] =
+                searchFilter.UserAgent;
         }
 
-        if (!string.IsNullOrWhiteSpace(searchFilter.Email))
+        if (!string.IsNullOrWhiteSpace(searchFilter.RequestPath))
         {
-            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Email)}"] =
-                searchFilter.Email;
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.RequestPath)}"] =
+                searchFilter.RequestPath;
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchFilter.DocumentName))
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.DocumentName)}"] =
+                searchFilter.DocumentName;
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchFilter.DocumentHash))
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.DocumentHash)}"] =
+                searchFilter.DocumentHash;
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchFilter.DocumentVersion))
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.DocumentVersion)}"] =
+                searchFilter.DocumentVersion;
         }
     }
 
     private static void AddSortQueryParameters(
         Dictionary<string, string?> queryParameters,
-        ApplicationSortFilterDto sortFilter)
+        ConsentAuditSortFilterDto sortFilter)
     {
         ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
         ArgumentNullException.ThrowIfNull(sortFilter, nameof(sortFilter));
 
-        const string sortFilterKey = nameof(ApplicationSearchRequestDto.SortFilter);
+        const string sortFilterKey = nameof(ConsentAuditSearchRequestDto.SortFilter);
 
         queryParameters[$"{sortFilterKey}.{nameof(sortFilter.SortBy)}"] =
             sortFilter.SortBy.ToString();
@@ -126,7 +150,7 @@ public sealed class ApplicationsApiClient : ApiClient
         ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
         ArgumentNullException.ThrowIfNull(paginationFilter, nameof(paginationFilter));
 
-        const string paginationFilterKey = nameof(ApplicationSearchRequestDto.PaginationFilter);
+        const string paginationFilterKey = nameof(ConsentAuditSearchRequestDto.PaginationFilter);
 
         queryParameters[$"{paginationFilterKey}.{nameof(paginationFilter.PageNumber)}"] =
             paginationFilter.PageNumber.ToString(CultureInfo.InvariantCulture);

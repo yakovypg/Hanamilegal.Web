@@ -1,3 +1,5 @@
+using Hanamilegal.Web.Contracts.Filters;
+
 namespace Hanamilegal.Web.Contracts.Applications;
 
 public sealed class ApplicationSortFilterDto

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Hanamilegal.Web.Contracts.Applications;
+namespace Hanamilegal.Web.Contracts.Filters;
 
-public sealed class ApplicationPaginationFilterDto
+public sealed class PaginationFilterDto
 {
     [Range(1, int.MaxValue)]
     public int PageNumber { get; set; } = 1;

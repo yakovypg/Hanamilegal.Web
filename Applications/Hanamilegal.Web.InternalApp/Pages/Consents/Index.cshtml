@@ -1,0 +1,252 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Consent audits";
+}
+@using Hanamilegal.Web.Contracts.Consents
+@using Hanamilegal.Web.Contracts.Filters
+@using Hanamilegal.Web.InternalApp.ViewModels
+
+<div class="text-center title-text mb-2">
+    <h1>Consent audits</h1>
+</div>
+
+<div class="align-self-start w-100">
+    <form method="get" class="card card-body shadow-sm mb-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.Id" class="form-label">
+                    Consent Audit ID
+                </label>
+
+                <input asp-for="SearchFilter.Id" class="form-control" placeholder="GUID" />
+                <span asp-validation-for="SearchFilter.Id" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.ExternalEntityId" class="form-label">
+                    External Entity ID
+                </label>
+
+                <input asp-for="SearchFilter.ExternalEntityId" class="form-control" placeholder="GUID" />
+                <span asp-validation-for="SearchFilter.ExternalEntityId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.SessionId" class="form-label">
+                    Session ID
+                </label>
+
+                <input asp-for="SearchFilter.SessionId" class="form-control" placeholder="GUID" />
+                <span asp-validation-for="SearchFilter.SessionId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.FromDateUtc" class="form-label">
+                    From Date (UTC)
+                </label>
+
+                <input asp-for="SearchFilter.FromDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="SearchFilter.FromDateUtc" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.ToDateUtc" class="form-label">
+                    To Date (UTC)
+                </label>
+
+                <input asp-for="SearchFilter.ToDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="SearchFilter.ToDateUtc" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.IpAddress" class="form-label">
+                    IP address
+                </label>
+
+                <input asp-for="SearchFilter.IpAddress" class="form-control" />
+                <span asp-validation-for="SearchFilter.IpAddress" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="SearchFilter.UserAgent" class="form-label">
+                    User Agent
+                </label>
+
+                <input asp-for="SearchFilter.UserAgent" class="form-control" />
+                <span asp-validation-for="SearchFilter.UserAgent" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="SearchFilter.RequestPath" class="form-label">
+                    Request Path
+                </label>
+
+                <input asp-for="SearchFilter.RequestPath" class="form-control" />
+                <span asp-validation-for="SearchFilter.RequestPath" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.DocumentName" class="form-label">
+                    Document Name
+                </label>
+
+                <input asp-for="SearchFilter.DocumentName" class="form-control" />
+                <span asp-validation-for="SearchFilter.DocumentName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.DocumentHash" class="form-label">
+                    Document Hash
+                </label>
+
+                <input asp-for="SearchFilter.DocumentHash" class="form-control" />
+                <span asp-validation-for="SearchFilter.DocumentHash" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.DocumentVersion" class="form-label">
+                    Document Version
+                </label>
+
+                <input asp-for="SearchFilter.DocumentVersion" class="form-control" />
+                <span asp-validation-for="SearchFilter.DocumentVersion" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3 justify-content-center">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label asp-for="SortFilter.SortBy" class="form-label">
+                    Sort by
+                </label>
+
+                <select asp-for="SortFilter.SortBy" class="form-select">
+                    <option value="@ConsentAuditSortFieldDto.Id">
+                        Consent audit ID
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.ExternalEntityId">
+                        External entity ID
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.CreatedAtUtc">
+                        Created date
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.SessionId">
+                        Session ID
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.IpAddress">
+                        IP address
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.UserAgent">
+                        User agent
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.RequestPath">
+                        Request path
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.DocumentName">
+                        Document name
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.DocumentHash">
+                        Document hash
+                    </option>
+                    <option value="@ConsentAuditSortFieldDto.DocumentVersion">
+                        Document version
+                    </option>
+                </select>
+
+                <span asp-validation-for="SortFilter.SortBy" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label asp-for="SortFilter.Direction" class="form-label">
+                    Direction
+                </label>
+
+                <select asp-for="SortFilter.Direction" class="form-select">
+                    <option value="@SortDirectionDto.Descending">
+                        Descending
+                    </option>
+                    <option value="@SortDirectionDto.Ascending">
+                        Ascending
+                    </option>
+                </select>
+
+                <span asp-validation-for="SortFilter.Direction" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center gap-3">
+            <button type="submit" class="button primary width-120">
+                Find
+            </button>
+
+            <a asp-page="./Index" class="text-center button secondary width-120">
+                Reset
+            </a>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+else if (Model.PaginationResult.Items.Count == 0)
+{
+    <div class="alert alert-info">
+        Consent audits not found
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light text-center align-middle">
+                <tr>
+                    <th>ID</th>
+                    <th>External Entity ID</th>
+                    <th>Created At (UTC)</th>
+                    <th>Session ID</th>
+                    <th>IP Address</th>
+                    <th>User Agent</th>
+                    <th>Request Path</th>
+                    <th>Document Name</th>
+                    <th>Document Hash</th>
+                    <th>Document Version</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (ConsentAuditDto consentAudit in Model.PaginationResult.Items)
+                {
+                    <tr>
+                        <td>@consentAudit.Id</td>
+                        <td>@consentAudit.ExternalEntityId</td>
+                        <td>@consentAudit.CreatedAtUtc</td>
+                        <td>@consentAudit.SessionId</td>
+                        <td>@consentAudit.IpAddress</td>
+                        <td>@consentAudit.UserAgent</td>
+                        <td>@consentAudit.RequestPath</td>
+                        <td>@consentAudit.DocumentName</td>
+                        <td>@consentAudit.DocumentHash</td>
+                        <td>@consentAudit.DocumentVersion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @{
+            var paginationViewModel = new PaginationViewModel
+            {
+                CurrentPage = Model.PaginationResult.PageNumber,
+                TotalPages = Model.PaginationResult.TotalPages,
+                GetPageUrl = Model.GetPageUrl
+            };
+        }
+
+        @await Html.PartialAsync("_Pagination", paginationViewModel)
+    </div>
+}

@@ -1,8 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApiCommon.Requests;
-using Hanamilegal.Web.Contracts.Applications;
+using Hanamilegal.Web.Contracts.Consents;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
 
@@ -16,4 +17,7 @@ public interface IConsentsService
         Guid consentAuditId,
         Guid externalEntityId,
         CancellationToken cancellationToken = default);
+
+    Task<ConsentAuditDto?> GetByIdAsync(Guid id);
+    Task<PaginationResult<ConsentAuditDto>> SearchAllAsync(ConsentAuditSearchRequestDto dto);
 }

@@ -6,6 +6,7 @@ using Hanamilegal.Web.ApiCommon.Requests;
 using Hanamilegal.Web.ApplicationsApi.Services;
 using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Contracts.Applications;
+using Hanamilegal.Web.Contracts.Consents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +34,9 @@ public class ApplicationsController : ControllerBase
     // POST /api/applications
     [HttpPost]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(ApplicationResponseDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApplicationDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ApplicationResponseDto>> Create(
+    public async Task<ActionResult<ApplicationDto>> Create(
         [FromBody] CreateApplicationRequestDto dto,
         CancellationToken cancellationToken)
     {
@@ -46,14 +47,14 @@ public class ApplicationsController : ControllerBase
 
         RequestContext requestContext = RequestContext.Create(Request.HttpContext);
 
-        ConsentAuditDto createdConsentAudit = await _consentsService.CreatePersonalDataConsentAuditAsync(
+        ConsentAuditDto createdConsentAuditDto = await _consentsService.CreatePersonalDataConsentAuditAsync(
             requestContext,
             cancellationToken);
 
-        ApplicationResponseDto createdApplicationDto = await _applicationsService.CreateAsync(dto);
+        ApplicationDto createdApplicationDto = await _applicationsService.CreateAsync(dto);
 
         _ = await _consentsService.AddExternalEntityIdToPersonalDataConsentAuditAsync(
-            createdConsentAudit.Id,
+            createdConsentAuditDto.Id,
             createdApplicationDto.Id,
             cancellationToken);
 
@@ -66,12 +67,11 @@ public class ApplicationsController : ControllerBase
     // GET /api/applications/{id}
     [HttpGet("{id:guid}")]
     [Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
-    [ProducesResponseType(typeof(ApplicationResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApplicationDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApplicationResponseDto>> GetById([FromRoute] Guid id)
+    public async Task<ActionResult<ApplicationDto>> GetById([FromRoute] Guid id)
     {
-        ApplicationResponseDto? applicationDto =
-            await _applicationsService.GetByIdAsync(id);
+        ApplicationDto? applicationDto = await _applicationsService.GetByIdAsync(id);
 
         return applicationDto is null
             ? NotFound()
@@ -81,16 +81,14 @@ public class ApplicationsController : ControllerBase
     // GET /api/applications/search?...
     [HttpGet("search")]
     [Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
-    [ProducesResponseType(typeof(PaginationResult<ApplicationResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginationResult<ApplicationDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaginationResult<ApplicationResponseDto>>> SearchAll(
+    public async Task<ActionResult<PaginationResult<ApplicationDto>>> SearchAll(
         [FromQuery] ApplicationSearchRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        PaginationResult<ApplicationResponseDto> foundApplications =
-            await _applicationsService.SearchAllAsync(dto);
-
+        PaginationResult<ApplicationDto> foundApplications = await _applicationsService.SearchAllAsync(dto);
         return Ok(foundApplications);
     }
 

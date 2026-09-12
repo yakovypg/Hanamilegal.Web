@@ -5,6 +5,7 @@ using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 using Hanamilegal.Web.Contracts.Applications;
+using Hanamilegal.Web.Contracts.Filters;
 
 namespace Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
 
@@ -26,13 +27,13 @@ public sealed class ApplicationProfile : Profile
 
         CreateMap<ApplicationSearchFilterDto, ApplicationSearchFilter>();
         CreateMap<ApplicationSortFilterDto, ApplicationSortFilter>();
-        CreateMap<ApplicationPaginationFilterDto, PaginationFilter<Application>>();
+        CreateMap<PaginationFilterDto, PaginationFilter<Application>>();
 
         CreateMap<CreateApplicationRequestDto, Application>()
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.CreatedAtUtc, o => o.Ignore());
 
         CreateMap<ApplicationSearchRequestDto, ApplicationSearchFilter>();
-        CreateMap<Application, ApplicationResponseDto>();
+        CreateMap<Application, ApplicationDto>();
     }
 }

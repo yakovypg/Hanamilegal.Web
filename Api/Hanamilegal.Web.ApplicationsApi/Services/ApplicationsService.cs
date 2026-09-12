@@ -26,23 +26,23 @@ public sealed class ApplicationsService : IApplicationsService
         _mapper = mapper;
     }
 
-    public async Task<ApplicationResponseDto> CreateAsync(CreateApplicationRequestDto dto)
+    public async Task<ApplicationDto> CreateAsync(CreateApplicationRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
         Application application = _mapper.Map<Application>(dto);
         await _applicationRepository.AddAsync(application);
 
-        return _mapper.Map<ApplicationResponseDto>(application);
+        return _mapper.Map<ApplicationDto>(application);
     }
 
-    public async Task<ApplicationResponseDto?> GetByIdAsync(Guid id)
+    public async Task<ApplicationDto?> GetByIdAsync(Guid id)
     {
-        Application foundApplication = await _applicationRepository.FindByIdAsync(id);
-        return _mapper.Map<ApplicationResponseDto>(foundApplication);
+        Application? foundApplication = await _applicationRepository.FindByIdAsync(id);
+        return _mapper.Map<ApplicationDto?>(foundApplication);
     }
 
-    public async Task<PaginationResult<ApplicationResponseDto>> SearchAllAsync(ApplicationSearchRequestDto dto)
+    public async Task<PaginationResult<ApplicationDto>> SearchAllAsync(ApplicationSearchRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
@@ -54,11 +54,11 @@ public sealed class ApplicationsService : IApplicationsService
         IEnumerable<IFilter<Application>> filters = rawFilters.Where(t => t is not null)!;
 
         IEnumerable<Application> foundApplications = await _applicationRepository.FindAsync(filters);
-        var foundApplicationsDto = _mapper.Map<IReadOnlyList<ApplicationResponseDto>>(foundApplications);
+        var foundApplicationsDto = _mapper.Map<IReadOnlyList<ApplicationDto>>(foundApplications);
 
         int totalApplicationsCount = await _applicationRepository.CountAsync();
 
-        return new PaginationResult<ApplicationResponseDto>()
+        return new PaginationResult<ApplicationDto>()
         {
             PageNumber = paginationFilter?.PageNumber ?? 1,
             PageSize = paginationFilter?.PageSize ?? int.MaxValue,

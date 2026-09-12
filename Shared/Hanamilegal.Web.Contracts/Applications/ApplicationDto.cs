@@ -2,7 +2,7 @@ using System;
 
 namespace Hanamilegal.Web.Contracts.Applications;
 
-public sealed record ApplicationResponseDto(
+public sealed record ApplicationDto(
     Guid Id,
     DateTimeOffset CreatedAtUtc,
     ApplicationTypeDto Type,

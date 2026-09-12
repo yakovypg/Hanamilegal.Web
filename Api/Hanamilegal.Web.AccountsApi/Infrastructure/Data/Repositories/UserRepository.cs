@@ -78,7 +78,7 @@ internal sealed class UserRepository : IUserRepository
 
         if (existingUser is null)
         {
-            _logger.LogInformation("User not found");
+            _logger.LogWarning("User not found");
             throw new NotFoundException("User not found");
         }
 

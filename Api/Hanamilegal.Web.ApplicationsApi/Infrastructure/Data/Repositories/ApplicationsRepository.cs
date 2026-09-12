@@ -3,44 +3,71 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiConfiguration.Exceptions;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 
 internal sealed class ApplicationsRepository : IApplicationsRepository
 {
     private readonly ApplicationsDbContext _context;
+    private readonly ILogger<ApplicationsRepository> _logger;
 
-    public ApplicationsRepository(ApplicationsDbContext context)
+    public ApplicationsRepository(ApplicationsDbContext context, ILogger<ApplicationsRepository> logger)
     {
         ArgumentNullException.ThrowIfNull(context, nameof(context));
+        ArgumentNullException.ThrowIfNull(logger, nameof(logger));
+
         _context = context;
+        _logger = logger;
     }
 
     public async Task<int> CountAsync()
     {
-        return await _context.Applications.CountAsync();
+        _logger.LogInformation("Trying to get number of applications");
+
+        int applicationsCount = await _context.Applications.CountAsync();
+
+        _logger.LogInformation("Received number of applications: {ApplicationsCount}", applicationsCount);
+
+        return applicationsCount;
     }
 
     public async Task AddAsync(Application application)
     {
         ArgumentNullException.ThrowIfNull(application, nameof(application));
 
+        _logger.LogInformation("Trying to add application");
+
         await _context.Applications.AddAsync(application);
         await _context.SaveChangesAsync();
+
+        _logger.LogInformation("Application added");
     }
 
     public async Task DeleteByIdAsync(Guid id)
     {
-        Application foundApplication = await FindByIdAsync(id);
+        _logger.LogInformation("Trying to delete application {ApplicationId}", id);
+
+        Application? foundApplication = await FindByIdAsync(id);
+
+        if (foundApplication is null)
+        {
+            _logger.LogWarning("Application not found");
+            throw new NotFoundException("Application not found");
+        }
+
         _context.Applications.Remove(foundApplication);
 
         await _context.SaveChangesAsync();
+
+        _logger.LogInformation("Application {ApplicationId} deleted", id);
     }
 
-    public async Task<Application> FindByIdAsync(Guid id)
+    public async Task<Application?> FindByIdAsync(Guid id)
     {
         return await _context.Applications.SingleAsync(t => t.Id == id);
     }

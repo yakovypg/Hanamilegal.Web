@@ -4,17 +4,12 @@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
         <div class="container big-text">
             <p class="navbar-brand">Internals</p>
-            
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
@@ -22,7 +17,7 @@
                             Home
                         </a>
                     </li>
-                    
+
                     @if (User.IsInRole(UserRole.ApplicationViewer.ToString()) ||
                          User.IsInRole(UserRole.Admin.ToString()))
                     {
@@ -37,10 +32,7 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <form method="post" asp-page="/Account/Logout" class="d-flex ms-auto">
-                        <button type="submit"
-                                class="btn btn-link nav-link text-dark p-0"
-                                title="Logout"
-                                aria-label="Logout">
+                        <button type="submit" class="btn btn-link nav-link text-dark p-0" title="Logout">
                             <i class="bi bi-box-arrow-right subtitle-text"></i>
                             <span class="d-sm-none ms-1">Logout</span>
                         </button>

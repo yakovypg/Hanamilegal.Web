@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
@@ -39,13 +42,28 @@ public sealed class ApplicationsService : IApplicationsService
         return _mapper.Map<ApplicationResponseDto>(foundApplication);
     }
 
-    public async Task<IEnumerable<ApplicationResponseDto>> SearchAllAsync(ApplicationSearchRequestDto dto)
+    public async Task<PaginationResult<ApplicationResponseDto>> SearchAllAsync(ApplicationSearchRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        ApplicationSearchFilter filter = _mapper.Map<ApplicationSearchFilter>(dto);
-        IEnumerable<Application> foundApplications = await _applicationRepository.FindAsync(filter);
+        var searchFilter = _mapper.Map<ApplicationSearchFilter?>(dto.SearchFilter);
+        var sortFilter = _mapper.Map<ApplicationSortFilter?>(dto.SortFilter);
+        var paginationFilter = _mapper.Map<PaginationFilter<Application>?>(dto.PaginationFilter);
 
-        return _mapper.Map<IEnumerable<ApplicationResponseDto>>(foundApplications);
+        IFilter<Application>?[] rawFilters = [searchFilter, sortFilter, paginationFilter];
+        IEnumerable<IFilter<Application>> filters = rawFilters.Where(t => t is not null)!;
+
+        IEnumerable<Application> foundApplications = await _applicationRepository.FindAsync(filters);
+        var foundApplicationsDto = _mapper.Map<IReadOnlyList<ApplicationResponseDto>>(foundApplications);
+
+        int totalApplicationsCount = await _applicationRepository.CountAsync();
+
+        return new PaginationResult<ApplicationResponseDto>()
+        {
+            PageNumber = paginationFilter?.PageNumber ?? 1,
+            PageSize = paginationFilter?.PageSize ?? int.MaxValue,
+            TotalItemsCount = totalApplicationsCount,
+            Items = foundApplicationsDto
+        };
     }
 }

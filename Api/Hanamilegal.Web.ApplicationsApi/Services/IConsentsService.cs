@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Hanamilegal.Web.ApiConfiguration.Requests;
+using Hanamilegal.Web.ApiCommon.Requests;
 using Hanamilegal.Web.Contracts.Applications;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;

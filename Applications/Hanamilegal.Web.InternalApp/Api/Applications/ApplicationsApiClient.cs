@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.InternalApp.Services;
 using Microsoft.AspNetCore.WebUtilities;
@@ -19,60 +20,117 @@ public sealed class ApplicationsApiClient : ApiClient
     {
     }
 
-    public async Task<IReadOnlyList<ApplicationResponseDto>> SearchAsync(
-        ApplicationSearchRequestDto filter,
+    public async Task<PaginationResult<ApplicationResponseDto>> SearchAsync(
+        ApplicationSearchRequestDto request,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+        ArgumentNullException.ThrowIfNull(request, nameof(request));
 
-        Dictionary<string, string?> queryParameters = CreateQueryParameters(filter);
+        Dictionary<string, string?> queryParameters = CreateQueryParameters(request);
         string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, queryParameters);
 
-        return await GetAsync<IReadOnlyList<ApplicationResponseDto>>(url, cancellationToken);
+        return await GetAsync<PaginationResult<ApplicationResponseDto>>(url, cancellationToken);
     }
 
-    private static Dictionary<string, string?> CreateQueryParameters(ApplicationSearchRequestDto filter)
+    private static Dictionary<string, string?> CreateQueryParameters(ApplicationSearchRequestDto searchRequest)
     {
-        ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+        ArgumentNullException.ThrowIfNull(searchRequest, nameof(searchRequest));
 
-        var query = new Dictionary<string, string?>();
+        var queryParameters = new Dictionary<string, string?>();
 
-        if (filter.Id.HasValue)
-            query[nameof(filter.Id)] = filter.Id.Value.ToString();
+        if (searchRequest.SearchFilter is not null)
+            AddSearchQueryParameters(queryParameters, searchRequest.SearchFilter);
 
-        if (filter.FromDateUtc.HasValue)
+        if (searchRequest.SortFilter is not null)
+            AddSortQueryParameters(queryParameters, searchRequest.SortFilter);
+
+        if (searchRequest.PaginationFilter is not null)
+            AddPaginationQueryParameters(queryParameters, searchRequest.PaginationFilter);
+
+        return queryParameters;
+    }
+
+    private static void AddSearchQueryParameters(
+        Dictionary<string, string?> queryParameters,
+        ApplicationSearchFilterDto searchFilter)
+    {
+        ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
+        ArgumentNullException.ThrowIfNull(searchFilter, nameof(searchFilter));
+
+        const string searchFilterKey = nameof(ApplicationSearchRequestDto.SearchFilter);
+
+        if (searchFilter.Id.HasValue)
         {
-            query[nameof(filter.FromDateUtc)] =
-                filter.FromDateUtc.Value.ToString("O", CultureInfo.InvariantCulture);
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Id)}"] =
+                searchFilter.Id.Value.ToString();
         }
 
-        if (filter.ToDateUtc.HasValue)
+        if (searchFilter.FromDateUtc.HasValue)
         {
-            query[nameof(filter.ToDateUtc)] =
-                filter.ToDateUtc.Value.ToString("O", CultureInfo.InvariantCulture);
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.FromDateUtc)}"] =
+                searchFilter.FromDateUtc.Value.ToString("O", CultureInfo.InvariantCulture);
         }
 
-        if (filter.Type.HasValue)
-            query[nameof(filter.Type)] = filter.Type.Value.ToString();
-
-        if (!string.IsNullOrWhiteSpace(filter.SenderName))
-            query[nameof(filter.SenderName)] = filter.SenderName;
-
-        if (!string.IsNullOrWhiteSpace(filter.Organization))
-            query[nameof(filter.Organization)] = filter.Organization;
-
-        if (!string.IsNullOrWhiteSpace(filter.Email))
-            query[nameof(filter.Email)] = filter.Email;
-
-        if (filter.SortParameters is not null)
+        if (searchFilter.ToDateUtc.HasValue)
         {
-            query[$"{nameof(filter.SortParameters)}.{nameof(filter.SortParameters.SortBy)}"] =
-                filter.SortParameters.SortBy.ToString();
-
-            query[$"{nameof(filter.SortParameters)}.{nameof(filter.SortParameters.Direction)}"] =
-                filter.SortParameters.Direction.ToString();
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.ToDateUtc)}"] =
+                searchFilter.ToDateUtc.Value.ToString("O", CultureInfo.InvariantCulture);
         }
 
-        return query;
+        if (searchFilter.Type.HasValue)
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Type)}"] =
+                searchFilter.Type.Value.ToString();
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchFilter.SenderName))
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.SenderName)}"] =
+                searchFilter.SenderName;
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchFilter.Organization))
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Organization)}"] =
+                searchFilter.Organization;
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchFilter.Email))
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.Email)}"] =
+                searchFilter.Email;
+        }
+    }
+
+    private static void AddSortQueryParameters(
+        Dictionary<string, string?> queryParameters,
+        ApplicationSortFilterDto sortFilter)
+    {
+        ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
+        ArgumentNullException.ThrowIfNull(sortFilter, nameof(sortFilter));
+
+        const string sortFilterKey = nameof(ApplicationSearchRequestDto.SortFilter);
+
+        queryParameters[$"{sortFilterKey}.{nameof(sortFilter.SortBy)}"] =
+            sortFilter.SortBy.ToString();
+
+        queryParameters[$"{sortFilterKey}.{nameof(sortFilter.Direction)}"] =
+            sortFilter.Direction.ToString();
+    }
+
+    private static void AddPaginationQueryParameters(
+        Dictionary<string, string?> queryParameters,
+        ApplicationPaginationFilterDto paginationFilter)
+    {
+        ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
+        ArgumentNullException.ThrowIfNull(paginationFilter, nameof(paginationFilter));
+
+        const string paginationFilterKey = nameof(ApplicationSearchRequestDto.PaginationFilter);
+
+        queryParameters[$"{paginationFilterKey}.{nameof(paginationFilter.PageNumber)}"] =
+            paginationFilter.PageNumber.ToString(CultureInfo.InvariantCulture);
+
+        queryParameters[$"{paginationFilterKey}.{nameof(paginationFilter.PageSize)}"] =
+            paginationFilter.PageSize.ToString(CultureInfo.InvariantCulture);
     }
 }

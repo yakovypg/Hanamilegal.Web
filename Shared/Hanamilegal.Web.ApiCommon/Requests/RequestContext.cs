@@ -3,7 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Hanamilegal.Web.ApiConfiguration.Requests;
+namespace Hanamilegal.Web.ApiCommon.Requests;
 
 public record RequestContext(
     string SessionId,

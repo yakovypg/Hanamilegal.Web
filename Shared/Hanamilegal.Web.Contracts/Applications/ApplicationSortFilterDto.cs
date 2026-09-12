@@ -1,6 +1,6 @@
 namespace Hanamilegal.Web.Contracts.Applications;
 
-public sealed class ApplicationSortParametersDto
+public sealed class ApplicationSortFilterDto
 {
     public ApplicationSortFieldDto SortBy { get; set; }
     public SortDirectionDto Direction { get; set; }

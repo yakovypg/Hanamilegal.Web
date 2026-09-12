@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Hanamilegal.Web.ApiConfiguration.FileSystem;
+namespace Hanamilegal.Web.ApiCommon.FileSystem;
 
 public sealed class DocumentManifest
 {

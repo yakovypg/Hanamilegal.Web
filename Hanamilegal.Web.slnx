@@ -7,6 +7,7 @@
     <Project Path="Applications/Hanamilegal.Web.InternalApp/Hanamilegal.Web.InternalApp.csproj" />
   </Folder>
   <Folder Name="/Shared/">
+    <Project Path="Shared/Hanamilegal.Web.ApiCommon/Hanamilegal.Web.ApiCommon.csproj" />
     <Project Path="Shared/Hanamilegal.Web.ApiConfiguration/Hanamilegal.Web.ApiConfiguration.csproj" />
     <Project Path="Shared/Hanamilegal.Web.Auth/Hanamilegal.Web.Auth.csproj" />
     <Project Path="Shared/Hanamilegal.Web.Contracts/Hanamilegal.Web.Contracts.csproj" />

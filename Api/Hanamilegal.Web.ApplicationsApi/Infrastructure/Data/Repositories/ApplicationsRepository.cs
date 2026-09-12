@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Hanamilegal.Web.ApiCommon.Filters;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
-using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
@@ -16,6 +17,11 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
     {
         ArgumentNullException.ThrowIfNull(context, nameof(context));
         _context = context;
+    }
+
+    public async Task<int> CountAsync()
+    {
+        return await _context.Applications.CountAsync();
     }
 
     public async Task AddAsync(Application application)
@@ -39,12 +45,15 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
         return await _context.Applications.SingleAsync(t => t.Id == id);
     }
 
-    public async Task<IEnumerable<Application>> FindAsync(ApplicationSearchFilter filter)
+    public async Task<IEnumerable<Application>> FindAsync(IEnumerable<IFilter<Application>>? filters = null)
     {
-        ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+        IQueryable<Application> query = _context.Applications;
 
-        return await filter
-            .Apply(_context.Applications)
-            .ToListAsync();
+        foreach (IFilter<Application> filter in filters ?? [])
+        {
+            query = filter.Apply(query);
+        }
+
+        return await query.ToListAsync();
     }
 }

@@ -7,6 +7,7 @@
     ViewData["Title"] = "Applications";
 }
 @using Hanamilegal.Web.Contracts.Applications
+@using Hanamilegal.Web.InternalApp.ViewModels
 
 <div class="text-center title-text mb-2">
     <h1>Applications</h1>
@@ -18,38 +19,38 @@
 
         <div class="row g-3">
             <div class="col-md-3">
-                <label asp-for="Filter.Id" class="form-label">
+                <label asp-for="SearchFilter.Id" class="form-label">
                     Application ID
                 </label>
 
-                <input asp-for="Filter.Id" class="form-control" placeholder="GUID" />
-                <span asp-validation-for="Filter.Id" class="text-danger"></span>
+                <input asp-for="SearchFilter.Id" class="form-control" placeholder="GUID" />
+                <span asp-validation-for="SearchFilter.Id" class="text-danger"></span>
             </div>
 
             <div class="col-md-3">
-                <label asp-for="Filter.FromDateUtc" class="form-label">
+                <label asp-for="SearchFilter.FromDateUtc" class="form-label">
                     From Date (UTC)
                 </label>
 
-                <input asp-for="Filter.FromDateUtc" type="datetime-local" class="form-control" />
-                <span asp-validation-for="Filter.FromDateUtc" class="text-danger"></span>
+                <input asp-for="SearchFilter.FromDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="SearchFilter.FromDateUtc" class="text-danger"></span>
             </div>
 
             <div class="col-md-3">
-                <label asp-for="Filter.ToDateUtc" class="form-label">
+                <label asp-for="SearchFilter.ToDateUtc" class="form-label">
                     To Date (UTC)
                 </label>
 
-                <input asp-for="Filter.ToDateUtc" type="datetime-local" class="form-control" />
-                <span asp-validation-for="Filter.ToDateUtc" class="text-danger"></span>
+                <input asp-for="SearchFilter.ToDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="SearchFilter.ToDateUtc" class="text-danger"></span>
             </div>
 
             <div class="col-md-3">
-                <label asp-for="Filter.Type" class="form-label">
+                <label asp-for="SearchFilter.Type" class="form-label">
                     Application Type
                 </label>
 
-                <select asp-for="Filter.Type" class="form-select">
+                <select asp-for="SearchFilter.Type" class="form-select">
                     <option value="">All types</option>
 
                     @foreach (ApplicationTypeDto type in Enum.GetValues<ApplicationTypeDto>())
@@ -60,40 +61,40 @@
             </div>
 
             <div class="col-md-4">
-                <label asp-for="Filter.SenderName" class="form-label">
+                <label asp-for="SearchFilter.SenderName" class="form-label">
                     Sender Name
                 </label>
 
-                <input asp-for="Filter.SenderName" class="form-control" />
-                <span asp-validation-for="Filter.SenderName" class="text-danger"></span>
+                <input asp-for="SearchFilter.SenderName" class="form-control" />
+                <span asp-validation-for="SearchFilter.SenderName" class="text-danger"></span>
             </div>
 
             <div class="col-md-4">
-                <label asp-for="Filter.Organization" class="form-label">
+                <label asp-for="SearchFilter.Organization" class="form-label">
                     Organization
                 </label>
 
-                <input asp-for="Filter.Organization" class="form-control" />
-                <span asp-validation-for="Filter.Organization" class="text-danger"></span>
+                <input asp-for="SearchFilter.Organization" class="form-control" />
+                <span asp-validation-for="SearchFilter.Organization" class="text-danger"></span>
             </div>
 
             <div class="col-md-4">
-                <label asp-for="Filter.Email" class="form-label">
+                <label asp-for="SearchFilter.Email" class="form-label">
                     Email
                 </label>
 
-                <input asp-for="Filter.Email" type="email" class="form-control" />
-                <span asp-validation-for="Filter.Email" class="text-danger"></span>
+                <input asp-for="SearchFilter.Email" type="email" class="form-control" />
+                <span asp-validation-for="SearchFilter.Email" class="text-danger"></span>
             </div>
         </div>
 
         <div class="row g-3 mt-3 justify-content-center">
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <label asp-for="Filter.SortParameters.SortBy" class="form-label">
+                <label asp-for="SortFilter.SortBy" class="form-label">
                     Sort by
                 </label>
 
-                <select asp-for="Filter.SortParameters.SortBy" class="form-select">
+                <select asp-for="SortFilter.SortBy" class="form-select">
                     <option value="@ApplicationSortFieldDto.CreatedAtUtc">
                         Created date
                     </option>
@@ -114,15 +115,15 @@
                     </option>
                 </select>
 
-                <span asp-validation-for="Filter.SortParameters.SortBy" class="text-danger"></span>
+                <span asp-validation-for="SortFilter.SortBy" class="text-danger"></span>
             </div>
 
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <label asp-for="Filter.SortParameters.Direction" class="form-label">
+                <label asp-for="SortFilter.Direction" class="form-label">
                     Direction
                 </label>
 
-                <select asp-for="Filter.SortParameters.Direction" class="form-select">
+                <select asp-for="SortFilter.Direction" class="form-select">
                     <option value="@SortDirectionDto.Descending">
                         Descending
                     </option>
@@ -131,7 +132,7 @@
                     </option>
                 </select>
 
-                <span asp-validation-for="Filter.SortParameters.Direction" class="text-danger"></span>
+                <span asp-validation-for="SortFilter.Direction" class="text-danger"></span>
             </div>
         </div>
 
@@ -153,7 +154,7 @@
         @Model.ErrorMessage
     </div>
 }
-else if (Model.Applications.Count == 0)
+else if (Model.PaginationResult.Items.Count == 0)
 {
     <div class="alert alert-info">
         Applications not found
@@ -175,7 +176,7 @@ else
             </thead>
 
             <tbody>
-                @foreach (ApplicationResponseDto application in Model.Applications)
+                @foreach (ApplicationResponseDto application in Model.PaginationResult.Items)
                 {
                     <tr>
                         <td>@application.CreatedAtUtc</td>
@@ -194,5 +195,16 @@ else
                 }
             </tbody>
         </table>
+
+        @{
+            var paginationViewModel = new PaginationViewModel()
+            {
+                CurrentPage = Model.PaginationResult.PageNumber,
+                TotalPages = Model.PaginationResult.TotalPages,
+                GetPageUrl = Model.GetPageUrl
+            };
+        }
+
+        @await Html.PartialAsync("_Pagination", paginationViewModel)
     </div>
 }

@@ -1,17 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Hanamilegal.Web.ApiCommon.Pagination;
+using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.InternalApp.Api.Applications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.InternalApp.Pages.Applications;
 
-[Authorize(Policy = "RoleAtLeastApplicationViewer")]
+[Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
 public class IndexModel : PageModel
 {
     private readonly ApplicationsApiClient _applicationsApiClient;
@@ -25,38 +30,43 @@ public class IndexModel : PageModel
         _applicationsApiClient = applicationsApiClient;
         _logger = logger;
 
-        Filter = new();
-        Applications = [];
+        SearchFilter = new();
+        SortFilter = new();
+        PaginationFilter = new();
+        PaginationResult = new();
     }
 
     [BindProperty(SupportsGet = true)]
-    public ApplicationSearchRequestDto Filter { get; set; }
+    public ApplicationSearchFilterDto SearchFilter { get; set; }
 
-    public IReadOnlyList<ApplicationResponseDto> Applications { get; private set; }
+    [BindProperty(SupportsGet = true)]
+    public ApplicationSortFilterDto SortFilter { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public ApplicationPaginationFilterDto PaginationFilter { get; set; }
+
+    public PaginationResult<ApplicationResponseDto> PaginationResult { get; private set; }
     public string? ErrorMessage { get; private set; }
 
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
-        if (Filter.FromDateUtc.HasValue &&
-            Filter.ToDateUtc.HasValue &&
-            Filter.FromDateUtc > Filter.ToDateUtc)
+        ApplyDefaultSearchFilterIfNeeded();
+        ApplyDefaultSortFilterIfNeeded();
+        ApplyDefaultPaginationFilterIfNeeded();
+
+        if (!IsSearchFilterValid() || !ModelState.IsValid)
+            return;
+
+        var request = new ApplicationSearchRequestDto()
         {
-            ModelState.AddModelError(
-                nameof(Filter.ToDateUtc),
-                "End date cannot be less than start date");
-
-            return;
-        }
-
-        if (!ModelState.IsValid)
-            return;
-
-        if (Filter.SortParameters is null)
-            ApplyDefaultSortParameters();
+            SearchFilter = SearchFilter,
+            SortFilter = SortFilter,
+            PaginationFilter = PaginationFilter
+        };
 
         try
         {
-            Applications = await _applicationsApiClient.SearchAsync(Filter, cancellationToken);
+            PaginationResult = await _applicationsApiClient.SearchAsync(request, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -65,12 +75,69 @@ public class IndexModel : PageModel
         }
     }
 
-    private void ApplyDefaultSortParameters()
+    public string GetPageUrl(int pageNumber)
     {
-        Filter.SortParameters = new()
+        Dictionary<string, string?> queryParameters = Request.Query.ToDictionary(
+            t => t.Key,
+            t => (string?)t.Value.ToString());
+
+        queryParameters[$"{nameof(PaginationFilter)}.{nameof(PaginationFilter.PageNumber)}"] =
+            pageNumber.ToString(CultureInfo.InvariantCulture);
+
+        queryParameters[$"{nameof(PaginationFilter)}.{nameof(PaginationFilter.PageSize)}"] =
+            PaginationFilter.PageSize.ToString(CultureInfo.InvariantCulture);
+
+        return QueryHelpers.AddQueryString(
+            Url.Page("./Index")!,
+            queryParameters);
+    }
+
+    private bool IsSearchFilterValid()
+    {
+        if (SearchFilter.FromDateUtc.HasValue &&
+            SearchFilter.ToDateUtc.HasValue &&
+            SearchFilter.FromDateUtc > SearchFilter.ToDateUtc)
         {
-            SortBy = ApplicationSortFieldDto.CreatedAtUtc,
-            Direction = SortDirectionDto.Descending
-        };
+            ModelState.AddModelError(
+                nameof(SearchFilter.ToDateUtc),
+                "End date cannot be less than start date");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ApplyDefaultSearchFilterIfNeeded()
+    {
+        SearchFilter ??= new();
+    }
+
+    private void ApplyDefaultSortFilterIfNeeded()
+    {
+        const string sortByKey = $"{nameof(SortFilter)}.{nameof(SortFilter.SortBy)}";
+        const string directionKey = $"{nameof(SortFilter)}.{nameof(SortFilter.Direction)}";
+
+        SortFilter ??= new();
+
+        if (!Request.Query.ContainsKey(sortByKey))
+            SortFilter.SortBy = ApplicationSortFieldDto.CreatedAtUtc;
+
+        if (!Request.Query.ContainsKey(directionKey))
+            SortFilter.Direction = SortDirectionDto.Descending;
+    }
+
+    private void ApplyDefaultPaginationFilterIfNeeded()
+    {
+        const string pageNumberKey = $"{nameof(PaginationFilter)}.{nameof(PaginationFilter.PageNumber)}";
+        const string pageSizeKey = $"{nameof(PaginationFilter)}.{nameof(PaginationFilter.PageSize)}";
+
+        PaginationFilter ??= new();
+
+        if (!Request.Query.ContainsKey(pageNumberKey))
+            PaginationFilter.PageNumber = 1;
+
+        if (!Request.Query.ContainsKey(pageSizeKey))
+            PaginationFilter.PageSize = 10;
     }
 }

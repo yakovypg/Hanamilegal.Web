@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Hanamilegal.Web.ApiConfiguration.Requests;
+using Hanamilegal.Web.ApiCommon.Pagination;
+using Hanamilegal.Web.ApiCommon.Requests;
 using Hanamilegal.Web.ApplicationsApi.Services;
 using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Contracts.Applications;
@@ -81,15 +81,15 @@ public class ApplicationsController : ControllerBase
     // GET /api/applications/search?...
     [HttpGet("search")]
     [Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
-    [ProducesResponseType(typeof(IEnumerable<ApplicationResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginationResult<ApplicationResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<ApplicationResponseDto>>> SearchAll(
-        [FromQuery] ApplicationSearchRequestDto filter)
+    public async Task<ActionResult<PaginationResult<ApplicationResponseDto>>> SearchAll(
+        [FromQuery] ApplicationSearchRequestDto dto)
     {
-        ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+        ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        IEnumerable<ApplicationResponseDto> foundApplications =
-            await _applicationsService.SearchAllAsync(filter);
+        PaginationResult<ApplicationResponseDto> foundApplications =
+            await _applicationsService.SearchAllAsync(dto);
 
         return Ok(foundApplications);
     }

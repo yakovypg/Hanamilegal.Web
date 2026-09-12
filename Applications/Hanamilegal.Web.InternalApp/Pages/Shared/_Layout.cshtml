@@ -1,6 +1,4 @@
-﻿@using Hanamilegal.Web.Auth.Models
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -26,7 +24,7 @@
         @RenderBody()
     </main>
 
-    @await Html.PartialAsync(partialViewName: "_Footer")
+    @await Html.PartialAsync("_Footer")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

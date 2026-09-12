@@ -1,14 +1,14 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Consent audits";
+    ViewData["Title"] = "Consents";
 }
 @using Hanamilegal.Web.Contracts.Consents
 @using Hanamilegal.Web.Contracts.Filters
 @using Hanamilegal.Web.InternalApp.ViewModels
 
 <div class="text-center title-text mb-2">
-    <h1>Consent audits</h1>
+    <h1>Consents</h1>
 </div>
 
 <div class="align-self-start w-100">
@@ -124,7 +124,7 @@
 
                 <select asp-for="SortFilter.SortBy" class="form-select">
                     <option value="@ConsentAuditSortFieldDto.Id">
-                        Consent audit ID
+                        Consent ID
                     </option>
                     <option value="@ConsentAuditSortFieldDto.ExternalEntityId">
                         External entity ID
@@ -197,7 +197,7 @@
 else if (Model.PaginationResult.Items.Count == 0)
 {
     <div class="alert alert-info">
-        Consent audits not found
+        Consents not found
     </div>
 }
 else

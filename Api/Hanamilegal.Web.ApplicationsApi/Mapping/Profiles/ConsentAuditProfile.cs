@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
 using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 using Hanamilegal.Web.Contracts.Consents;
@@ -19,6 +20,7 @@ public sealed class ConsentAuditProfile : Profile
         CreateMap<ConsentAuditSearchFilterDto, ConsentAuditSearchFilter>();
         CreateMap<ConsentAuditSortFilterDto, ConsentAuditSortFilter>();
         CreateMap<PaginationFilterDto, MongoPaginationFilter<ConsentAudit>>();
+        CreateMap<PaginationResult<ConsentAudit>, PaginationResult<ConsentAuditDto>>();
 
         CreateMap<ConsentAuditSearchRequestDto, ApplicationSearchFilter>();
         CreateMap<ConsentAudit, ConsentAuditDto>();

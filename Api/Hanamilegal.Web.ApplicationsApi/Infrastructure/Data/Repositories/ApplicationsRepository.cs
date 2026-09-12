@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApiConfiguration.Exceptions;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
+using Hanamilegal.Web.ApplicationsApi.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -25,11 +27,12 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
         _logger = logger;
     }
 
-    public async Task<int> CountAsync()
+    public async Task<long> CountAsync(IEnumerable<IFilter<Application>>? filters = null)
     {
         _logger.LogInformation("Trying to get number of applications");
 
-        int applicationsCount = await _context.Applications.CountAsync();
+        IQueryable<Application> query = _context.Applications.ApplyFilters(filters);
+        long applicationsCount = await query.LongCountAsync();
 
         _logger.LogInformation("Received number of applications: {ApplicationsCount}", applicationsCount);
 
@@ -78,21 +81,27 @@ internal sealed class ApplicationsRepository : IApplicationsRepository
         return foundApplication;
     }
 
-    public async Task<IEnumerable<Application>> FindAsync(IEnumerable<IFilter<Application>>? filters = null)
+    public async Task<PaginationResult<Application>> FindAsync(
+        PaginationFilter<Application> paginationFilter,
+        IEnumerable<IFilter<Application>>? filters = null)
     {
         _logger.LogInformation("Trying to find applications");
 
-        IQueryable<Application> query = _context.Applications;
+        IEnumerable<IFilter<Application>> primaryFilters = filters ?? [];
+        long totalApplicationsCount = await CountAsync(primaryFilters);
 
-        foreach (IFilter<Application> filter in filters ?? [])
-        {
-            query = filter.Apply(query);
-        }
-
+        IEnumerable<IFilter<Application>> allFilters = primaryFilters.Append(paginationFilter);
+        IQueryable<Application> query = _context.Applications.ApplyFilters(allFilters);
         List<Application> foundApplications = await query.ToListAsync();
 
         _logger.LogInformation("Applications found: {Found}", foundApplications.Count > 0);
 
-        return foundApplications;
+        return new PaginationResult<Application>()
+        {
+            PageNumber = paginationFilter.PageNumber,
+            PageSize = paginationFilter.PageSize,
+            TotalItemsCount = totalApplicationsCount,
+            Items = foundApplications
+        };
     }
 }

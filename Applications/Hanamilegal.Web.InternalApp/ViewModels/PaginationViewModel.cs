@@ -4,7 +4,7 @@ namespace Hanamilegal.Web.InternalApp.ViewModels;
 
 public sealed class PaginationViewModel
 {
-    public int CurrentPage { get; init; }
-    public int TotalPages { get; init; }
-    public required Func<int, string> GetPageUrl { get; init; }
+    public long CurrentPage { get; init; }
+    public long TotalPages { get; init; }
+    public required Func<long, string> GetPageUrl { get; init; }
 }

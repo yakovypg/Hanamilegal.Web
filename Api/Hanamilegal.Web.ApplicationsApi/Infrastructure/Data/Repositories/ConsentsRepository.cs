@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
+using Hanamilegal.Web.ApplicationsApi.Infrastructure.Extensions;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
@@ -25,11 +27,13 @@ internal sealed class ConsentsRepository : IConsentsRepository
         _logger = logger;
     }
 
-    public async Task<long> CountAsync(CancellationToken cancellationToken = default)
+    public async Task<long> CountAsync(
+        IEnumerable<IMongoFilter<ConsentAudit>>? filters = null,
+        CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Trying to get number of consents");
 
-        var filter = Builders<ConsentAudit>.Filter.Empty;
+        (FilterDefinition<ConsentAudit> filter, _) = filters.CombineFilters();
 
         long consentsCount = await _context.PersonalDataConsentAudits
             .CountDocumentsAsync(filter, null, cancellationToken);
@@ -93,19 +97,20 @@ internal sealed class ConsentsRepository : IConsentsRepository
         return foundConsent;
     }
 
-    public async Task<IEnumerable<ConsentAudit>> FindAsync(
+    public async Task<PaginationResult<ConsentAudit>> FindAsync(
+        MongoPaginationFilter<ConsentAudit> paginationFilter,
         IEnumerable<IMongoFilter<ConsentAudit>>? filters = null,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Trying to find consents");
 
-        FilterDefinition<ConsentAudit> filter = Builders<ConsentAudit>.Filter.Empty;
-        FindOptions<ConsentAudit, ConsentAudit> options = new();
+        IEnumerable<IMongoFilter<ConsentAudit>> primaryFilters = filters ?? [];
+        long totalConsentAuditsCount = await CountAsync(primaryFilters, cancellationToken);
 
-        foreach (IMongoFilter<ConsentAudit> currentFilter in filters ?? [])
-        {
-            filter = currentFilter.Apply(filter, options);
-        }
+        IEnumerable<IMongoFilter<ConsentAudit>> allFilters = primaryFilters.Append(paginationFilter);
+
+        (FilterDefinition<ConsentAudit> filter, FindOptions<ConsentAudit, ConsentAudit> options) =
+            allFilters.CombineFilters();
 
         using IAsyncCursor<ConsentAudit> cursor = await _context.PersonalDataConsentAudits
             .FindAsync(filter, options, cancellationToken);
@@ -114,6 +119,12 @@ internal sealed class ConsentsRepository : IConsentsRepository
 
         _logger.LogInformation("Consents found: {Found}", foundConsents.Count > 0);
 
-        return foundConsents;
+        return new PaginationResult<ConsentAudit>()
+        {
+            PageNumber = paginationFilter.PageNumber,
+            PageSize = paginationFilter.PageSize,
+            TotalItemsCount = totalConsentAuditsCount,
+            Items = foundConsents
+        };
     }
 }

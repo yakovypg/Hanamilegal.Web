@@ -77,7 +77,7 @@ public class IndexModel : PageModel
         }
     }
 
-    public string GetPageUrl(int pageNumber)
+    public string GetPageUrl(long pageNumber)
     {
         Dictionary<string, string?> queryParameters = Request.Query.ToDictionary(
             t => t.Key,

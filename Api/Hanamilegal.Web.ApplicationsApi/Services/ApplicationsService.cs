@@ -48,22 +48,16 @@ public sealed class ApplicationsService : IApplicationsService
 
         var searchFilter = _mapper.Map<ApplicationSearchFilter?>(dto.SearchFilter);
         var sortFilter = _mapper.Map<ApplicationSortFilter?>(dto.SortFilter);
-        var paginationFilter = _mapper.Map<PaginationFilter<Application>?>(dto.PaginationFilter);
 
-        IFilter<Application>?[] rawFilters = [searchFilter, sortFilter, paginationFilter];
-        IEnumerable<IFilter<Application>> filters = rawFilters.Where(t => t is not null)!;
+        var paginationFilter = _mapper.Map<PaginationFilter<Application>?>(dto.PaginationFilter)
+            ?? new();
 
-        IEnumerable<Application> foundApplications = await _applicationRepository.FindAsync(filters);
-        var foundApplicationsDto = _mapper.Map<IReadOnlyList<ApplicationDto>>(foundApplications);
+        IFilter<Application>?[] rawFilters = [searchFilter, sortFilter];
+        IEnumerable<IFilter<Application>> filters = rawFilters.OfType<IFilter<Application>>();
 
-        int totalApplicationsCount = await _applicationRepository.CountAsync();
+        PaginationResult<Application> foundApplications = await _applicationRepository
+            .FindAsync(paginationFilter, filters);
 
-        return new PaginationResult<ApplicationDto>()
-        {
-            PageNumber = paginationFilter?.PageNumber ?? 1,
-            PageSize = paginationFilter?.PageSize ?? int.MaxValue,
-            TotalItemsCount = totalApplicationsCount,
-            Items = foundApplicationsDto
-        };
+        return _mapper.Map<PaginationResult<ApplicationDto>>(foundApplications);
     }
 }

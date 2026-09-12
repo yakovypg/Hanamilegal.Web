@@ -92,23 +92,17 @@ public sealed class ConsentsService : IConsentsService
 
         var searchFilter = _mapper.Map<ConsentAuditSearchFilter?>(dto.SearchFilter);
         var sortFilter = _mapper.Map<ConsentAuditSortFilter?>(dto.SortFilter);
-        var paginationFilter = _mapper.Map<MongoPaginationFilter<ConsentAudit>?>(dto.PaginationFilter);
 
-        IMongoFilter<ConsentAudit>?[] rawFilters = [searchFilter, sortFilter, paginationFilter];
-        IEnumerable<IMongoFilter<ConsentAudit>> filters = rawFilters.Where(t => t is not null)!;
+        var paginationFilter = _mapper.Map<MongoPaginationFilter<ConsentAudit>?>(dto.PaginationFilter)
+            ?? new();
 
-        IEnumerable<ConsentAudit> foundConsentAudits = await _consentsRepository.FindAsync(filters);
-        var foundConsentAuditsDto = _mapper.Map<IReadOnlyList<ConsentAuditDto>>(foundConsentAudits);
+        IMongoFilter<ConsentAudit>?[] rawFilters = [searchFilter, sortFilter];
+        IEnumerable<IMongoFilter<ConsentAudit>> filters = rawFilters.OfType<IMongoFilter<ConsentAudit>>();
 
-        long totalConsentAuditsCount = await _consentsRepository.CountAsync();
+        PaginationResult<ConsentAudit> foundConsentAudits = await _consentsRepository
+            .FindAsync(paginationFilter, filters);
 
-        return new PaginationResult<ConsentAuditDto>()
-        {
-            PageNumber = paginationFilter?.PageNumber ?? 1,
-            PageSize = paginationFilter?.PageSize ?? int.MaxValue,
-            TotalItemsCount = Convert.ToInt32(totalConsentAuditsCount),
-            Items = foundConsentAuditsDto
-        };
+        return _mapper.Map<PaginationResult<ConsentAuditDto>>(foundConsentAudits);
     }
 
     private async Task<DocumentManifest> LoadPrivacyPolicyManifest(

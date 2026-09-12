@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 
 public interface IConsentsRepository
 {
-    Task<long> CountAsync(CancellationToken cancellationToken = default);
+    Task<long> CountAsync(
+        IEnumerable<IMongoFilter<ConsentAudit>>? filters = null,
+        CancellationToken cancellationToken = default);
 
     Task AddPersonalDataConsentAuditAsync(
         ConsentAudit consent,
@@ -24,7 +27,8 @@ public interface IConsentsRepository
         Guid id,
         CancellationToken cancellationToken = default);
 
-    Task<IEnumerable<ConsentAudit>> FindAsync(
+    Task<PaginationResult<ConsentAudit>> FindAsync(
+        MongoPaginationFilter<ConsentAudit> paginationFilter,
         IEnumerable<IMongoFilter<ConsentAudit>>? filters = null,
         CancellationToken cancellationToken = default);
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
 using Hanamilegal.Web.ApiCommon.Filters;
+using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
@@ -28,6 +29,7 @@ public sealed class ApplicationProfile : Profile
         CreateMap<ApplicationSearchFilterDto, ApplicationSearchFilter>();
         CreateMap<ApplicationSortFilterDto, ApplicationSortFilter>();
         CreateMap<PaginationFilterDto, PaginationFilter<Application>>();
+        CreateMap<PaginationResult<Application>, PaginationResult<ApplicationDto>>();
 
         CreateMap<CreateApplicationRequestDto, Application>()
             .ForMember(d => d.Id, o => o.Ignore())

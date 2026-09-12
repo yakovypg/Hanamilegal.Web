@@ -33,77 +33,77 @@ public sealed class ConsentAuditSearchFilter : IMongoFilter<ConsentAudit>
         if (Id is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.Id,
+                t => t.Id,
                 Id));
         }
 
         if (ExternalEntityId is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.ExternalEntityId,
+                t => t.ExternalEntityId,
                 ExternalEntityId));
         }
 
         if (FromDateUtc is not null)
         {
             filters.Add(builder.Gte(
-                audit => audit.CreatedAtUtc,
+                t => t.CreatedAtUtc,
                 FromDateUtc));
         }
 
         if (ToDateUtc is not null)
         {
             filters.Add(builder.Lte(
-                audit => audit.CreatedAtUtc,
+                t => t.CreatedAtUtc,
                 ToDateUtc));
         }
 
         if (SessionId is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.SessionId,
+                t => t.SessionId,
                 SessionId));
         }
 
         if (IpAddress is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.IpAddress,
+                t => t.IpAddress,
                 IpAddress));
         }
 
         if (UserAgent is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.UserAgent,
+                t => t.UserAgent,
                 UserAgent));
         }
 
         if (RequestPath is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.RequestPath,
+                t => t.RequestPath,
                 RequestPath));
         }
 
         if (DocumentName is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.DocumentName,
+                t => t.DocumentName,
                 DocumentName));
         }
 
         if (DocumentHash is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.DocumentHash,
+                t => t.DocumentHash,
                 DocumentHash));
         }
 
         if (DocumentVersion is not null)
         {
             filters.Add(builder.Eq(
-                audit => audit.DocumentVersion,
+                t => t.DocumentVersion,
                 DocumentVersion));
         }
 

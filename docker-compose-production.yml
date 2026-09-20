@@ -163,6 +163,7 @@ services:
       dockerfile: ./Api/Hanamilegal.Web.ApplicationsApi/Dockerfile
     depends_on:
       - applications-db
+      - consents-db
     expose:
       - 80
     environment:
@@ -255,7 +256,7 @@ services:
       resources:
         limits:
           cpus: 0.2
-          memory: 128M
+          memory: 512M
     volumes:
       - consents-db-data:/data/db
     networks:

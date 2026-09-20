@@ -128,6 +128,7 @@ services:
       dockerfile: ./Api/Hanamilegal.Web.ApplicationsApi/Dockerfile.dev
     depends_on:
       - applications-db
+      - consents-db
     expose:
       - 80
     environment:

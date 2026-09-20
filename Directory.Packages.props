@@ -8,8 +8,7 @@
     <PackageVersion Include="Asp.Versioning.Abstractions" Version="10.2.1" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="10.2.1" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
-    <PackageVersion Include="AutoMapper" Version="16.2.0" />
-    <PackageVersion Include="AutoMapper.Extensions.EnumMapping" Version="6.0.0" />
+    <PackageVersion Include="Mapster" Version="10.0.12" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="10.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics" Version="2.3.12" />

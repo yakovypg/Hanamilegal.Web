@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using Hanamilegal.Web.ApiCommon.FileSystem;
 using Hanamilegal.Web.ApiCommon.Filters;
 using Hanamilegal.Web.ApiCommon.Pagination;
@@ -15,6 +14,7 @@ using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 using Hanamilegal.Web.Contracts.Consents;
+using Mapster;
 using Microsoft.Extensions.Options;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
@@ -24,23 +24,19 @@ public sealed class ConsentsService : IConsentsService
     private readonly IConsentsRepository _consentsRepository;
     private readonly IOptions<PathOptions> _pathOptions;
     private readonly IOptions<FileNameOptions> _fileNameOptions;
-    private readonly IMapper _mapper;
 
     public ConsentsService(
         IConsentsRepository consentsRepository,
         IOptions<PathOptions> pathOptions,
-        IOptions<FileNameOptions> fileNameOptions,
-        IMapper mapper)
+        IOptions<FileNameOptions> fileNameOptions)
     {
         ArgumentNullException.ThrowIfNull(consentsRepository, nameof(consentsRepository));
         ArgumentNullException.ThrowIfNull(pathOptions, nameof(pathOptions));
         ArgumentNullException.ThrowIfNull(fileNameOptions, nameof(fileNameOptions));
-        ArgumentNullException.ThrowIfNull(mapper, nameof(mapper));
 
         _consentsRepository = consentsRepository;
         _pathOptions = pathOptions;
         _fileNameOptions = fileNameOptions;
-        _mapper = mapper;
     }
 
     public async Task<ConsentAuditDto> CreatePersonalDataConsentAuditAsync(
@@ -64,7 +60,7 @@ public sealed class ConsentsService : IConsentsService
 
         await _consentsRepository.AddPersonalDataConsentAuditAsync(consentAudit, cancellationToken);
 
-        return _mapper.Map<ConsentAuditDto>(consentAudit);
+        return consentAudit.Adapt<ConsentAuditDto>();
     }
 
     public async Task<ConsentAuditDto> AddExternalEntityIdToPersonalDataConsentAuditAsync(
@@ -77,23 +73,23 @@ public sealed class ConsentsService : IConsentsService
             externalEntityId,
             cancellationToken);
 
-        return _mapper.Map<ConsentAuditDto>(consentAudit);
+        return consentAudit.Adapt<ConsentAuditDto>();
     }
 
     public async Task<ConsentAuditDto?> GetByIdAsync(Guid id)
     {
         ConsentAudit? foundConsentAudit = await _consentsRepository.FindByIdAsync(id);
-        return _mapper.Map<ConsentAuditDto?>(foundConsentAudit);
+        return foundConsentAudit?.Adapt<ConsentAuditDto?>();
     }
 
     public async Task<PaginationResult<ConsentAuditDto>> SearchAllAsync(ConsentAuditSearchRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        var searchFilter = _mapper.Map<ConsentAuditSearchFilter?>(dto.SearchFilter);
-        var sortFilter = _mapper.Map<ConsentAuditSortFilter?>(dto.SortFilter);
+        var searchFilter = dto.SearchFilter?.Adapt<ConsentAuditSearchFilter?>();
+        var sortFilter = dto.SortFilter?.Adapt<ConsentAuditSortFilter?>();
 
-        var paginationFilter = _mapper.Map<MongoPaginationFilter<ConsentAudit>?>(dto.PaginationFilter)
+        var paginationFilter = dto.PaginationFilter?.Adapt<MongoPaginationFilter<ConsentAudit>?>()
             ?? new();
 
         IMongoFilter<ConsentAudit>?[] rawFilters = [searchFilter, sortFilter];
@@ -102,7 +98,7 @@ public sealed class ConsentsService : IConsentsService
         PaginationResult<ConsentAudit> foundConsentAudits = await _consentsRepository
             .FindAsync(paginationFilter, filters);
 
-        return _mapper.Map<PaginationResult<ConsentAuditDto>>(foundConsentAudits);
+        return foundConsentAudits.Adapt<PaginationResult<ConsentAuditDto>>();
     }
 
     private async Task<DocumentManifest> LoadPrivacyPolicyManifest(

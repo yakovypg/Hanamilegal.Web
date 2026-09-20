@@ -4,8 +4,9 @@ using Hanamilegal.Web.ApiConfiguration.Providers;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Providers;
-using Hanamilegal.Web.ApplicationsApi.Mapping.Profiles;
+using Hanamilegal.Web.ApplicationsApi.Mapping;
 using Hanamilegal.Web.ApplicationsApi.Services;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,11 +20,10 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
-        return services.AddAutoMapper(configuration =>
-        {
-            configuration.AddProfile<ApplicationProfile>();
-            configuration.AddProfile<ConsentAuditProfile>();
-        });
+        TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
+        MapsterConfig.Register(config);
+
+        return services;
     }
 
     internal static IServiceCollection SetupProviders(this IServiceCollection services)

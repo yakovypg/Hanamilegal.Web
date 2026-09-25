@@ -1,0 +1,84 @@
+name: .NET and React
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  dotnet:
+    name: .NET
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Hanamilegal.Web.slnx
+
+      - name: Build
+        run: dotnet build Hanamilegal.Web.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test Hanamilegal.Web.slnx --no-build --configuration Release --verbosity normal
+
+  react:
+    name: React
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app:
+          - Applications/Hanamilegal.Web.LegalSupportApp
+          - Applications/Hanamilegal.Web.TechApp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: yarn
+          cache-dependency-path: |
+            Applications/Hanamilegal.Web.LegalSupportApp/yarn.lock
+            Applications/Hanamilegal.Web.TechApp/yarn.lock
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.app }}
+        run: yarn install --immutable
+
+      - name: Check ESLint
+        working-directory: ${{ matrix.app }}
+        run: yarn lint
+
+      - name: Check Prettier formatting
+        working-directory: ${{ matrix.app }}
+        run: yarn prettier-check
+
+      - name: Build
+        working-directory: ${{ matrix.app }}
+        run: yarn build

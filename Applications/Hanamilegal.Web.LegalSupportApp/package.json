@@ -13,6 +13,7 @@
     "build:prod": "tsc && vite build --mode production",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prettier-check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,scss}\"",
     "format": "yarn format-eslint && yarn format-prettier",
     "format-eslint": "yarn eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
     "format-prettier": "yarn prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss}\"",

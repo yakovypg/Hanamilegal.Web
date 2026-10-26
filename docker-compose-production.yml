@@ -256,7 +256,7 @@ services:
       resources:
         limits:
           cpus: 0.2
-          memory: 512M
+          memory: 1024M
     volumes:
       - consents-db-data:/data/db
     networks:

@@ -5,26 +5,29 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Pagination;
-using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.Contracts.Filters;
 using Hanamilegal.Web.InternalApp.Api.Applications;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.InternalApp.Pages.Applications;
 
-[Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
-public class IndexModel : PageModel
+public abstract class ApplicationsModelBase<TApplicationTypeDto> : PageModel
+    where TApplicationTypeDto : struct, Enum
 {
-    private readonly ApplicationsApiClient _applicationsApiClient;
-    private readonly ILogger<IndexModel> _logger;
+    private readonly ApplicationsApiClient<TApplicationTypeDto> _applicationsApiClient;
+    private readonly ILogger<ApplicationsModelBase<TApplicationTypeDto>> _logger;
 
-    public IndexModel(ApplicationsApiClient applicationsApiClient, ILogger<IndexModel> logger)
+    protected ApplicationsModelBase(
+        string pageName,
+        ApplicationsApiClient<TApplicationTypeDto> applicationsApiClient,
+        ILogger<ApplicationsModelBase<TApplicationTypeDto>> logger)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(pageName, nameof(pageName));
         ArgumentNullException.ThrowIfNull(applicationsApiClient, nameof(applicationsApiClient));
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
 
@@ -35,10 +38,12 @@ public class IndexModel : PageModel
         SortFilter = new();
         PaginationFilter = new();
         PaginationResult = new();
+
+        PageName = pageName;
     }
 
     [BindProperty(SupportsGet = true)]
-    public ApplicationSearchFilterDto SearchFilter { get; set; }
+    public ApplicationSearchFilterDto<TApplicationTypeDto> SearchFilter { get; set; }
 
     [BindProperty(SupportsGet = true)]
     public ApplicationSortFilterDto SortFilter { get; set; }
@@ -46,8 +51,15 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public PaginationFilterDto PaginationFilter { get; set; }
 
-    public PaginationResult<ApplicationDto> PaginationResult { get; private set; }
+    public PaginationResult<ApplicationDto<TApplicationTypeDto>> PaginationResult { get; private set; }
     public string? ErrorMessage { get; private set; }
+
+    public string PageName { get; init; }
+    public string PageRelativePath => $"./{PageName}";
+
+    public IEnumerable<SelectListItem> ApplicationTypes => Enum
+        .GetValues<TApplicationTypeDto>()
+        .Select(value => new SelectListItem(value.ToString(), value.ToString()));
 
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
@@ -58,7 +70,7 @@ public class IndexModel : PageModel
         if (!IsSearchFilterValid() || !ModelState.IsValid)
             return;
 
-        var request = new ApplicationSearchRequestDto()
+        var request = new ApplicationSearchRequestDto<TApplicationTypeDto>()
         {
             SearchFilter = SearchFilter,
             SortFilter = SortFilter,
@@ -89,8 +101,18 @@ public class IndexModel : PageModel
             PaginationFilter.PageSize.ToString(CultureInfo.InvariantCulture);
 
         return QueryHelpers.AddQueryString(
-            Url.Page("./Index")!,
+            Url.Page(PageRelativePath)!,
             queryParameters);
+    }
+
+    protected static IReadOnlyList<SelectListItem> GetApplicationTypes<TEnum>()
+        where TEnum : struct, Enum
+    {
+        IEnumerable<SelectListItem> types = Enum
+            .GetValues<TEnum>()
+            .Select(value => new SelectListItem(value.ToString(), value.ToString()));
+
+        return [.. types];
     }
 
     private bool IsSearchFilterValid()

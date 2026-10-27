@@ -82,7 +82,7 @@ public sealed class ConsentsService : IConsentsService
         return foundConsentAudit?.Adapt<ConsentAuditDto?>();
     }
 
-    public async Task<PaginationResult<ConsentAuditDto>> SearchAllAsync(ConsentAuditSearchRequestDto dto)
+    public async Task<PaginationResult<ConsentAuditDto>> SearchAsync(ConsentAuditSearchRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 

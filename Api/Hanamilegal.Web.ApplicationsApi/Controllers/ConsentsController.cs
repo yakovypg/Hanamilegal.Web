@@ -41,12 +41,12 @@ public class ConsentsController : ControllerBase
     [Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastAdmin))]
     [ProducesResponseType(typeof(PaginationResult<ConsentAuditDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaginationResult<ConsentAuditDto>>> SearchAll(
+    public async Task<ActionResult<PaginationResult<ConsentAuditDto>>> Search(
         [FromQuery] ConsentAuditSearchRequestDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        PaginationResult<ConsentAuditDto> foundConsentAudits = await _consentsService.SearchAllAsync(dto);
+        PaginationResult<ConsentAuditDto> foundConsentAudits = await _consentsService.SearchAsync(dto);
         return Ok(foundConsentAudits);
     }
 }

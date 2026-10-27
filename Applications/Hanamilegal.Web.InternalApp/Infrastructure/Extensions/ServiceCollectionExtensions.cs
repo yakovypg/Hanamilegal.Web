@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text.Json.Serialization;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
+using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.InternalApp.Api;
 using Hanamilegal.Web.InternalApp.Api.Accounts;
 using Hanamilegal.Web.InternalApp.Api.Applications;
@@ -94,6 +95,10 @@ internal static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
+        _ = services
+            .AddScoped<IApplicationsApiRoutes<LegalApplicationTypeDto>, LegalApplicationsApiRoutes>()
+            .AddScoped<IApplicationsApiRoutes<TechApplicationTypeDto>, TechApplicationsApiRoutes>();
+
         // Do not use ApiAuthorizationHandler
         _ = services.AddHttpClient<AccountsApiClient>((serviceProvider, client) =>
         {
@@ -102,7 +107,14 @@ internal static class ServiceCollectionExtensions
         });
 
         // Use ApiAuthorizationHandler
-        _ = services.AddHttpClient<ApplicationsApiClient>((serviceProvider, client) =>
+        _ = services.AddHttpClient<ApplicationsApiClient<LegalApplicationTypeDto>>((serviceProvider, client) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<ApplicationsApiOptions>>();
+            client.BaseAddress = new Uri(options.Value.BaseUrl);
+        }).AddHttpMessageHandler<ApiAuthorizationHandler>();
+
+        // Use ApiAuthorizationHandler
+        _ = services.AddHttpClient<ApplicationsApiClient<TechApplicationTypeDto>>((serviceProvider, client) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<ApplicationsApiOptions>>();
             client.BaseAddress = new Uri(options.Value.BaseUrl);

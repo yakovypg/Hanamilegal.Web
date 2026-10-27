@@ -1,0 +1,208 @@
+﻿@page
+@model LegalModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/text.css" asp-append-version="true" />
+}
+@{
+    ViewData["Title"] = "Legal Applications";
+}
+@using Hanamilegal.Web.Contracts.Applications
+@using Hanamilegal.Web.Contracts.Filters
+@using Hanamilegal.Web.InternalApp.ViewModels
+
+<div class="text-center title-text mb-2">
+    <h1>Legal Applications</h1>
+</div>
+
+<div class="align-self-start w-100">
+    <form method="get" class="card card-body shadow-sm mb-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label asp-for="SearchFilter.Id" class="form-label">
+                    Application ID
+                </label>
+
+                <input asp-for="SearchFilter.Id" class="form-control" placeholder="GUID" />
+                <span asp-validation-for="SearchFilter.Id" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="SearchFilter.FromDateUtc" class="form-label">
+                    From Date (UTC)
+                </label>
+
+                <input asp-for="SearchFilter.FromDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="SearchFilter.FromDateUtc" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="SearchFilter.ToDateUtc" class="form-label">
+                    To Date (UTC)
+                </label>
+
+                <input asp-for="SearchFilter.ToDateUtc" type="datetime-local" class="form-control" />
+                <span asp-validation-for="SearchFilter.ToDateUtc" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="SearchFilter.Type" class="form-label">
+                    Application Type
+                </label>
+
+                <select asp-for="SearchFilter.Type" asp-items="Model.ApplicationTypes" class="form-select">
+                    <option value="">All types</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.SenderName" class="form-label">
+                    Sender Name
+                </label>
+
+                <input asp-for="SearchFilter.SenderName" class="form-control" />
+                <span asp-validation-for="SearchFilter.SenderName" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.Organization" class="form-label">
+                    Organization
+                </label>
+
+                <input asp-for="SearchFilter.Organization" class="form-control" />
+                <span asp-validation-for="SearchFilter.Organization" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.Email" class="form-label">
+                    Email
+                </label>
+
+                <input asp-for="SearchFilter.Email" type="email" class="form-control" />
+                <span asp-validation-for="SearchFilter.Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3 justify-content-center">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label asp-for="SortFilter.SortBy" class="form-label">
+                    Sort by
+                </label>
+
+                <select asp-for="SortFilter.SortBy" class="form-select">
+                    <option value="@ApplicationSortFieldDto.Id">
+                        Application ID
+                    </option>
+                    <option value="@ApplicationSortFieldDto.CreatedAtUtc">
+                        Created date
+                    </option>
+                    <option value="@ApplicationSortFieldDto.Type">
+                        Application type
+                    </option>
+                    <option value="@ApplicationSortFieldDto.SenderName">
+                        Sender name
+                    </option>
+                    <option value="@ApplicationSortFieldDto.Organization">
+                        Organization
+                    </option>
+                    <option value="@ApplicationSortFieldDto.Email">
+                        Email
+                    </option>
+                </select>
+
+                <span asp-validation-for="SortFilter.SortBy" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <label asp-for="SortFilter.Direction" class="form-label">
+                    Direction
+                </label>
+
+                <select asp-for="SortFilter.Direction" class="form-select">
+                    <option value="@SortDirectionDto.Descending">
+                        Descending
+                    </option>
+                    <option value="@SortDirectionDto.Ascending">
+                        Ascending
+                    </option>
+                </select>
+
+                <span asp-validation-for="SortFilter.Direction" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center gap-3">
+            <button type="submit" class="button primary width-120">
+                Find
+            </button>
+
+            <a asp-page="@Model.PageRelativePath" class="text-center button secondary width-120">
+                Reset
+            </a>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+else if (Model.PaginationResult.Items.Count == 0)
+{
+    <div class="alert alert-info">
+        Applications not found
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light text-center align-middle">
+                <tr>
+                    <th>ID</th>
+                    <th>Created At (UTC)</th>
+                    <th>Type</th>
+                    <th>Sender Name</th>
+                    <th>Organization</th>
+                    <th>Email</th>
+                    <th>Text</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var application in Model.PaginationResult.Items)
+                {
+                    <tr>
+                        <td>@application.Id</td>
+                        <td>@application.CreatedAtUtc</td>
+                        <td>@application.Type</td>
+                        <td>@application.SenderName</td>
+                        <td>@application.Organization</td>
+
+                        <td>
+                            <a href="mailto:@application.Email">
+                                @application.Email
+                            </a>
+                        </td>
+
+                        <td class="text-with-new-lines">@application.Text</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @{
+            var paginationViewModel = new PaginationViewModel()
+            {
+                CurrentPage = Model.PaginationResult.PageNumber,
+                TotalPages = Model.PaginationResult.TotalPages,
+                GetPageUrl = Model.GetPageUrl
+            };
+        }
+
+        @await Html.PartialAsync("_Pagination", paginationViewModel)
+    </div>
+}

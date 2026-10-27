@@ -19,5 +19,5 @@ public interface IConsentsService
         CancellationToken cancellationToken = default);
 
     Task<ConsentAuditDto?> GetByIdAsync(Guid id);
-    Task<PaginationResult<ConsentAuditDto>> SearchAllAsync(ConsentAuditSearchRequestDto dto);
+    Task<PaginationResult<ConsentAuditDto>> SearchAsync(ConsentAuditSearchRequestDto dto);
 }

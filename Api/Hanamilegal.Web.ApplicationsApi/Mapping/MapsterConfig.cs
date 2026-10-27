@@ -11,7 +11,17 @@ public static class MapsterConfig
     {
         ArgumentNullException.ThrowIfNull(config, nameof(config));
 
-        config.NewConfig<CreateApplicationRequestDto, Application>()
+        config
+            .NewConfig<
+                CreateApplicationRequestDto<LegalApplicationTypeDto>,
+                Application<LegalApplicationTypeDto>>()
+            .Ignore(dest => dest.Id)
+            .Ignore(dest => dest.CreatedAtUtc);
+
+        config
+            .NewConfig<
+                CreateApplicationRequestDto<TechApplicationTypeDto>,
+                Application<TechApplicationTypeDto>>()
             .Ignore(dest => dest.Id)
             .Ignore(dest => dest.CreatedAtUtc);
     }

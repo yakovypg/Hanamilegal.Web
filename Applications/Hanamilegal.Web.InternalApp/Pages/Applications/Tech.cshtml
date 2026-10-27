@@ -1,17 +1,17 @@
-﻿@page
-@model IndexModel
+@page
+@model TechModel
 @section Styles {
     <link rel="stylesheet" href="~/css/text.css" asp-append-version="true" />
 }
 @{
-    ViewData["Title"] = "Applications";
+    ViewData["Title"] = "Tech Applications";
 }
 @using Hanamilegal.Web.Contracts.Applications
 @using Hanamilegal.Web.Contracts.Filters
 @using Hanamilegal.Web.InternalApp.ViewModels
 
 <div class="text-center title-text mb-2">
-    <h1>Applications</h1>
+    <h1>Tech Applications</h1>
 </div>
 
 <div class="align-self-start w-100">
@@ -51,13 +51,8 @@
                     Application Type
                 </label>
 
-                <select asp-for="SearchFilter.Type" class="form-select">
+                <select asp-for="SearchFilter.Type" asp-items="Model.ApplicationTypes" class="form-select">
                     <option value="">All types</option>
-
-                    @foreach (ApplicationTypeDto type in Enum.GetValues<ApplicationTypeDto>())
-                    {
-                        <option value="@type">@type</option>
-                    }
                 </select>
             </div>
 
@@ -142,7 +137,7 @@
                 Find
             </button>
 
-            <a asp-page="./Index" class="text-center button secondary width-120">
+            <a asp-page="@Model.PageRelativePath" class="text-center button secondary width-120">
                 Reset
             </a>
         </div>
@@ -178,7 +173,7 @@ else
             </thead>
 
             <tbody>
-                @foreach (ApplicationDto application in Model.PaginationResult.Items)
+                @foreach (var application in Model.PaginationResult.Items)
                 {
                     <tr>
                         <td>@application.Id</td>

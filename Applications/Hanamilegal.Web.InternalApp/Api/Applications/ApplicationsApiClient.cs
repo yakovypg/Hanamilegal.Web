@@ -12,28 +12,37 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace Hanamilegal.Web.InternalApp.Api.Applications;
 
-public sealed class ApplicationsApiClient : ApiClient
+public sealed class ApplicationsApiClient<TApplicationTypeDto> : ApiClient
+    where TApplicationTypeDto : struct, Enum
 {
-    public ApplicationsApiClient(HttpClient httpClient, IJsonContentService jsonContentService)
+    private readonly IApplicationsApiRoutes<TApplicationTypeDto> _applicationsApiRoutes;
+
+    public ApplicationsApiClient(
+        HttpClient httpClient,
+        IJsonContentService jsonContentService,
+        IApplicationsApiRoutes<TApplicationTypeDto> applicationsApiRoutes)
         : base(
             httpClient ?? throw new ArgumentNullException(nameof(httpClient)),
             jsonContentService ?? throw new ArgumentNullException(nameof(jsonContentService)))
     {
+        ArgumentNullException.ThrowIfNull(applicationsApiRoutes, nameof(applicationsApiRoutes));
+        _applicationsApiRoutes = applicationsApiRoutes;
     }
 
-    public async Task<PaginationResult<ApplicationDto>> SearchAsync(
-        ApplicationSearchRequestDto request,
+    public async Task<PaginationResult<ApplicationDto<TApplicationTypeDto>>> SearchAsync(
+        ApplicationSearchRequestDto<TApplicationTypeDto> request,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request, nameof(request));
 
         Dictionary<string, string?> queryParameters = CreateQueryParameters(request);
-        string url = QueryHelpers.AddQueryString(ApplicationsApiRoutes.Search, queryParameters);
+        string url = QueryHelpers.AddQueryString(_applicationsApiRoutes.Search, queryParameters);
 
-        return await GetAsync<PaginationResult<ApplicationDto>>(url, cancellationToken);
+        return await GetAsync<PaginationResult<ApplicationDto<TApplicationTypeDto>>>(url, cancellationToken);
     }
 
-    private static Dictionary<string, string?> CreateQueryParameters(ApplicationSearchRequestDto searchRequest)
+    private static Dictionary<string, string?> CreateQueryParameters(
+        ApplicationSearchRequestDto<TApplicationTypeDto> searchRequest)
     {
         ArgumentNullException.ThrowIfNull(searchRequest, nameof(searchRequest));
 
@@ -53,12 +62,12 @@ public sealed class ApplicationsApiClient : ApiClient
 
     private static void AddSearchQueryParameters(
         Dictionary<string, string?> queryParameters,
-        ApplicationSearchFilterDto searchFilter)
+        ApplicationSearchFilterDto<TApplicationTypeDto> searchFilter)
     {
         ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
         ArgumentNullException.ThrowIfNull(searchFilter, nameof(searchFilter));
 
-        const string searchFilterKey = nameof(ApplicationSearchRequestDto.SearchFilter);
+        const string searchFilterKey = nameof(ApplicationSearchRequestDto<TApplicationTypeDto>.SearchFilter);
 
         if (searchFilter.Id.HasValue)
         {
@@ -110,7 +119,7 @@ public sealed class ApplicationsApiClient : ApiClient
         ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
         ArgumentNullException.ThrowIfNull(sortFilter, nameof(sortFilter));
 
-        const string sortFilterKey = nameof(ApplicationSearchRequestDto.SortFilter);
+        const string sortFilterKey = nameof(ApplicationSearchRequestDto<TApplicationTypeDto>.SortFilter);
 
         queryParameters[$"{sortFilterKey}.{nameof(sortFilter.SortBy)}"] =
             sortFilter.SortBy.ToString();
@@ -126,7 +135,8 @@ public sealed class ApplicationsApiClient : ApiClient
         ArgumentNullException.ThrowIfNull(queryParameters, nameof(queryParameters));
         ArgumentNullException.ThrowIfNull(paginationFilter, nameof(paginationFilter));
 
-        const string paginationFilterKey = nameof(ApplicationSearchRequestDto.PaginationFilter);
+        const string paginationFilterKey =
+            nameof(ApplicationSearchRequestDto<TApplicationTypeDto>.PaginationFilter);
 
         queryParameters[$"{paginationFilterKey}.{nameof(paginationFilter.PageNumber)}"] =
             paginationFilter.PageNumber.ToString(CultureInfo.InvariantCulture);

@@ -7,14 +7,15 @@ using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 
-public interface IApplicationsRepository
+public interface IApplicationsRepository<TApplicationType>
+    where TApplicationType : struct, Enum
 {
-    Task<long> CountAsync(IEnumerable<IFilter<Application>>? filters = null);
-    Task AddAsync(Application application);
+    Task<long> CountAsync(IEnumerable<IFilter<Application<TApplicationType>>>? filters = null);
+    Task AddAsync(Application<TApplicationType> application);
     Task DeleteByIdAsync(Guid id);
-    Task<Application?> FindByIdAsync(Guid id);
+    Task<Application<TApplicationType>?> FindByIdAsync(Guid id);
 
-    Task<PaginationResult<Application>> FindAsync(
-        PaginationFilter<Application> paginationFilter,
-        IEnumerable<IFilter<Application>>? filters = null);
+    Task<PaginationResult<Application<TApplicationType>>> FindAsync(
+        PaginationFilter<Application<TApplicationType>> paginationFilter,
+        IEnumerable<IFilter<Application<TApplicationType>>>? filters = null);
 }

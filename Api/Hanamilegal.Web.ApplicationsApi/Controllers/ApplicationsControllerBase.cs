@@ -4,25 +4,21 @@ using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApiCommon.Requests;
 using Hanamilegal.Web.ApplicationsApi.Services;
-using Hanamilegal.Web.Auth.Authorization;
 using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.Contracts.Consents;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hanamilegal.Web.ApplicationsApi.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ApplicationsController : ControllerBase
+public abstract class ApplicationsControllerBase<TApplicationType> : ControllerBase
+    where TApplicationType : struct, Enum
 {
     private readonly IConsentsService _consentsService;
-    private readonly IApplicationsService _applicationsService;
+    private readonly IApplicationsService<TApplicationType> _applicationsService;
 
-    public ApplicationsController(
+    protected ApplicationsControllerBase(
         IConsentsService consentsService,
-        IApplicationsService applicationsService)
+        IApplicationsService<TApplicationType> applicationsService)
     {
         ArgumentNullException.ThrowIfNull(consentsService, nameof(consentsService));
         ArgumentNullException.ThrowIfNull(applicationsService, nameof(applicationsService));
@@ -31,16 +27,13 @@ public class ApplicationsController : ControllerBase
         _applicationsService = applicationsService;
     }
 
-    // POST /api/applications
-    [HttpPost]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(ApplicationDto), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ApplicationDto>> Create(
-        [FromBody] CreateApplicationRequestDto dto,
+    protected async Task<ActionResult<ApplicationDto<TApplicationType>>> CreateApplicationAsync(
+        CreateApplicationRequestDto<TApplicationType> dto,
+        string createdAtActionName,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
+        ArgumentException.ThrowIfNullOrWhiteSpace(createdAtActionName, nameof(createdAtActionName));
 
         if (HasConsentValidationErrors(dto))
             return ValidationProblem(ModelState);
@@ -51,7 +44,8 @@ public class ApplicationsController : ControllerBase
             requestContext,
             cancellationToken);
 
-        ApplicationDto createdApplicationDto = await _applicationsService.CreateAsync(dto);
+        ApplicationDto<TApplicationType> createdApplicationDto =
+            await _applicationsService.CreateAsync(dto);
 
         _ = await _consentsService.AddExternalEntityIdToPersonalDataConsentAuditAsync(
             createdConsentAuditDto.Id,
@@ -59,40 +53,32 @@ public class ApplicationsController : ControllerBase
             cancellationToken);
 
         return CreatedAtAction(
-            nameof(GetById),
+            createdAtActionName,
             new { id = createdApplicationDto.Id },
             createdApplicationDto);
     }
 
-    // GET /api/applications/{id}
-    [HttpGet("{id:guid}")]
-    [Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
-    [ProducesResponseType(typeof(ApplicationDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ApplicationDto>> GetById([FromRoute] Guid id)
+    protected async Task<ActionResult<ApplicationDto<TApplicationType>>> GetApplicationByIdAsync(Guid id)
     {
-        ApplicationDto? applicationDto = await _applicationsService.GetByIdAsync(id);
+        ApplicationDto<TApplicationType>? applicationDto = await _applicationsService.GetByIdAsync(id);
 
         return applicationDto is null
             ? NotFound()
             : Ok(applicationDto);
     }
 
-    // GET /api/applications/search?...
-    [HttpGet("search")]
-    [Authorize(Policy = nameof(RoleAtLeastRequirement.RoleAtLeastApplicationViewer))]
-    [ProducesResponseType(typeof(PaginationResult<ApplicationDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PaginationResult<ApplicationDto>>> SearchAll(
-        [FromQuery] ApplicationSearchRequestDto dto)
+    protected async Task<ActionResult<PaginationResult<ApplicationDto<TApplicationType>>>> SearchApplicationsAsync(
+        ApplicationSearchRequestDto<TApplicationType> dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        PaginationResult<ApplicationDto> foundApplications = await _applicationsService.SearchAllAsync(dto);
+        PaginationResult<ApplicationDto<TApplicationType>> foundApplications =
+            await _applicationsService.SearchAsync(dto);
+
         return Ok(foundApplications);
     }
 
-    private bool HasConsentValidationErrors(CreateApplicationRequestDto dto)
+    private bool HasConsentValidationErrors(CreateApplicationRequestDto<TApplicationType> dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 

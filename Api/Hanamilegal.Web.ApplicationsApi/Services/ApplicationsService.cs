@@ -12,48 +12,54 @@ using Mapster;
 
 namespace Hanamilegal.Web.ApplicationsApi.Services;
 
-public sealed class ApplicationsService : IApplicationsService
+public sealed class ApplicationsService<TApplicationType> : IApplicationsService<TApplicationType>
+    where TApplicationType : struct, Enum
 {
-    private readonly IApplicationsRepository _applicationRepository;
+    private readonly IApplicationsRepository<TApplicationType> _applicationRepository;
 
-    public ApplicationsService(IApplicationsRepository applicationRepository)
+    public ApplicationsService(IApplicationsRepository<TApplicationType> applicationRepository)
     {
         ArgumentNullException.ThrowIfNull(applicationRepository, nameof(applicationRepository));
         _applicationRepository = applicationRepository;
     }
 
-    public async Task<ApplicationDto> CreateAsync(CreateApplicationRequestDto dto)
+    public async Task<ApplicationDto<TApplicationType>> CreateAsync(
+        CreateApplicationRequestDto<TApplicationType> dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        Application application = dto.Adapt<Application>();
+        Application<TApplicationType> application = dto.Adapt<Application<TApplicationType>>();
         await _applicationRepository.AddAsync(application);
 
-        return application.Adapt<ApplicationDto>();
+        return application.Adapt<ApplicationDto<TApplicationType>>();
     }
 
-    public async Task<ApplicationDto?> GetByIdAsync(Guid id)
+    public async Task<ApplicationDto<TApplicationType>?> GetByIdAsync(Guid id)
     {
-        Application? foundApplication = await _applicationRepository.FindByIdAsync(id);
-        return foundApplication?.Adapt<ApplicationDto?>();
+        Application<TApplicationType>? foundApplication = await _applicationRepository.FindByIdAsync(id);
+        return foundApplication?.Adapt<ApplicationDto<TApplicationType>?>();
     }
 
-    public async Task<PaginationResult<ApplicationDto>> SearchAllAsync(ApplicationSearchRequestDto dto)
+    public async Task<PaginationResult<ApplicationDto<TApplicationType>>> SearchAsync(
+        ApplicationSearchRequestDto<TApplicationType> dto)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(dto));
 
-        var searchFilter = dto.SearchFilter?.Adapt<ApplicationSearchFilter?>();
-        var sortFilter = dto.SortFilter?.Adapt<ApplicationSortFilter?>();
+        var searchFilter = dto.SearchFilter?.Adapt<ApplicationSearchFilter<TApplicationType>?>();
+        var sortFilter = dto.SortFilter?.Adapt<ApplicationSortFilter<TApplicationType>?>();
 
-        var paginationFilter = dto.PaginationFilter?.Adapt<PaginationFilter<Application>?>()
+        var paginationFilter = dto.PaginationFilter
+            ?.Adapt<PaginationFilter<Application<TApplicationType>>?>()
             ?? new();
 
-        IFilter<Application>?[] rawFilters = [searchFilter, sortFilter];
-        IEnumerable<IFilter<Application>> filters = rawFilters.OfType<IFilter<Application>>();
+        IFilter<Application<TApplicationType>>?[] rawFilters = [searchFilter, sortFilter];
 
-        PaginationResult<Application> foundApplications = await _applicationRepository
+        IEnumerable<IFilter<Application<TApplicationType>>> filters =
+            rawFilters.OfType<IFilter<Application<TApplicationType>>>();
+
+        PaginationResult<Application<TApplicationType>> foundApplications = await _applicationRepository
             .FindAsync(paginationFilter, filters);
 
-        return foundApplications.Adapt<PaginationResult<ApplicationDto>>();
+        return foundApplications.Adapt<PaginationResult<ApplicationDto<TApplicationType>>>();
     }
 }

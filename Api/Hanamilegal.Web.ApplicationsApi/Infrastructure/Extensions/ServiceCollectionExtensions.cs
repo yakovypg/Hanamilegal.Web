@@ -1,6 +1,7 @@
 using System;
 using Hanamilegal.Web.ApiConfiguration.Extensions;
 using Hanamilegal.Web.ApiConfiguration.Providers;
+using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Db;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 using Hanamilegal.Web.ApplicationsApi.Infrastructure.Providers;
@@ -37,7 +38,8 @@ internal static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
         return services
-            .AddScoped<IApplicationsService, ApplicationsService>()
+            .AddScoped<IApplicationsService<LegalApplicationType>, ApplicationsService<LegalApplicationType>>()
+            .AddScoped<IApplicationsService<TechApplicationType>, ApplicationsService<TechApplicationType>>()
             .AddScoped<IConsentsService, ConsentsService>();
     }
 
@@ -46,7 +48,8 @@ internal static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
         return services
-            .AddScoped<IApplicationsRepository, ApplicationsRepository>()
+            .AddScoped<IApplicationsRepository<LegalApplicationType>, LegalApplicationsRepository>()
+            .AddScoped<IApplicationsRepository<TechApplicationType>, TechApplicationsRepository>()
             .AddScoped<IConsentsRepository, ConsentsRepository>();
     }
 

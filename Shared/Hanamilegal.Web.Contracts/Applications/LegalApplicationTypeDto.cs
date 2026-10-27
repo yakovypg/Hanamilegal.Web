@@ -1,6 +1,6 @@
 namespace Hanamilegal.Web.Contracts.Applications;
 
-public enum ApplicationTypeDto
+public enum LegalApplicationTypeDto
 {
     LegalSupportForBusiness,
     GeneralQuestion,

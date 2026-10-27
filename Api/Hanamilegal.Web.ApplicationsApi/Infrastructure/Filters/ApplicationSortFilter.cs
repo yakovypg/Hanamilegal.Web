@@ -5,12 +5,13 @@ using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 
-public sealed class ApplicationSortFilter : IFilter<Application>
+public sealed class ApplicationSortFilter<TApplicationType> : IFilter<Application<TApplicationType>>
+    where TApplicationType : struct, Enum
 {
     public ApplicationSortField SortBy { get; set; }
     public SortDirection Direction { get; set; }
 
-    public IQueryable<Application> Apply(IQueryable<Application> query)
+    public IQueryable<Application<TApplicationType>> Apply(IQueryable<Application<TApplicationType>> query)
     {
         ArgumentNullException.ThrowIfNull(query, nameof(query));
 

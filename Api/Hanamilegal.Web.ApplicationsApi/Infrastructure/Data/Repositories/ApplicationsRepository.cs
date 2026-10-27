@@ -13,90 +13,95 @@ using Microsoft.Extensions.Logging;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Data.Repositories;
 
-internal sealed class ApplicationsRepository : IApplicationsRepository
+internal abstract class ApplicationsRepository<TApplicationType> : IApplicationsRepository<TApplicationType>
+    where TApplicationType : struct, Enum
 {
-    private readonly ApplicationsDbContext _context;
-    private readonly ILogger<ApplicationsRepository> _logger;
-
-    public ApplicationsRepository(ApplicationsDbContext context, ILogger<ApplicationsRepository> logger)
+    protected ApplicationsRepository(
+        ApplicationsDbContext context,
+        ILogger<ApplicationsRepository<TApplicationType>> logger)
     {
         ArgumentNullException.ThrowIfNull(context, nameof(context));
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
 
-        _context = context;
-        _logger = logger;
+        Context = context;
+        Logger = logger;
     }
 
-    public async Task<long> CountAsync(IEnumerable<IFilter<Application>>? filters = null)
-    {
-        _logger.LogInformation("Trying to get number of applications");
+    protected ApplicationsDbContext Context { get; }
+    protected ILogger<ApplicationsRepository<TApplicationType>> Logger { get; }
 
-        IQueryable<Application> query = _context.Applications.ApplyFilters(filters);
+    protected abstract DbSet<Application<TApplicationType>> ApplicationsSet { get; }
+
+    public async Task<long> CountAsync(IEnumerable<IFilter<Application<TApplicationType>>>? filters = null)
+    {
+        Logger.LogInformation("Trying to get number of applications");
+
+        IQueryable<Application<TApplicationType>> query = ApplicationsSet.ApplyFilters(filters);
         long applicationsCount = await query.LongCountAsync();
 
-        _logger.LogInformation("Received number of applications: {ApplicationsCount}", applicationsCount);
+        Logger.LogInformation("Received number of applications: {ApplicationsCount}", applicationsCount);
 
         return applicationsCount;
     }
 
-    public async Task AddAsync(Application application)
+    public async Task AddAsync(Application<TApplicationType> application)
     {
         ArgumentNullException.ThrowIfNull(application, nameof(application));
 
-        _logger.LogInformation("Trying to add application");
+        Logger.LogInformation("Trying to add application");
 
-        await _context.Applications.AddAsync(application);
-        await _context.SaveChangesAsync();
+        await ApplicationsSet.AddAsync(application);
+        await Context.SaveChangesAsync();
 
-        _logger.LogInformation("Application added");
+        Logger.LogInformation("Application added");
     }
 
     public async Task DeleteByIdAsync(Guid id)
     {
-        _logger.LogInformation("Trying to delete application {ApplicationId}", id);
+        Logger.LogInformation("Trying to delete application {ApplicationId}", id);
 
-        Application? foundApplication = await FindByIdAsync(id);
+        Application<TApplicationType>? foundApplication = await FindByIdAsync(id);
 
         if (foundApplication is null)
         {
-            _logger.LogWarning("Application not found");
+            Logger.LogWarning("Application not found");
             throw new NotFoundException("Application not found");
         }
 
-        _context.Applications.Remove(foundApplication);
+        ApplicationsSet.Remove(foundApplication);
 
-        await _context.SaveChangesAsync();
+        await Context.SaveChangesAsync();
 
-        _logger.LogInformation("Application {ApplicationId} deleted", id);
+        Logger.LogInformation("Application {ApplicationId} deleted", id);
     }
 
-    public async Task<Application?> FindByIdAsync(Guid id)
+    public async Task<Application<TApplicationType>?> FindByIdAsync(Guid id)
     {
-        _logger.LogInformation("Trying to find application {ApplicationId}", id);
+        Logger.LogInformation("Trying to find application {ApplicationId}", id);
 
-        Application? foundApplication = await _context.Applications.SingleAsync(t => t.Id == id);
+        Application<TApplicationType>? foundApplication = await ApplicationsSet.SingleAsync(t => t.Id == id);
 
-        _logger.LogInformation("Application found: {Found}", foundApplication is not null);
+        Logger.LogInformation("Application found: {Found}", foundApplication is not null);
 
         return foundApplication;
     }
 
-    public async Task<PaginationResult<Application>> FindAsync(
-        PaginationFilter<Application> paginationFilter,
-        IEnumerable<IFilter<Application>>? filters = null)
+    public async Task<PaginationResult<Application<TApplicationType>>> FindAsync(
+        PaginationFilter<Application<TApplicationType>> paginationFilter,
+        IEnumerable<IFilter<Application<TApplicationType>>>? filters = null)
     {
-        _logger.LogInformation("Trying to find applications");
+        Logger.LogInformation("Trying to find applications");
 
-        IEnumerable<IFilter<Application>> primaryFilters = filters ?? [];
+        IEnumerable<IFilter<Application<TApplicationType>>> primaryFilters = filters ?? [];
         long totalApplicationsCount = await CountAsync(primaryFilters);
 
-        IEnumerable<IFilter<Application>> allFilters = primaryFilters.Append(paginationFilter);
-        IQueryable<Application> query = _context.Applications.ApplyFilters(allFilters);
-        List<Application> foundApplications = await query.ToListAsync();
+        IEnumerable<IFilter<Application<TApplicationType>>> allFilters = primaryFilters.Append(paginationFilter);
+        IQueryable<Application<TApplicationType>> query = ApplicationsSet.ApplyFilters(allFilters);
+        List<Application<TApplicationType>> foundApplications = await query.ToListAsync();
 
-        _logger.LogInformation("Applications found: {Found}", foundApplications.Count > 0);
+        Logger.LogInformation("Applications found: {Found}", foundApplications.Count > 0);
 
-        return new PaginationResult<Application>()
+        return new PaginationResult<Application<TApplicationType>>()
         {
             PageNumber = paginationFilter.PageNumber,
             PageSize = paginationFilter.PageSize,

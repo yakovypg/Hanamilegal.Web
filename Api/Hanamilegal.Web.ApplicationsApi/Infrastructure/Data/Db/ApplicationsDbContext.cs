@@ -1,5 +1,6 @@
 using System;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
+using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +13,6 @@ public sealed class ApplicationsDbContext : IdentityDbContext
     {
     }
 
-    public DbSet<Application> Applications { get; set; }
+    public DbSet<Application<LegalApplicationType>> LegalApplications { get; set; }
+    public DbSet<Application<TechApplicationType>> TechApplications { get; set; }
 }

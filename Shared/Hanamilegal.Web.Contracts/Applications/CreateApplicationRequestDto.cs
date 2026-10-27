@@ -1,9 +1,11 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using Hanamilegal.Web.ApiConfiguration.Limits;
 
 namespace Hanamilegal.Web.Contracts.Applications;
 
-public sealed class CreateApplicationRequestDto
+public sealed class CreateApplicationRequestDto<TApplicationTypeDto>
+    where TApplicationTypeDto : struct, Enum
 {
     public CreateApplicationRequestDto()
     {
@@ -14,7 +16,7 @@ public sealed class CreateApplicationRequestDto
     }
 
     [Required]
-    public ApplicationTypeDto Type { get; set; }
+    public TApplicationTypeDto Type { get; set; }
 
     [Required]
     [MaxLength(DtoLimits.CommonTextMaxLength)]

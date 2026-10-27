@@ -2,11 +2,13 @@ using System;
 
 namespace Hanamilegal.Web.Contracts.Applications;
 
-public sealed record ApplicationDto(
+public sealed record ApplicationDto<TApplicationTypeDto>(
     Guid Id,
     DateTimeOffset CreatedAtUtc,
-    ApplicationTypeDto Type,
+    TApplicationTypeDto Type,
     string SenderName,
     string Organization,
     string Email,
-    string Text);
+    string Text)
+
+    where TApplicationTypeDto : struct, Enum;

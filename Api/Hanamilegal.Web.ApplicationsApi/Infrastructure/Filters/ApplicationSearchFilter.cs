@@ -2,21 +2,21 @@ using System;
 using System.Linq;
 using Hanamilegal.Web.ApiCommon.Filters;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
-using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
 
-public sealed class ApplicationSearchFilter : IFilter<Application>
+public sealed class ApplicationSearchFilter<TApplicationType> : IFilter<Application<TApplicationType>>
+    where TApplicationType : struct, Enum
 {
     public Guid? Id { get; set; }
     public DateTimeOffset? FromDateUtc { get; set; }
     public DateTimeOffset? ToDateUtc { get; set; }
-    public ApplicationType? Type { get; set; }
+    public TApplicationType? Type { get; set; }
     public string? SenderName { get; set; }
     public string? Organization { get; set; }
     public string? Email { get; set; }
 
-    public IQueryable<Application> Apply(IQueryable<Application> query)
+    public IQueryable<Application<TApplicationType>> Apply(IQueryable<Application<TApplicationType>> query)
     {
         ArgumentNullException.ThrowIfNull(query, nameof(query));
 
@@ -30,7 +30,7 @@ public sealed class ApplicationSearchFilter : IFilter<Application>
             query = query.Where(t => t.CreatedAtUtc <= ToDateUtc);
 
         if (Type is not null)
-            query = query.Where(t => t.Type == Type);
+            query = query.Where(t => t.Type.Equals(Type));
 
         if (SenderName is not null)
             query = query.Where(t => t.SenderName == SenderName);

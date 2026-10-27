@@ -10,6 +10,6 @@ export {
   isCurrentLanguageRussian,
   switchLanguage
 } from "./locale";
-export { getRoutePath, getRoutePathWithSlug, getServiceRoutePath } from "./routing";
+export { getRoutePath, getRoutePathWithSlug } from "./routing";
 export { MOBILE_SCREEN_MAX_WIDTH, TWO_LINES_ORGANIZATION_TITLE_MAX_WIDTH } from "./screen";
 export { createValidityHandler, type ValidityMessages } from "./validation";

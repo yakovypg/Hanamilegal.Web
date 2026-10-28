@@ -1,4 +1,4 @@
-import { Body, Footer, Header } from "layout";
+import { Body, CookiePolicyBanner, Footer, Header } from "layout";
 import React from "react";
 
 interface Props {
@@ -10,6 +10,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     <div className="d-flex flex-column min-vh-100">
       <Header />
       <Body children={children} />
+      <CookiePolicyBanner />
       <Footer />
     </div>
   );

@@ -1,3 +1,28 @@
+html,
+body,
+#root {
+  --color-background: #ffffff;
+  --color-common: #f0ede9;
+  --color-primary: #adc4ff;
+  --color-secondary: #bdbdbd;
+  --color-muted: gray;
+  --color-highlight-primary: #fd3005;
+  --color-highlight-secondary: #0d6efd;
+  --color-shadow-highlight-primary: rgba(253, 48, 5, 0.25);
+  --color-shadow-highlight-secondary: rgba(13, 110, 253, 0.25);
+  --color-shadow-highlight-black: rgba(0 0 0 0.2);
+  --color-success: #00ff00;
+  --color-error: #fd3005;
+
+  --font-size-small: 16px;
+  --font-size-normal: 18px;
+  --font-size-big: 20px;
+  --font-size-subtitle: 28px;
+  --font-size-title: 72px;
+
+  font-family: sans-serif, monospace;
+}
+
 /* html,
 body,
 #root {

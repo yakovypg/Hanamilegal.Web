@@ -1,7 +1,7 @@
 import "styles/pages/contacts-page.css";
 
 import contactsConfig from "@config/contacts.json";
-import { ContactsMenu } from "components";
+import { ApplicationForm, ContactsMenu } from "components";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -21,6 +21,10 @@ export const ContactsPage: React.FC = () => {
       </div> */}
       <div className="mt-3 text-center">
         <a href={contactsConfig.yandexMapLink}>{t("sentense.openInMap")}</a>
+      </div>
+
+      <div className="application-container">
+        <ApplicationForm className="mt-4" />
       </div>
     </div>
   );

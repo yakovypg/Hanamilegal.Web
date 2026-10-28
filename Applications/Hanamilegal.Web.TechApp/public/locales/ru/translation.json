@@ -19,23 +19,46 @@
     "error": "Ошибка",
     "example": "Пример"
   },
+  "placeholder": {
+    "name": "Имя",
+    "email": "Электронная почта",
+    "organization": "Организация",
+    "applicationType": "Тип обращения",
+    "applicationDescription": "Кратко опишите свой вопрос"
+  },
   "action": {
     "backHome": "Домой",
     "contact": "Свяжитесь"
   },
   "error": {
     "internal": "Произошла внутренняя ошибка",
-    "loadData": "Произошла ошибка при загрузке данных"
+    "loadData": "Произошла ошибка при загрузке данных",
+    "sendData": "Произошла ошибка при отправке данных",
+    "requiredFieldsNotSpecified": "Указаны не все обязательные поля"
+  },
+  "validation": {
+    "valueMissing": "Значение не указано",
+    "typeMismatch": "Значение имеет некорректный формат",
+    "patternMismatch": "Значение имеет некорректный формат",
+    "badInput": "Значение имеет некорректный формат"
   },
   "phrase": {
     "officialSite": "Официальный сайт",
     "email": "Почта",
-    "phone": "Номер телефона"
+    "phone": "Номер телефона",
+    "sendRequest": "Отправить запрос",
+    "understand": "Понятно"
   },
   "word": {
     "from": "с",
     "to": "до",
     "withUs": "с нами"
+  },
+  "application": {
+    "type": {
+      "softwareDevelopment": "Разработка ПО",
+      "otherQuestion": "Другое"
+    }
   },
   "sentense": {
     "followSocialMedia": "Мы в социальных сетях",
@@ -44,7 +67,16 @@
     "techStack": "Наш основной стек технологий",
     "anyQuestions": "Остались вопросы",
     "waitCall": "Ждем Вашего звонка ежедневно",
-    "openInMap": "Открыть в картах"
+    "openInMap": "Открыть в картах",
+    "applicationSent": "Заявка успешно отправлена",
+    "personalData": {
+      "consent": "Я даю согласие на обработку персональных данных, указанных в форме, для рассмотрения обращения и проверки на наличие конфликта интересов в соответствии с",
+      "privacyPolicy": "политикой конфиденциальности"
+    },
+    "cookieBanner": {
+      "consent": "Продолжая пользоваться сайтом, вы соглашаетесь с использованием файлов cookie в соответствии с",
+      "cookiePolicy": "политикой в отношении обработки файлов cookie"
+    }
   },
   "service": {
     "desktopDevelopment": {

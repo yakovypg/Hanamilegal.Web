@@ -1,0 +1,43 @@
+.application-elements-container {
+  max-width: 540px;
+  gap: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.application-elements-container .span2 {
+  grid-column: span 2;
+}
+
+.send-request-button {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 12px;
+  background: transparent;
+  border: 3px solid;
+  border-color: var(--color-common);
+  color: var(--color-common);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+}
+
+.send-request-button:hover {
+  border-color: var(--color-highlight-primary);
+}
+
+.send-request-button:disabled {
+  cursor: not-allowed;
+  border-color: var(--color-muted);
+}
+
+@media (max-width: 1200px) {
+  .application-elements-container {
+    max-width: 350px;
+    grid-template-columns: 1fr;
+  }
+
+  .application-elements-container .span2 {
+    grid-column: auto;
+  }
+}

@@ -1,4 +1,5 @@
 import "i18n";
+import "styles/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { ErrorBoundary } from "components";

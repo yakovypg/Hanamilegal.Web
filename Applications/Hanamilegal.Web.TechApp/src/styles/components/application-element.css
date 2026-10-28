@@ -1,0 +1,57 @@
+.application-element {
+  position: relative;
+}
+
+.application-element input,
+.application-element select,
+.application-element textarea {
+  width: 100%;
+  padding: 14px 12px 12px 10px;
+  border-radius: 12px;
+  border: 1.5px solid;
+  border-color: var(--color-secondary);
+  background: var(--color-common);
+  color: var(--color-background);
+  font-size: var(--font-size-small);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.application-element input:hover,
+.application-element select:hover,
+.application-element textarea:hover {
+  border-color: var(--color-highlight-primary);
+  box-shadow: 0 4px 16px var(--color-shadow-highlight-primary);
+}
+
+.application-element input:focus,
+.application-element select:focus,
+.application-element textarea:focus {
+  border-color: var(--color-highlight-secondary);
+  box-shadow: 0 4px 16px var(--color-shadow-highlight-secondary);
+}
+
+.application-text-area {
+  min-height: 52px;
+}
+
+.application-checkbox {
+  gap: 10px;
+  display: flex;
+  align-items: flex-start;
+  user-select: none;
+  color: var(--color-common);
+  font-size: var(--font-size-normal);
+}
+
+.application-checkbox label {
+  cursor: pointer;
+}
+
+.application-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  cursor: pointer;
+}

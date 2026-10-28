@@ -12,3 +12,4 @@ export {
 } from "./locale";
 export { getRoutePath, getRoutePathWithSlug, getServiceRoutePath } from "./routing";
 export { DESKTOP_SCREEN_MIN_WIDTH } from "./screen";
+export { createValidityHandler, type ValidityMessages } from "./validation";

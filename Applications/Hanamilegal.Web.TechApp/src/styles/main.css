@@ -1,0 +1,102 @@
+/* html,
+body,
+#root {
+  --color-background: #ffffff;
+  --color-common: #f0ede9;
+  --color-primary: #adc4ff;
+  --color-secondary: #bdbdbd;
+  --color-muted: gray;
+  --color-highlight-primary: #fd3005;
+  --color-highlight-secondary: #0d6efd;
+  --color-shadow-highlight-primary: rgba(253, 48, 5, 0.25);
+  --color-shadow-highlight-secondary: rgba(13, 110, 253, 0.25);
+  --color-shadow-highlight-black: rgba(0 0 0 0.2);
+  --color-success: #00ff00;
+  --color-error: #fd3005;
+
+  --font-size-small: 16px;
+  --font-size-normal: 18px;
+  --font-size-big: 20px;
+  --font-size-subtitle: 28px;
+  --font-size-title: 72px;
+
+  font-family: sans-serif, monospace;
+  color: var(--color-common);
+  background-color: var(--color-background);
+}
+
+.color-common {
+  color: var(--color-common) !important;
+}
+
+.color-primary {
+  color: var(--color-primary) !important;
+}
+
+.color-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.color-muted {
+  color: var(--color-muted) !important;
+}
+
+.color-highlight-primary {
+  color: var(--color-highlight-primary) !important;
+}
+
+.color-highlight-secondary {
+  color: var(--color-highlight-secondary) !important;
+}
+
+.color-shadow-highlight-primary {
+  color: var(--color-shadow-highlight-primary) !important;
+}
+
+.color-shadow-highlight-secondary {
+  color: var(--color-shadow-highlight-secondary) !important;
+}
+
+.color-shadow-highlight-black {
+  color: var(--color-shadow-highlight-black) !important;
+}
+
+.color-success {
+  color: var(--color-success) !important;
+}
+
+.color-error {
+  color: var(--color-error) !important;
+}
+
+.small-text {
+  font-size: var(--font-size-small) !important;
+}
+
+.normal-text {
+  font-size: var(--font-size-normal) !important;
+}
+
+.big-text {
+  font-size: var(--font-size-big) !important;
+}
+
+.subtitle-text {
+  font-size: var(--font-size-subtitle) !important;
+}
+
+.title-text {
+  font-size: var(--font-size-title) !important;
+}
+
+@media (max-width: 720px) {
+  html,
+  body,
+  #root {
+    --font-size-small: 16px;
+    --font-size-normal: 18px;
+    --font-size-big: 20px;
+    --font-size-subtitle: 28px;
+    --font-size-title: 48px;
+  }
+} */

@@ -19,23 +19,46 @@
     "error": "Error",
     "example": "Example"
   },
+  "placeholder": {
+    "name": "Name",
+    "email": "Email",
+    "organization": "Organization",
+    "applicationType": "Application type",
+    "applicationDescription": "Briefly describe your question"
+  },
   "action": {
     "backHome": "Home",
     "contact": "Contact"
   },
   "error": {
     "internal": "An internal error occured",
-    "loadData": "An error occured while loading data"
+    "loadData": "An error occured while loading data",
+    "sendData": "An error occured while sending data",
+    "requiredFieldsNotSpecified": "Not all required fields are specified"
+  },
+  "validation": {
+    "valueMissing": "Value not specified",
+    "typeMismatch": "Value has invalid format",
+    "patternMismatch": "Value has invalid format",
+    "badInput": "Value has invalid format"
   },
   "phrase": {
     "officialSite": "Official site",
     "email": "Email",
-    "phone": "Phone number"
+    "phone": "Phone number",
+    "sendRequest": "Send request",
+    "understand": "Understand"
   },
   "word": {
     "from": "from",
     "to": "to",
     "withUs": "with us"
+  },
+  "application": {
+    "type": {
+      "softwareDevelopment": "Software development",
+      "otherQuestion": "Other"
+    }
   },
   "sentense": {
     "followSocialMedia": "Follow us on social media",
@@ -44,7 +67,16 @@
     "techStack": "Our core tech stack",
     "anyQuestions": "Any questions",
     "waitCall": "We look forward to your call daily",
-    "openInMap": "Open in the map"
+    "openInMap": "Open in the map",
+    "applicationSent": "Application has been successfully sent",
+    "personalData": {
+      "consent": "I consent to the processing of personal data specified in the form to consider the application and check for conflicts of interest in accordance with the",
+      "privacyPolicy": "privacy policy"
+    },
+    "cookieBanner": {
+      "consent": "By continuing to use this website, you consent to the use of cookies in accordance with our",
+      "cookiePolicy": "cookie policy"
+    }
   },
   "service": {
     "desktopDevelopment": {

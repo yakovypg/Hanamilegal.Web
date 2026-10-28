@@ -25,6 +25,8 @@ public class LegalApplicationsController : ApplicationsControllerBase<LegalAppli
     {
     }
 
+    protected override ApplicationProvider ApplicationProvider { get; } = ApplicationProvider.LegalSupportApp;
+
     // POST /api/legal-applications
     [HttpPost]
     [AllowAnonymous]

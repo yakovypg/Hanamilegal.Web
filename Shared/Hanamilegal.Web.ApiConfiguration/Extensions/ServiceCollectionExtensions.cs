@@ -143,30 +143,23 @@ public static class ServiceCollectionExtensions
             .AddTransient<IRefreshTokenHasher, Sha256RefreshTokenHasher>();
     }
 
-    public static IServiceCollection SetupPathOptions(this IServiceCollection services)
+    public static IServiceCollection SetupDocumentsOptions(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services, nameof(services));
 
         _ = services
-            .AddOptions<PathOptions>()
-            .BindConfiguration(PathOptions.SectionName)
-            .Validate(o => !string.IsNullOrWhiteSpace(o.Documents))
-            .ValidateOnStart();
-
-        return services;
-    }
-
-    public static IServiceCollection SetupFileNameOptions(this IServiceCollection services)
-    {
-        ArgumentNullException.ThrowIfNull(services, nameof(services));
-
-        _ = services
-            .AddOptions<FileNameOptions>()
-            .BindConfiguration(FileNameOptions.SectionName)
-            .Validate(o => !string.IsNullOrWhiteSpace(o.CookiePolicyName))
-            .Validate(o => !string.IsNullOrWhiteSpace(o.CookiePolicyManifestName))
-            .Validate(o => !string.IsNullOrWhiteSpace(o.PrivacyPolicyName))
-            .Validate(o => !string.IsNullOrWhiteSpace(o.PrivacyPolicyManifestName))
+            .AddOptions<DocumentsOptions>()
+            .BindConfiguration(DocumentsOptions.SectionName)
+            .Validate(o => !string.IsNullOrWhiteSpace(o.LegalSupportAppDocumentsDirectoryPath))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.LegalSupportAppDocumentNames.CookiePolicyName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.LegalSupportAppDocumentNames.CookiePolicyManifestName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.LegalSupportAppDocumentNames.PrivacyPolicyName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.LegalSupportAppDocumentNames.PrivacyPolicyManifestName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.TechAppDocumentsDirectoryPath))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.TechAppDocumentNames.CookiePolicyName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.TechAppDocumentNames.CookiePolicyManifestName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.TechAppDocumentNames.PrivacyPolicyName))
+            .Validate(o => !string.IsNullOrWhiteSpace(o.TechAppDocumentNames.PrivacyPolicyManifestName))
             .ValidateOnStart();
 
         return services;

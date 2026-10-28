@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hanamilegal.Web.ApiCommon.Pagination;
 using Hanamilegal.Web.ApiCommon.Requests;
+using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using Hanamilegal.Web.ApplicationsApi.Services;
 using Hanamilegal.Web.Contracts.Applications;
 using Hanamilegal.Web.Contracts.Consents;
@@ -27,6 +28,8 @@ public abstract class ApplicationsControllerBase<TApplicationType> : ControllerB
         _applicationsService = applicationsService;
     }
 
+    protected abstract ApplicationProvider ApplicationProvider { get; }
+
     protected async Task<ActionResult<ApplicationDto<TApplicationType>>> CreateApplicationAsync(
         CreateApplicationRequestDto<TApplicationType> dto,
         string createdAtActionName,
@@ -41,6 +44,7 @@ public abstract class ApplicationsControllerBase<TApplicationType> : ControllerB
         RequestContext requestContext = RequestContext.Create(Request.HttpContext);
 
         ConsentAuditDto createdConsentAuditDto = await _consentsService.CreatePersonalDataConsentAuditAsync(
+            ApplicationProvider,
             requestContext,
             cancellationToken);
 

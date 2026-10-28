@@ -1,4 +1,5 @@
 using System;
+using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -9,6 +10,7 @@ public sealed class ConsentAudit
     public ConsentAudit()
     {
         ExternalEntityId = null;
+        ApplicationProvider = default;
         CreatedAtUtc = DateTimeOffset.UtcNow;
 
         SessionId = string.Empty;
@@ -28,6 +30,7 @@ public sealed class ConsentAudit
     [BsonGuidRepresentation(GuidRepresentation.Standard)]
     public Guid? ExternalEntityId { get; set; }
 
+    public ApplicationProvider ApplicationProvider { get; set; }
     public DateTimeOffset CreatedAtUtc { get; set; }
 
     public string SessionId { get; set; }

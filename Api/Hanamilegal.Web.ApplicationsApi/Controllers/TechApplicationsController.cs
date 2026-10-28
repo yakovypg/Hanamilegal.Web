@@ -25,6 +25,8 @@ public class TechApplicationsController : ApplicationsControllerBase<TechApplica
     {
     }
 
+    protected override ApplicationProvider ApplicationProvider { get; } = ApplicationProvider.TechApp;
+
     // POST /api/tech-applications
     [HttpPost]
     [AllowAnonymous]

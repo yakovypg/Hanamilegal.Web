@@ -75,6 +75,10 @@ services:
     build:
       context: ./Applications/Hanamilegal.Web.TechApp
       dockerfile: Dockerfile
+      args:
+        VITE_COOKIE_POLICY_NAME: ${TECH_APP_COOKIE_POLICY_NAME}
+        VITE_PRIVACY_POLICY_NAME: ${TECH_APP_PRIVACY_POLICY_NAME}
+        VITE_APPLICATIONS_API_BASE_URL: ${APPLICATIONS_API_BASE_URL}
     expose:
       - 80
     deploy:
@@ -82,6 +86,8 @@ services:
         limits:
           cpus: 0.4
           memory: 256M
+    volumes:
+      - ${TECH_APP_DOCS_HOST_PATH}:/usr/share/nginx/html/docs:ro
     networks:
       - hanamilegal-web
 
@@ -183,11 +189,16 @@ services:
       Jwt__ClockSkewSeconds: ${JWT_CLOCK_SKEW_SECONDS}
       RefreshToken__BytesNumber: ${REFRESH_TOKEN_BYTES_NUMBER}
       RefreshToken__Lifetime: ${REFRESH_TOKEN_LIFETIME}
-      Path__Documents: ${LEGAL_SUPPORT_APP_DOCS_CONTAINER_PATH}
-      FileName__CookiePolicyName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_NAME}
-      FileName__CookiePolicyManifestName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_MANIFEST_NAME}
-      FileName__PrivacyPolicyName: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_NAME}
-      FileName__PrivacyPolicyManifestName: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_MANIFEST_NAME}
+      Documents__LegalSupportAppDocumentsDirectoryPath: ${LEGAL_SUPPORT_APP_DOCS_CONTAINER_PATH}
+      Documents__LegalSupportAppDocumentNames__CookiePolicyName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_NAME}
+      Documents__LegalSupportAppDocumentNames__CookiePolicyManifestName: ${LEGAL_SUPPORT_APP_COOKIE_POLICY_MANIFEST_NAME}
+      Documents__LegalSupportAppDocumentNames__PrivacyPolicyName: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_NAME}
+      Documents__LegalSupportAppDocumentNames__PrivacyPolicyManifestName: ${LEGAL_SUPPORT_APP_PRIVACY_POLICY_MANIFEST_NAME}
+      Documents__TechAppDocumentsDirectoryPath: ${TECH_APP_DOCS_CONTAINER_PATH}
+      Documents__TechAppDocumentNames__CookiePolicyName: ${TECH_APP_COOKIE_POLICY_NAME}
+      Documents__TechAppDocumentNames__CookiePolicyManifestName: ${TECH_APP_COOKIE_POLICY_MANIFEST_NAME}
+      Documents__TechAppDocumentNames__PrivacyPolicyName: ${TECH_APP_PRIVACY_POLICY_NAME}
+      Documents__TechAppDocumentNames__PrivacyPolicyManifestName: ${TECH_APP_PRIVACY_POLICY_MANIFEST_NAME}
       Docker__Network__Subnet: ${DOCKER_NETWORK_SUBNET}
       Docker__Network__Gateway: ${DOCKER_NETWORK_GATEWAY}
     deploy:
@@ -197,6 +208,7 @@ services:
           memory: 128M
     volumes:
       - ${LEGAL_SUPPORT_APP_DOCS_HOST_PATH}:${LEGAL_SUPPORT_APP_DOCS_CONTAINER_PATH}:ro
+      - ${TECH_APP_DOCS_HOST_PATH}:${TECH_APP_DOCS_CONTAINER_PATH}:ro
     networks:
       - hanamilegal-web
 

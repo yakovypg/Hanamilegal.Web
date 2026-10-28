@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Consents";
 }
+@using Hanamilegal.Web.Contracts.Applications
 @using Hanamilegal.Web.Contracts.Consents
 @using Hanamilegal.Web.Contracts.Filters
 @using Hanamilegal.Web.InternalApp.ViewModels
@@ -70,7 +71,7 @@
                 <span asp-validation-for="SearchFilter.IpAddress" class="text-danger"></span>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label asp-for="SearchFilter.UserAgent" class="form-label">
                     User Agent
                 </label>
@@ -79,13 +80,31 @@
                 <span asp-validation-for="SearchFilter.UserAgent" class="text-danger"></span>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label asp-for="SearchFilter.RequestPath" class="form-label">
                     Request Path
                 </label>
 
                 <input asp-for="SearchFilter.RequestPath" class="form-control" />
                 <span asp-validation-for="SearchFilter.RequestPath" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="SearchFilter.ApplicationProvider" class="form-label">
+                    Application Provider
+                </label>
+
+                <select asp-for="SearchFilter.ApplicationProvider" class="form-select">
+                    <option value="">Any</option>
+
+                    @foreach (string applicationProviderName in Enum.GetNames<ApplicationProviderDto>())
+                    {
+                        <option value="@applicationProviderName">
+                            @applicationProviderName
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="SearchFilter.ApplicationProvider" class="text-danger"></span>
             </div>
 
             <div class="col-md-4">
@@ -213,6 +232,7 @@ else
                     <th>IP Address</th>
                     <th>User Agent</th>
                     <th>Request Path</th>
+                    <th>Application Provider</th>
                     <th>Document Name</th>
                     <th>Document Hash</th>
                     <th>Document Version</th>
@@ -230,6 +250,7 @@ else
                         <td>@consentAudit.IpAddress</td>
                         <td>@consentAudit.UserAgent</td>
                         <td>@consentAudit.RequestPath</td>
+                        <td>@consentAudit.ApplicationProvider</td>
                         <td>@consentAudit.DocumentName</td>
                         <td>@consentAudit.DocumentHash</td>
                         <td>@consentAudit.DocumentVersion</td>

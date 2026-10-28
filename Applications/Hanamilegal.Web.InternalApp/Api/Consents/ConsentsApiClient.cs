@@ -84,6 +84,12 @@ public sealed class ConsentsApiClient : ApiClient
                 searchFilter.ToDateUtc.Value.ToString("O", CultureInfo.InvariantCulture);
         }
 
+        if (searchFilter.ApplicationProvider.HasValue)
+        {
+            queryParameters[$"{searchFilterKey}.{nameof(searchFilter.ApplicationProvider)}"] =
+                searchFilter.ApplicationProvider.Value.ToString();
+        }
+
         if (!string.IsNullOrWhiteSpace(searchFilter.SessionId))
         {
             queryParameters[$"{searchFilterKey}.{nameof(searchFilter.SessionId)}"] =

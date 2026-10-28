@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Hanamilegal.Web.ApiCommon.Filters;
 using Hanamilegal.Web.ApplicationsApi.Domain.Entities;
+using Hanamilegal.Web.ApplicationsApi.Domain.Enums;
 using MongoDB.Driver;
 
 namespace Hanamilegal.Web.ApplicationsApi.Infrastructure.Filters;
@@ -12,6 +13,7 @@ public sealed class ConsentAuditSearchFilter : IMongoFilter<ConsentAudit>
     public Guid? ExternalEntityId { get; set; }
     public DateTimeOffset? FromDateUtc { get; set; }
     public DateTimeOffset? ToDateUtc { get; set; }
+    public ApplicationProvider? ApplicationProvider { get; set; }
     public string? SessionId { get; set; }
     public string? IpAddress { get; set; }
     public string? UserAgent { get; set; }
@@ -56,6 +58,13 @@ public sealed class ConsentAuditSearchFilter : IMongoFilter<ConsentAudit>
             filters.Add(builder.Lte(
                 t => t.CreatedAtUtc,
                 ToDateUtc));
+        }
+
+        if (ApplicationProvider is not null)
+        {
+            filters.Add(builder.Eq(
+                t => t.ApplicationProvider,
+                ApplicationProvider));
         }
 
         if (SessionId is not null)
